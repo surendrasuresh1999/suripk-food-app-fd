@@ -1,8 +1,15 @@
+import { Route, Routes } from "react-router-dom";
+import Login from "./Authentication/Login";
+import Signup from "./Authentication/Signup";
+import Homepage from "./Pages/Homepage";
+
 const App = () => {
   return (
-    <div>
-      <h1 className="text-red-400">Hello food app</h1>
-    </div>
+    <Routes>
+        <Route path="login" element={<Login />}/>
+        <Route path="signup" element={<Signup />}/>
+        <Route path="" element={<Homepage />}/>
+    </Routes>
   );
 };
 
