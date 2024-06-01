@@ -1,77 +1,105 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { LoaderCircle } from "lucide-react";
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { userSignUpSchema } from "../FormikSchemas";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const userObject = {
+    name: "",
+    email: "",
+    password: "",
+  };
+
+  const handleFormSubmit = (values, actions) => {
+    console.log(values);
+    // axios
+    //   .post(`${Baseurl.baseurl}/api/user/signup`, values)
+    //   .then((res) => {
+    //     if (res.data.status) {
+    //       navigate("/login");
+    //       actions.resetForm();
+    //     } else {
+    //       toast.error(res.data.message);
+    //       console.log("res", res.data.message);
+    //       actions.setSubmitting(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     toast.error(err.message);
+    //     console.log("Error", err.message);
+    //     actions.setSubmitting(false);
+    //   });
+  };
   return (
     <div className="h-dvh bg-gray-900">
       <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
-          <h2 className="text-center mb-5 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
+          <h2 className="text-center mb-3 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
             Sign up to your account
           </h2>
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-white"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-white"
+          <Formik
+            initialValues={userObject}
+            validationSchema={userSignUpSchema}
+            onSubmit={handleFormSubmit}
+          >
+            {({ isSubmitting, touched, errors }) => (
+              <Form className="flex flex-col gap-1">
+                {Object.keys(userObject).map((key, index) => (
+                  <div key={index} className="flex flex-col gap-1">
+                    <label
+                      htmlFor={key}
+                      className="block text-sm font-medium leading-6 text-white"
+                    >
+                      {key.charAt(0).toUpperCase()}
+                      {key.slice(1, key.length)}
+                    </label>
+                    <Field
+                      type={key === "password" ? key : "text"}
+                      placeholder={`Enter ${key}`}
+                      name={key}
+                      className={`grow rounded-md bg-gray-600 border ${
+                        touched[key] && errors[key]
+                          ? " border-red-500"
+                          : "border-gray-500"
+                      } text-white placeholder:text-slate-400`}
+                    />
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  className="bg-blue-500 mt-3 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                  disabled={isSubmitting}
                 >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-400 hover:text-indigo-300"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
+                  {isSubmitting ? (
+                    <LoaderCircle
+                      className="text-white animate-spin"
+                      size={21}
+                    />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </Form>
+            )}
+          </Formik>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
+          <p className="mt-1 text-sm text-white">
+            Already have an account?{" "}
+            <Link
+              to={"/login"}
+              className="font-bold tracking-wide leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              Login
+            </Link>
+          </p>
 
-          <div className="mt-6">
-            <div className="relative flex justify-center text-sm font-medium leading-6">
+          <div className="mt-4">
+            {/* <div className="relative flex justify-center text-sm font-medium leading-6">
               <span className="px-6 text-white ">Or continue with</span>
-            </div>
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            </div> */}
+            <div className="mt-3 grid grid-cols-2 gap-4">
               <a
                 href="#"
                 className="flex w-full items-center justify-center gap-3 rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-600 hover:bg-gray-800 focus-visible:ring-transparent"

@@ -1,76 +1,147 @@
-import React from "react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { userLoginSchema } from "../FormikSchemas";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const userObject = {
+    email: "",
+    password: "",
+  };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleFormSubmit = (values, actions) => {
+    console.log(values);
+    // axios
+    //   .post(`${Baseurl.baseurl}/api/user/login`, values)
+    //   .then((res) => {
+    //     if (res.data.status) {
+    //       localStorage.setItem(
+    //         "blogUserDetails",
+    //         JSON.stringify(res.data.user)
+    //       );
+    //       Cookies.set("jwtToken", res.data.token, { expires: 30 });
+    //       navigate("/");
+    //       actions.resetForm();
+    //     } else {
+    //       toast.error(res.data.message);
+    //       console.log("res", res);
+    //       actions.setSubmitting(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error", err.message);
+    //     toast.error(err.message);
+    //     actions.setSubmitting(false);
+    //   });
+  };
   return (
     <div className="h-dvh bg-gray-900">
       <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
-          <h2 className="text-center mb-5 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
+          <h2 className="text-center mb-3 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
             Sign in to your account
           </h2>
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-white"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-white"
+          <Formik
+            initialValues={userObject}
+            validationSchema={userLoginSchema}
+            onSubmit={handleFormSubmit}
+          >
+            {({ isSubmitting, touched, errors }) => (
+              <Form className="flex flex-col gap-2">
+                {Object.keys(userObject).map((key, index) => (
+                  <div key={index} className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                    <label
+                      htmlFor={key}
+                      className="block text-sm font-medium leading-6 text-white"
+                    >
+                      {key.charAt(0).toUpperCase()}
+                      {key.slice(1, key.length)}
+                    </label>
+                    {key === "password" && (
+                      <p className="text-14size text-gray-900 text-right font-600 tracking-wide">
+                        <Link
+                          to="/forgot-password"
+                          className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                        >
+                          Forgot Password?
+                        </Link>
+                      </p>
+                    )}
+                    </div>
+                    {key === "password" ? (
+                      <Field name="password">
+                        {({
+                          field /* { name, value, onChange, onBlur } */,
+                        }) => (
+                          <div className="relative rounded-md shadow-sm">
+                            <input
+                              {...field}
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter Password"
+                              className={`block w-full rounded-md pr-10 bg-gray-600 border ${
+                                touched[key] && errors[key]
+                                  ? " border-red-500"
+                                  : "border-gray-500"
+                              } text-white placeholder:text-slate-400`}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute inset-y-0 right-0 flex items-center pr-3"
+                            >
+                              {showPassword ? (
+                                <EyeOff className="text-slate-400" />
+                              ) : (
+                                <Eye className="text-slate-400" />
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </Field>
+                    ) : (
+                      <Field
+                        type={key}
+                        name={key}
+                        placeholder="Enter email address"
+                        className={`grow rounded-md bg-gray-600 border ${
+                          touched[key] && errors[key]
+                            ? " border-red-500"
+                            : "border-gray-500"
+                        } text-white placeholder:text-slate-400`}
+                      />
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="submit"
+                  className="bg-blue-500 mt-2 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
                 >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-400 hover:text-indigo-300"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-              >
-                Sign in
-              </button>
-            </div>
-          </form>
-
+                  {isSubmitting ? (
+                    <LoaderCircle
+                      className="text-white animate-spin"
+                      size={21}
+                    />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </Form>
+            )}
+          </Formik>
+          <p className="mt-2 text-sm text-white">
+            Don't have account?{" "}
+            <Link
+              to="/signup"
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              Register
+            </Link>
+          </p>
           <div className="mt-6">
-            <div className="relative flex justify-center text-sm font-medium leading-6">
-              <span className="px-6 text-white ">Or continue with</span>
-            </div>
             <div className="mt-6 grid grid-cols-2 gap-4">
               <a
                 href="#"
@@ -115,7 +186,9 @@ const Login = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="text-sm text-white tracking-wide font-semibold leading-6">GitHub</span>
+                <span className="text-sm text-white tracking-wide font-semibold leading-6">
+                  GitHub
+                </span>
               </a>
             </div>
           </div>
