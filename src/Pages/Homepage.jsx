@@ -1,9 +1,60 @@
-import React from 'react'
+import React from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { category, restuarents } from "../StaticData";
+import RestaurantCard from "../Components/RestaurantCard";
 
 const Homepage = () => {
-  return (
-    <div>Homepage</div>
-  )
-}
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    dragFree: true,
+    loop: false,
+  });
 
-export default Homepage
+  return (
+    <div className="space-y-8">
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
+          {category.map((category, index) => (
+            <div
+              className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 bg-white flex items-center gap-3 justify-center"
+              key={index}
+            >
+              <img
+                src={category.imgUrl}
+                alt="blog-slider"
+                className="h-8 w-8 sm:h-12 sm:w-12"
+              />
+              <span className="text-gray-900 group-hover/slide:text-slate-900 group-hover/slide:scale-100 font-700 tracking-wide text-14size sm:text-22size truncate">
+                {category.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="space-y-6">
+        <div className="relative">
+          <div
+            className="absolute inset-0 flex items-center"
+            aria-hidden="true"
+          >
+            <div className="w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center text-sm font-medium leading-6">
+            <span className="bg-slate-50 px-6 text-gray-900">
+              ALL RESTAURANTS
+            </span>
+          </div>
+        </div>
+        <ul
+          role="list"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        >
+          {restuarents.map((person, index) => (
+            <RestaurantCard person={person} key={index} />
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Homepage;
