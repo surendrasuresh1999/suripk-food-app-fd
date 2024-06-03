@@ -31,19 +31,9 @@ const Homepage = () => {
         </div>
       </div>
       <div className="space-y-6">
-        <div className="relative">
-          <div
-            className="absolute inset-0 flex items-center"
-            aria-hidden="true"
-          >
-            <div className="w-full border-t border-gray-200" />
-          </div>
-          <div className="relative flex justify-center text-sm font-medium leading-6">
-            <span className="bg-slate-50 px-6 text-gray-900">
-              ALL RESTAURANTS
-            </span>
-          </div>
-        </div>
+        <h1 className="text-gray-800 font-bold tracking-wide text-20size sm:text-28size">
+          Top dishes for you
+        </h1>
         <ul
           role="list"
           className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
