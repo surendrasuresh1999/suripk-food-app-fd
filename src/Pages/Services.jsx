@@ -6,7 +6,9 @@ const Services = () => {
   return (
     <div className="space-y-12">
       <div className="flex items-center flex-col justify-center service-banner">
-        <h1 className="text-white font-bold text-7xl tracking-wide">Services</h1>
+        <h1 className="text-white font-bold text-7xl tracking-wide">
+          Services
+        </h1>
       </div>
       <div className="space-y-10">
         <div className="space-y-6">
@@ -68,9 +70,9 @@ const Services = () => {
           {brandsData.map((person, index) => (
             <li
               key={index}
-              className="flex items-center justify-center bg-white px-3 py-4 rounded-md border"
+              className="flex items-center justify-center bg-white px-3 py-4 rounded-md border transition ease-in-out hover:scale-110"
             >
-              <img src={person.imgUrl} />
+              <img src={person.imgUrl} alt="cover-img" />
             </li>
           ))}
         </ul>

@@ -9,6 +9,7 @@
 .service-banner{
     background-image:url("./assets/foodCategoys/bg_3.jpg");
     height:100vh;
+    background-repeat:no-repeat;
     object-position:center;
     background-position:center;
     object-fit:cover;
