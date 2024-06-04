@@ -100,3 +100,30 @@ export const servicesData = [
     imgUrl: running,
   },
 ];
+
+export const brandsData = [
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/1.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/02.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/03.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/04.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/05.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/06.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/7.png'
+  },
+  {
+    imgUrl: 'https://themewagon.github.io/flatter/img/brand/8.png'
+  }
+]
