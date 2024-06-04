@@ -4,6 +4,7 @@ import Signup from "./Authentication/Signup";
 import Homepage from "./Pages/Homepage";
 import ForgotPassword from "./Authentication/ForgotPassword";
 import CommonPage from "./Pages/CommonPage";
+import Services from "./Pages/Services";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="" element={<CommonPage />}>
         <Route index element={<Homepage />} />
+        <Route path="/services" element={<Services />} />
         {/* <Route element={<ProtectedRoute />}>
           <Route path="blogs" element={<BlogsPage />} />
           <Route path="authors" element={<AuthorsPage />} />

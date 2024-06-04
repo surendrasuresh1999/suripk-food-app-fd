@@ -6,9 +6,11 @@ import Footer from "../common/Footer";
 const CommonPage = () => {
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
+      <div className="flex flex-col min-h-screen relative">
+        <div className="sticky top-0 z-50">
+          <Navbar />
+        </div>
+        <main className="grow mx-auto max-w-7xl p-6 lg:px-8">
           <section>
             <Outlet />
           </section>

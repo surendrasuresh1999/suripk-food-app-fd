@@ -11,7 +11,7 @@ const Homepage = () => {
 
   return (
     <div className="space-y-8">
-      <div className="embla" ref={emblaRef}>
+      {/* <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {category.map((category, index) => (
             <div
@@ -29,7 +29,7 @@ const Homepage = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className="space-y-6">
         <h1 className="text-gray-800 font-bold tracking-wide text-20size sm:text-28size">
           Top dishes for you

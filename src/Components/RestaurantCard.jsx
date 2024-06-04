@@ -23,8 +23,8 @@ const RestaurantCard = ({ person }) => {
           <IndianRupee size={13} className="mt-1 font-semibold" />
           24/-
         </p>
-        <button className="w-full bg-orange-600 text-white font-semibold tracking-wide py-1 rounded-md flex items-center justify-center">
-          Add to cart
+        <button onClick={()=>console.log("item",person)} className="w-full bg-orange-600 text-white font-semibold tracking-wide py-2 rounded-md flex items-center justify-center">
+          Order now
         </button>
       </div>
     </li>

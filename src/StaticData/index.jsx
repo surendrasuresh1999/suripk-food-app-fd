@@ -1,4 +1,10 @@
 import dosaImg from "../assets/foodCategoys/dosa.png";
+import giftBox from "../assets/foodCategoys/giftbox.png";
+import cake from "../assets/foodCategoys/birthday-cake.png";
+import running from "../assets/foodCategoys/training.png";
+import businessman from "../assets/foodCategoys/businessman.png";
+import eventCalender from "../assets/foodCategoys/schedule.png";
+import dancing from "../assets/foodCategoys/dancing.png";
 
 export const category = [
   {
@@ -19,258 +25,6 @@ export const category = [
   },
   {
     name: "Burger",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Poha",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Dosa",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Appam",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Idiyappam",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Juice",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pancake",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Fried Rice",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Dosa",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pasta",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Kachori",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Mutton",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Vada",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Biryani",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Tiffin",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Mutton",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Cake",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Poori",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Chole Bhature",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pizza",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Chicken",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Poori Bhaji",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Veg Meal",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Rolls",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Masala Maggi",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pongal",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Parotta",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Omelette",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Vada Pav",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Ice Cream",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Salad",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pulao",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Croissant",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Mutton",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Shawarma",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Cheesecake",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Wings",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "pav Bhaji",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Milkshake",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Khichdi",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Chilli Chicken",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Non Veg Meal",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Jalebi",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Bread Pakoda",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pothichoru",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Kulche",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Rasmalai",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Khandvi",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Manchurian",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Egg Roast",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Muesli",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Panipuri",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Custard",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Burrito",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Quiche",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Kebabs",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Rajma Rice",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Bhurji",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Paneer",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Soup",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Brownie",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Halwa",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Pyaaj Kachori",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Golgappe",
     imgUrl: dosaImg,
   },
 ];
@@ -311,5 +65,38 @@ export const restuarents = [
     telephone: "+1-202-555-0170",
     imageUrl:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
+  },
+];
+
+export const servicesData = [
+  {
+    title: "Birthday Catering",
+    discription: `Transform your birthday bash into an unforgettable feast with our bespoke catering service at My restuarent. Indulge in a delectable array of culinary delights, expertly crafted to delight your guests' taste buds. From intimate gatherings to extravagant parties, let us take care of every detail while you focus on creating cherished memories.`,
+    imgUrl: giftBox,
+  },
+  {
+    title: "Wedding Service",
+    discription: `Elevate your wedding celebration with our exquisite catering service at [Your Restaurant Name]. From sumptuous hors d'oeuvres to decadent desserts, our culinary team creates an unforgettable dining experience for you and your guests. Let us bring your vision to life with impeccable service and tantalizing flavors, ensuring your special day is nothing short of extraordinary`,
+    imgUrl: cake,
+  },
+  {
+    title: "Party Catering",
+    discription: `Transform your birthday bash into an unforgettable feast with our bespoke catering service at My restuarent. Indulge in a delectable array of culinary delights, expertly crafted to delight your guests' taste buds. From intimate gatherings to extravagant parties, let us take care of every detail while you focus on creating cherished memories.`,
+    imgUrl: dancing,
+  },
+  {
+    title: "Event Catering",
+    discription: `Transform your birthday bash into an unforgettable feast with our bespoke catering service at My restuarent. Indulge in a delectable array of culinary delights, expertly crafted to delight your guests' taste buds. From intimate gatherings to extravagant parties, let us take care of every detail while you focus on creating cherished memories.`,
+    imgUrl: eventCalender,
+  },
+  {
+    title: "Corporate Service",
+    discription: `Transform your birthday bash into an unforgettable feast with our bespoke catering service at My restuarent. Indulge in a delectable array of culinary delights, expertly crafted to delight your guests' taste buds. From intimate gatherings to extravagant parties, let us take care of every detail while you focus on creating cherished memories.`,
+    imgUrl: businessman,
+  },
+  {
+    title: "Catering On Demand",
+    discription: `Transform your birthday bash into an unforgettable feast with our bespoke catering service at My restuarent. Indulge in a delectable array of culinary delights, expertly crafted to delight your guests' taste buds. From intimate gatherings to extravagant parties, let us take care of every detail while you focus on creating cherished memories.`,
+    imgUrl: running,
   },
 ];
