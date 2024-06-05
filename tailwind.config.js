@@ -5,6 +5,7 @@ export default {
     extend: {
       // colors: {},
       fontSize: {
+        "36size": "36px",
         "34size": "34px",
         "32size": "32px",
         "30size": "30px",
