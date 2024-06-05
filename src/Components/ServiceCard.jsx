@@ -1,6 +1,6 @@
 import React from "react";
 
-const ServiceCard = ({ person }) => {
+const ServiceCard = ({ person, setter, setServiceTitle }) => {
   return (
     <li
       key={person.email}
@@ -13,14 +13,22 @@ const ServiceCard = ({ person }) => {
           alt=""
         />
         <h3 className="mt-6 text-22size sm:text-24size font-medium text-gray-900 leading-4">
-        {person.title}
+          {person.title}
         </h3>
         <dl className="flex flex-grow flex-col justify-between space-y-3">
           <span className="text-sm text-gray-500 text-justify font-medium ">
             {person.discription}
           </span>
         </dl>
-        <button className="w-full bg-orange-500 text-14size font-semibold tracking-wide py-2 rounded-md text-white">Book now</button>
+        <button
+          onClick={() => {
+            setter(true);
+            setServiceTitle(person.title);
+          }}
+          className="w-full bg-orange-500 text-14size font-semibold tracking-wide py-2 rounded-md text-white"
+        >
+          Book now
+        </button>
       </div>
     </li>
   );

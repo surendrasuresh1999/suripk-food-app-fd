@@ -30,3 +30,15 @@ export const userLoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
+
+export const serviceBookingForm = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  phone: Yup.string()
+    .required("Phone is required")
+    .matches(/^\d{10}$/, "Phone number must be 10 digits"),
+  eventDate: Yup.string().required("Event date is required"),
+  eventLocation: Yup.string().required("Event location is required"),
+  NumberOfGuests: Yup.number().required("Number of guests value is required"),
+  SpecialRequests: Yup.string().max(255, "Special requests must be at most 255 characters"),
+});

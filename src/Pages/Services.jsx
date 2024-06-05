@@ -1,8 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
 import ServiceCard from "../Components/ServiceCard";
 import { servicesData, brandsData } from "../StaticData";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Field, Form, Formik } from "formik";
+import { serviceBookingForm } from "../FormikSchemas";
 
 const Services = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [serviceTitle, setServiceTitle] = useState("");
+
+  const initialValues = {
+    name: "",
+    email: "",
+    phone: "",
+    eventDate: "",
+    eventLocation: "",
+    NumberOfGuests: "",
+    SpecialRequests: "",
+  };
+
+  const handleSubmit = (values, actions) => {
+    // Handle form submission here
+    console.log(values);
+    console.log(actions);
+    // actions(false); // Set submitting state to false
+  };
+
+  const bookServiceDialog = () => {
+    return (
+      <Dialog
+        onClose={() => setOpenDialog(false)}
+        open={openDialog}
+        maxWidth="md"
+        fullWidth={true}
+      >
+        <DialogTitle>{serviceTitle} Booking Form</DialogTitle>
+        <DialogContent dividers={true}>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={serviceBookingForm}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, touched, errors, handleReset }) => (
+              <Form>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                  {Object.keys(initialValues).map((key, index) => (
+                    <div key={index} className="flex flex-col gap-1">
+                      <label
+                        htmlFor={key}
+                        className="block text-sm font-medium leading-6 text-black"
+                      >
+                        {key.charAt(0).toUpperCase() + key.slice(1)}{" "}
+                      </label>
+                      <Field
+                        type={key === "phone" ? "tel" : "text"} // Use 'tel' type for phone input
+                        placeholder={`Enter ${key}`}
+                        name={key}
+                        className={`grow rounded-md bg-white border ${
+                          touched[key] && errors[key]
+                            ? " border-red-500"
+                            : "border-gray-500"
+                        } text-black placeholder:text-slate-400`}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:items-center gap-2 pt-4 sm:gap-5">
+                  <button
+                    onClick={() => {
+                      handleReset();
+                      setOpenDialog(false);
+                    }}
+                    type="button"
+                    className="rounded-md bg-red-50 px-6 border border-red-500 py-2.5 text-sm font-semibold text-red-600 shadow-sm hover:bg-red-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="rounded-md bg-green-50 px-5 py-2.5 text-sm border border-green-500 font-semibold text-green-600 shadow-sm hover:bg-green-200"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </DialogContent>
+      </Dialog>
+    );
+  };
+
   return (
     <div className="space-y-12">
       <div className="flex items-center flex-col justify-center service-banner">
@@ -37,7 +125,7 @@ const Services = () => {
           className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
         >
           {servicesData.map((person, index) => (
-            <ServiceCard person={person} key={index} />
+            <ServiceCard person={person} key={index} setter={setOpenDialog} setServiceTitle={setServiceTitle} />
           ))}
         </ul>
       </div>
@@ -77,6 +165,7 @@ const Services = () => {
           ))}
         </ul>
       </div>
+      {openDialog && bookServiceDialog()}
     </div>
   );
 };
