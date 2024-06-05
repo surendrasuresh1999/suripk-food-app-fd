@@ -5,6 +5,9 @@ import Homepage from "./Pages/Homepage";
 import ForgotPassword from "./Authentication/ForgotPassword";
 import CommonPage from "./Pages/CommonPage";
 import Services from "./Pages/Services";
+import CartPage from "./Pages/CartPage";
+import Aboutus from "./Pages/Aboutus";
+import BlogsPage from "./Pages/BlogsPage";
 
 const App = () => {
   return (
@@ -15,6 +18,9 @@ const App = () => {
       <Route path="" element={<CommonPage />}>
         <Route index element={<Homepage />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/about-us" element={<Aboutus />} />
+        <Route path="/blogs" element={<BlogsPage />} />
         {/* <Route element={<ProtectedRoute />}>
           <Route path="blogs" element={<BlogsPage />} />
           <Route path="authors" element={<AuthorsPage />} />

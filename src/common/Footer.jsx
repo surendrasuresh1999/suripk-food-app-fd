@@ -94,7 +94,7 @@ const Footer = () => {
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto max-w-7xl p-6 lg:px-8">
+      <div className="mx-auto container p-6 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
@@ -172,11 +172,11 @@ const Footer = () => {
           </div>
           <div className="mt-10 xl:mt-0">
             <h3 className="text-sm font-semibold leading-6 text-white">
-              Subscribe to our newsletter
+              Subscribe to our website
             </h3>
             <p className="mt-2 text-sm leading-6 text-gray-300">
-              The latest news, articles, and resources, sent to your inbox
-              weekly.
+              The latest fodd recepies, blogs, and services information, will
+              receive to your inbox when we updated our data.
             </p>
             <form className="mt-6 sm:flex sm:max-w-md">
               <label htmlFor="email-address" className="sr-only">

@@ -10,7 +10,7 @@ const CommonPage = () => {
         <div className="sticky top-0 z-50">
           <Navbar />
         </div>
-        <main className="grow mx-auto max-w-7xl p-6 lg:px-8">
+        <main className="grow mx-auto container p-6 lg:px-8">
           <section>
             <Outlet />
           </section>
