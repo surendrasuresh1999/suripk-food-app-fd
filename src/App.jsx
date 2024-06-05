@@ -9,6 +9,7 @@ import CartPage from "./Pages/CartPage";
 import Aboutus from "./Pages/Aboutus";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogDetails from "./Pages/BlogDetails";
+import OrdersPage from "./Pages/OrdersPage";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/about-us" element={<Aboutus />} />
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:id" element={<BlogDetails />} />
+        <Route path="/my-orders" element={<OrdersPage />} />
         {/* <Route element={<ProtectedRoute />}>
           <Route path="blogs" element={<BlogsPage />} />
           <Route path="authors" element={<AuthorsPage />} />

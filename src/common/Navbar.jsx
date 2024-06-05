@@ -6,9 +6,10 @@ import { ShoppingBagIcon } from "@heroicons/react/16/solid";
 
 const navigation = [
   { name: "All Items", path: "/all-items" },
-  { name: "Sevices", path: "/services" },
+  { name: "Services", path: "/services" },
   { name: "Blogs", path: "/blogs" },
   { name: "About us", path: "/about-us" },
+  { name: "My Orders", path: "/my-orders" },
 ];
 
 const Navbar = () => {
