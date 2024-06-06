@@ -8,7 +8,7 @@ const navigation = [
   { name: "All Items", path: "/all-items" },
   { name: "Services", path: "/services" },
   { name: "Blogs", path: "/blogs" },
-  { name: "About us", path: "/about-us" },
+  // { name: "About us", path: "/about-us" },
   { name: "My Orders", path: "/my-orders" },
 ];
 
@@ -16,7 +16,7 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <header className="bg-white shadow">
-      <nav className="mx-auto flex container items-center justify-between gap-x-6 p-6 lg:px-8">
+      <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
@@ -38,12 +38,6 @@ const Navbar = () => {
           ))}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          {/* <a
-            href="#"
-            className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
-          >
-            Log in
-          </a> */}
           <Link to={"/cart"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +78,7 @@ const Navbar = () => {
         onClose={setMobileMenuOpen}
       >
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-[60] shadow-md w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 transform transition">
+        <DialogPanel className="fixed inset-y-0 right-0 z-[60] w-full transform overflow-y-auto bg-white px-6 py-6 shadow-md transition sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center gap-x-6">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
