@@ -2,7 +2,11 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLoginSchema } from "../FormikSchemas";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
+import axios from "axios";
+import { Baseurl } from "../BaseUrl";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,28 +18,28 @@ const Login = () => {
 
   const handleFormSubmit = (values, actions) => {
     console.log(values);
-    // axios
-    //   .post(`${Baseurl.baseurl}/api/user/login`, values)
-    //   .then((res) => {
-    //     if (res.data.status) {
-    //       localStorage.setItem(
-    //         "blogUserDetails",
-    //         JSON.stringify(res.data.user)
-    //       );
-    //       Cookies.set("jwtToken", res.data.token, { expires: 30 });
-    //       navigate("/");
-    //       actions.resetForm();
-    //     } else {
-    //       toast.error(res.data.message);
-    //       console.log("res", res);
-    //       actions.setSubmitting(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error", err.message);
-    //     toast.error(err.message);
-    //     actions.setSubmitting(false);
-    //   });
+    axios
+      .post(`${Baseurl.baseurl}/api/user/login`, values)
+      .then((res) => {
+        if (res.data.status) {
+          localStorage.setItem(
+            "blogUserDetails",
+            JSON.stringify(res.data.user)
+          );
+          Cookies.set("jwtToken", res.data.token, { expires: 30 });
+          navigate("/");
+          actions.resetForm();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+          actions.setSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+        actions.setSubmitting(false);
+      });
   };
   return (
     <div className="h-dvh bg-gray-900">

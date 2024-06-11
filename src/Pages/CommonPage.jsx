@@ -7,9 +7,9 @@ const CommonPage = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="flex flex-col min-h-screen relative">
-        <div className="sticky top-0 z-50">
+        <header className="sticky top-0 z-50 shrink-0">
           <Navbar />
-        </div>
+        </header>
         <main className="grow mx-auto container p-6 lg:px-8">
           <section>
             <Outlet />

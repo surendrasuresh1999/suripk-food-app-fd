@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/16/solid";
 
 const navigation = [
-  { name: "All Items", path: "/all-items" },
+  { name: "All Items", path: "/all-food" },
   { name: "Services", path: "/services" },
   { name: "Blogs", path: "/blogs" },
   // { name: "About us", path: "/about-us" },
@@ -15,8 +15,8 @@ const navigation = [
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
-    <header className="bg-white shadow">
-      <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
+    <>
+      <nav className="container bg-white shadow mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
@@ -127,7 +127,7 @@ const Navbar = () => {
           </div>
         </DialogPanel>
       </Dialog>
-    </header>
+    </>
   );
 };
 

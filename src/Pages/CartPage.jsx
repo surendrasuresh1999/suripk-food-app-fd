@@ -48,9 +48,9 @@ const CartPage = () => {
               Items in your shopping cart
             </h2>
 
-            <ul role="list" className="space-y-5">
+            <ul role="list" className="space-y-2">
               {products.map((product, productIdx) => (
-                <li key={productIdx} >
+                <li key={productIdx} className={`${productIdx === products.length - 1 ? '' : 'border-b'} pb-2`}>
                   <div className="flex">
                     <div className="flex-shrink-0">
                       <img

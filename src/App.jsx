@@ -10,6 +10,8 @@ import Aboutus from "./Pages/Aboutus";
 import BlogsPage from "./Pages/BlogsPage";
 import BlogDetails from "./Pages/BlogDetails";
 import OrdersPage from "./Pages/OrdersPage";
+import FoodPage from "./Pages/FoodPage";
+import ProtectedRoute from "./Pages/ProtectedRoute";
 
 const App = () => {
   return (
@@ -19,20 +21,15 @@ const App = () => {
       <Route path="forgot-password" element={<ForgotPassword />} />
       <Route path="" element={<CommonPage />}>
         <Route index element={<Homepage />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/about-us" element={<Aboutus />} />
-        <Route path="/blogs" element={<BlogsPage />} />
-        <Route path="/blogs/:id" element={<BlogDetails />} />
-        <Route path="/my-orders" element={<OrdersPage />} />
-        {/* <Route element={<ProtectedRoute />}>
-          <Route path="blogs" element={<BlogsPage />} />
-          <Route path="authors" element={<AuthorsPage />} />
-          <Route path="my-activity" element={<MyActivityPage />} />
-          <Route path="blogs/:id" element={<BlogDetailsPage />} />
-          <Route path="my-activity/:id" element={<BlogDetailsPage />} />
-          <Route path="quotes" element={<QuotesPage />} />
-        </Route> */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/services" element={<Services />} />
+          <Route path="/all-food" element={<FoodPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/about-us" element={<Aboutus />} />
+          <Route path="/blogs" element={<BlogsPage />} />
+          <Route path="/blogs/:id" element={<BlogDetails />} />
+          <Route path="/my-orders" element={<OrdersPage />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -1,8 +1,11 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { LoaderCircle } from "lucide-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userSignUpSchema } from "../FormikSchemas";
+import { Baseurl } from "../BaseUrl";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,30 +16,30 @@ const Signup = () => {
   };
 
   const handleFormSubmit = (values, actions) => {
-    console.log(values);
-    // axios
-    //   .post(`${Baseurl.baseurl}/api/user/signup`, values)
-    //   .then((res) => {
-    //     if (res.data.status) {
-    //       navigate("/login");
-    //       actions.resetForm();
-    //     } else {
-    //       toast.error(res.data.message);
-    //       console.log("res", res.data.message);
-    //       actions.setSubmitting(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     console.log("Error", err.message);
-    //     actions.setSubmitting(false);
-    //   });
+    // console.log(values);
+    axios
+      .post(`${Baseurl.baseurl}/api/user/signup`, values)
+      .then((res) => {
+        if (res.data.status) {
+          navigate("/login");
+          actions.resetForm();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res.data.message);
+          actions.setSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        console.log("Error", err.message);
+        actions.setSubmitting(false);
+      });
   };
   return (
     <div className="h-dvh bg-gray-900">
-      <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
-          <h2 className="text-center mb-3 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
+          <h2 className="mb-3 text-center text-2xl font-bold leading-9 tracking-tight text-white sm:text-30size">
             Sign up to your account
           </h2>
           <Formik
@@ -59,9 +62,9 @@ const Signup = () => {
                       type={key === "password" ? key : "text"}
                       placeholder={`Enter ${key}`}
                       name={key}
-                      className={`grow rounded-md bg-gray-600 border ${
+                      className={`grow rounded-md border bg-gray-600 ${
                         touched[key] && errors[key]
-                          ? " border-red-500"
+                          ? "border-red-500"
                           : "border-gray-500"
                       } text-white placeholder:text-slate-400`}
                     />
@@ -69,12 +72,12 @@ const Signup = () => {
                 ))}
                 <button
                   type="submit"
-                  className="bg-blue-500 mt-3 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                  className="mt-3 flex items-center justify-center rounded-md bg-blue-500 py-2 text-14size font-medium tracking-wide text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
                     <LoaderCircle
-                      className="text-white animate-spin"
+                      className="animate-spin text-white"
                       size={21}
                     />
                   ) : (
@@ -89,7 +92,7 @@ const Signup = () => {
             Already have an account?{" "}
             <Link
               to={"/login"}
-              className="font-bold tracking-wide leading-6 text-indigo-600 hover:text-indigo-500"
+              className="font-bold leading-6 tracking-wide text-indigo-600 hover:text-indigo-500"
             >
               Login
             </Link>
@@ -122,7 +125,7 @@ const Signup = () => {
                     fill="#34A853"
                   />
                 </svg>
-                <span className="text-sm text-white tracking-wide font-semibold leading-6">
+                <span className="text-sm font-semibold leading-6 tracking-wide text-white">
                   Google
                 </span>
               </a>
@@ -143,7 +146,7 @@ const Signup = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="text-sm text-white tracking-wide font-semibold leading-6">
+                <span className="text-sm font-semibold leading-6 tracking-wide text-white">
                   GitHub
                 </span>
               </a>
