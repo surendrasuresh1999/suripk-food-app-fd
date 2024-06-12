@@ -16,7 +16,6 @@ const FoodPage = () => {
     dragFree: true,
     loop: false,
   });
-  const [foodData, setFoodData] = useState([]);
 
   const jwtToken = Cookies.get("jwtToken");
   const getFoodItems = async () => {
