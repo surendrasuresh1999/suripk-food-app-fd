@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { useState } from "react";
 import {
   Menu,
   MenuButton,
@@ -8,6 +8,7 @@ import {
 } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { Rating } from "@mui/material";
 
 const orders = [
   {
@@ -54,8 +55,9 @@ function classNames(...classes) {
 }
 
 const OrdersPage = () => {
+  const [ratingValue, setRatingValue] = useState(0);
   return (
-    <div className="bg-white shadow-md rounded-md p-4 sm:p-6">
+    <div className="rounded-md bg-white p-4 shadow-md sm:p-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
           Order history
@@ -69,7 +71,7 @@ const OrdersPage = () => {
       <div className="mt-16">
         <h2 className="sr-only">Recent orders</h2>
         <div>
-          <div className=" space-y-8">
+          <div className="space-y-8">
             {orders.map((order) => (
               <div
                 key={order.number}
@@ -142,7 +144,7 @@ const OrdersPage = () => {
                                   focus
                                     ? "bg-gray-100 text-gray-900"
                                     : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
+                                  "block px-4 py-2 text-sm",
                                 )}
                               >
                                 View
@@ -157,7 +159,7 @@ const OrdersPage = () => {
                                   focus
                                     ? "bg-gray-100 text-gray-900"
                                     : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
+                                  "block px-4 py-2 text-sm",
                                 )}
                               >
                                 Invoice
@@ -241,6 +243,15 @@ const OrdersPage = () => {
                             >
                               Buy again
                             </a>
+                          </div>
+                          <div className="flex flex-1 justify-center pl-4">
+                            <Rating
+                              name="half-rating"
+                              size="small"
+                              precision={0.5}
+                              value={ratingValue}
+                              onChange={(event,newValue)=>setRatingValue(newValue)}
+                            />
                           </div>
                         </div>
                       </div>

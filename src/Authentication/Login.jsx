@@ -23,10 +23,10 @@ const Login = () => {
       .then((res) => {
         if (res.data.status) {
           localStorage.setItem(
-            "blogUserDetails",
-            JSON.stringify(res.data.user)
+            "foodieUserDetails",
+            JSON.stringify(res.data.user),
           );
-          Cookies.set("jwtToken", res.data.token, { expires: 30 });
+          Cookies.set("jwtToken", res.data.token, { expires: 120 });
           navigate("/");
           actions.resetForm();
         } else {
@@ -43,9 +43,9 @@ const Login = () => {
   };
   return (
     <div className="h-dvh bg-gray-900">
-      <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
-          <h2 className="text-center mb-3 text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
+          <h2 className="mb-3 text-center text-2xl font-bold leading-9 tracking-tight text-white sm:text-30size">
             Sign in to your account
           </h2>
           <Formik
@@ -58,23 +58,23 @@ const Login = () => {
                 {Object.keys(userObject).map((key, index) => (
                   <div key={index} className="flex flex-col gap-1">
                     <div className="flex items-center justify-between">
-                    <label
-                      htmlFor={key}
-                      className="block text-sm font-medium leading-6 text-white"
-                    >
-                      {key.charAt(0).toUpperCase()}
-                      {key.slice(1, key.length)}
-                    </label>
-                    {key === "password" && (
-                      <p className="text-14size text-gray-900 text-right font-600 tracking-wide">
-                        <Link
-                          to="/forgot-password"
-                          className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-                        >
-                          Forgot Password?
-                        </Link>
-                      </p>
-                    )}
+                      <label
+                        htmlFor={key}
+                        className="block text-sm font-medium leading-6 text-white"
+                      >
+                        {key.charAt(0).toUpperCase()}
+                        {key.slice(1, key.length)}
+                      </label>
+                      {key === "password" && (
+                        <p className="font-600 text-right text-14size tracking-wide text-gray-900">
+                          <Link
+                            to="/forgot-password"
+                            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                          >
+                            Forgot Password?
+                          </Link>
+                        </p>
+                      )}
                     </div>
                     {key === "password" ? (
                       <Field name="password">
@@ -86,9 +86,9 @@ const Login = () => {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               placeholder="Enter Password"
-                              className={`block w-full rounded-md pr-10 bg-gray-600 border ${
+                              className={`block w-full rounded-md border bg-gray-600 pr-10 ${
                                 touched[key] && errors[key]
-                                  ? " border-red-500"
+                                  ? "border-red-500"
                                   : "border-gray-500"
                               } text-white placeholder:text-slate-400`}
                             />
@@ -111,9 +111,9 @@ const Login = () => {
                         type={key}
                         name={key}
                         placeholder="Enter email address"
-                        className={`grow rounded-md bg-gray-600 border ${
+                        className={`grow rounded-md border bg-gray-600 ${
                           touched[key] && errors[key]
-                            ? " border-red-500"
+                            ? "border-red-500"
                             : "border-gray-500"
                         } text-white placeholder:text-slate-400`}
                       />
@@ -122,11 +122,11 @@ const Login = () => {
                 ))}
                 <button
                   type="submit"
-                  className="bg-blue-500 mt-2 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                  className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-2 text-14size font-medium tracking-wide text-white"
                 >
                   {isSubmitting ? (
                     <LoaderCircle
-                      className="text-white animate-spin"
+                      className="animate-spin text-white"
                       size={21}
                     />
                   ) : (
@@ -169,7 +169,7 @@ const Login = () => {
                     fill="#34A853"
                   />
                 </svg>
-                <span className="text-sm text-white tracking-wide font-semibold leading-6">
+                <span className="text-sm font-semibold leading-6 tracking-wide text-white">
                   Google
                 </span>
               </a>
@@ -190,7 +190,7 @@ const Login = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="text-sm text-white tracking-wide font-semibold leading-6">
+                <span className="text-sm font-semibold leading-6 tracking-wide text-white">
                   GitHub
                 </span>
               </a>
