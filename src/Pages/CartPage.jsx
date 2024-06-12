@@ -21,39 +21,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import numberToWords from "number-to-words";
 
-// src/assets/Add to Cart-amico.svg
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Sienna",
-    inStock: true,
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in sienna.",
-  },
-  {
-    id: 2,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    inStock: false,
-    leadTime: "3–4 weeks",
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-01-product-02.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-];
-
 const CartPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
-  const [taxMoney, setTaxMoney] = useState({ shippingFee: 5, taxFee: 10 });
+  const taxMoney = { shippingFee: 5, taxFee: 10 };
 
   const getCartFoodItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/cart/all`, {
@@ -86,6 +57,54 @@ const CartPage = () => {
       .catch((err) => {
         toast.error(err.message);
       });
+  };
+
+  const handleIncreaseQuantity = (productId) => {
+    axios
+      .put(`${Baseurl.baseurl}/api/cart/increase/${productId}`, null, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.status) {
+          toast.success(res.data.message);
+          queryClient.invalidateQueries("cartData");
+        } else {
+          console.log(res.data.message);
+          toast.error(res.data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        console.log("eeasdfa suuny");
+      });
+  };
+
+  const handleDecreaseQuantity = (productId, quantity) => {
+    if (quantity > 1) {
+      axios
+        .put(`${Baseurl.baseurl}/api/cart/decrease/${productId}`, null, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        })
+        .then((res) => {
+          if (res.status) {
+            toast.success(res.data.message);
+            queryClient.invalidateQueries("cartData");
+          } else {
+            console.log(res.data.message);
+            toast.error(res.data.message);
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+          console.log("eeasdfa suuny");
+        });
+    } else {
+      toast.error("You can't decrease below 1");
+    }
   };
 
   return (
@@ -139,16 +158,29 @@ const CartPage = () => {
                               {product.price * product.quantity}
                             </p>
                           </div>
-
+                          {/* from tab device view */}
                           <div className="mt-4 hidden sm:mt-0 sm:block sm:pr-9">
                             <div className="flex items-center gap-3">
-                              <button className="rounded border p-1 shadow">
+                              <button
+                                onClick={() =>
+                                  handleDecreaseQuantity(
+                                    product._id,
+                                    product.quantity,
+                                  )
+                                }
+                                className="rounded border p-1 shadow"
+                              >
                                 <MinusIcon className="h-4 w-4 text-gray-700" />
                               </button>
                               <span className="text-16size font-bold tracking-wide text-black">
                                 {product.quantity}
                               </span>
-                              <button className="rounded border p-1 shadow">
+                              <button
+                                onClick={() =>
+                                  handleIncreaseQuantity(product._id)
+                                }
+                                className="rounded border p-1 shadow"
+                              >
                                 <PlusIcon className="h-4 w-4 text-gray-700" />
                               </button>
                             </div>
@@ -165,20 +197,33 @@ const CartPage = () => {
                         </div>
                       </div>
                     </div>
+                    {/* mobile view */}
                     <div className="xs:block flex items-center justify-between py-3 sm:hidden">
                       <div className="flex items-center gap-3">
-                        <button className="rounded border p-1 shadow">
+                        <button
+                          onClick={() =>
+                            handleDecreaseQuantity(
+                              product._id,
+                              product.quantity,
+                            )
+                          }
+                          className="rounded border p-1 shadow"
+                        >
                           <MinusIcon className="h-4 w-4 text-gray-700" />
                         </button>
                         <span className="text-14size font-bold tracking-wide text-black">
-                          1
+                          {product.quantity}
                         </span>
-                        <button className="rounded border p-1 shadow">
+                        <button
+                          onClick={() => handleIncreaseQuantity(product._id)}
+                          className="rounded border p-1 shadow"
+                        >
                           <PlusIcon className="h-4 w-4 text-gray-700" />
                         </button>
                       </div>
                       <button
                         type="button"
+                        onClick={() => handleDeleteItem(product._id)}
                         className="-m-2 flex items-center p-1"
                       >
                         <TrashIcon className="h-5 w-5 text-red-500" />
@@ -252,18 +297,23 @@ const CartPage = () => {
                   <dt className="text-base font-medium text-gray-900">
                     Order total
                   </dt>
-                  <dd className="text-base font-medium text-gray-900">
+                  <dd className="flex items-center text-base font-medium text-gray-900">
+                    <IndianRupee size={13} className="mt-1 font-semibold" />
                     {data.cart.totalPrice +
                       taxMoney.taxFee +
                       taxMoney.shippingFee}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
-                  **{numberToWords.toWords(
-                    data.cart.totalPrice +
-                      taxMoney.taxFee +
-                      taxMoney.shippingFee,
-                  )} rupees only/-
+                  <span className="text-[12px] font-semibold sm:text-14size">
+                    **
+                    {numberToWords.toWords(
+                      data.cart.totalPrice +
+                        taxMoney.taxFee +
+                        taxMoney.shippingFee,
+                    )}{" "}
+                    rupees only/-
+                  </span>
                 </div>
               </dl>
 
