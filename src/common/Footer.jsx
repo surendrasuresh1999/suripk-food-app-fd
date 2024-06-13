@@ -1,4 +1,11 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { Baseurl } from "../BaseUrl";
+import toast from "react-hot-toast";
+import { Field, Form, Formik } from "formik";
+import { subScriptionSchema } from "../FormikSchemas";
+import { LoaderCircle } from "lucide-react";
+import Cookies from "js-cookie";
 const navigation = {
   solutions: [
     { name: "Marketing", href: "#" },
@@ -89,12 +96,43 @@ const navigation = {
   ],
 };
 const Footer = () => {
+  const userObject = {
+    email: "",
+  };
+
+  const jwtToken = Cookies.get("jwtToken");
+
+  const handleFormSubmit = (values, actions) => {
+    console.log(values);
+    axios
+      .post(`${Baseurl.baseurl}/api/subscribe`, values, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(res.data.message);
+          actions.resetForm();
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+          actions.setSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+        actions.setSubmitting(false);
+      });
+  };
+  
   return (
     <footer className="bg-gray-900" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto container p-6 lg:px-8">
+      <div className="container mx-auto p-6 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
@@ -174,32 +212,56 @@ const Footer = () => {
             <h3 className="text-sm font-semibold leading-6 text-white">
               Subscribe to our website
             </h3>
-            <p className="mt-2 text-sm leading-6 text-gray-300">
+            <p className="mb-2 mt-2 text-sm leading-6 text-gray-300">
               The latest fodd recepies, blogs, and services information, will
               receive to your inbox when we updated our data.
             </p>
-            <form className="mt-6 sm:flex sm:max-w-md">
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email-address"
-                id="email-address"
-                autoComplete="email"
-                required
-                className="w-full min-w-0 appearance-none rounded-md border-0 bg-white/5 px-3 py-1.5 text-base text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:w-64 sm:text-sm sm:leading-6 xl:w-full"
-                placeholder="Enter your email"
-              />
-              <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
-                <button
-                  type="submit"
-                  className="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                >
-                  Subscribe
-                </button>
-              </div>
-            </form>
+            <Formik
+              initialValues={userObject}
+              validationSchema={subScriptionSchema}
+              onSubmit={handleFormSubmit}
+            >
+              {({ isSubmitting, touched, errors }) => (
+                <Form className="flex flex-col gap-2">
+                  {Object.keys(userObject).map((key, index) => (
+                    <div key={index} className="flex flex-col gap-1">
+                      <div className="flex items-center justify-between">
+                        <label
+                          htmlFor={key}
+                          className="block text-sm font-medium leading-6 text-white"
+                        >
+                          {key.charAt(0).toUpperCase()}
+                          {key.slice(1, key.length)}
+                        </label>
+                      </div>
+                      <Field
+                        type={key}
+                        name={key}
+                        placeholder="Enter email address"
+                        className={`grow rounded-md border bg-gray-600 ${
+                          touched[key] && errors[key]
+                            ? "border-red-500"
+                            : "border-gray-500"
+                        } text-white placeholder:text-slate-400`}
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="submit"
+                    className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-2 text-14size font-medium tracking-wide text-white"
+                  >
+                    {isSubmitting ? (
+                      <LoaderCircle
+                        className="animate-spin text-white"
+                        size={21}
+                      />
+                    ) : (
+                      "Subscribe"
+                    )}
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">

@@ -12,6 +12,7 @@ import BlogDetails from "./Pages/BlogDetails";
 import OrdersPage from "./Pages/OrdersPage";
 import FoodPage from "./Pages/FoodPage";
 import ProtectedRoute from "./Pages/ProtectedRoute";
+import CheckoutPage from "./Pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/services" element={<Services />} />
           <Route path="/all-food" element={<FoodPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/about-us" element={<Aboutus />} />
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
