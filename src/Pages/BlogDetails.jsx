@@ -1,19 +1,20 @@
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const BlogDetails = () => {
   return (
-    <div className="max-w-5xl m-auto">
+    <div className="m-auto max-w-5xl">
       <div className="space-y-4">
-        <h1 className="text-black text-18size sm:text-36size font-bold tracking-wide">
-        Culinary Chronicles: A Feast for the Senses
+        <h1 className="text-18size font-bold tracking-wide text-black sm:text-36size">
+          Culinary Chronicles: A Feast for the Senses
         </h1>
         <img
           src={
             "https://marketplace.canva.com/EAFloAOrGBY/1/0/1600w/canva-orange-and-black-minimalist-food-banner-landscape-hvZzaUttSLk.jpg"
           }
           alt="banner-img"
-          className="max-h-96 w-full object-cover object-center rounded-md"
+          className="max-h-96 w-full rounded-md object-cover object-center"
         />
         <>
           {/* <div className="flex items-center justify-between gap-2">
@@ -64,13 +65,13 @@ const BlogDetails = () => {
             </p>
           </div>
         </>
-        <button
-          // onClick={() => navigate(-1)}
-          className="rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 flex items-center gap-2 max-w-max"
+        <Link
+          to={"/blogs"}
+          className="flex max-w-max items-center gap-2 rounded-md bg-indigo-50 p-3 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
         >
           <ArrowLeftIcon className="h-4 w-4 text-indigo-700" />
           Go Back
-        </button>
+        </Link>
       </div>
     </div>
   );

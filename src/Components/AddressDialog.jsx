@@ -110,7 +110,7 @@ const AddressDialog = ({ open, setter, handler }) => {
                     </label>
                   </div>
                   <Field
-                    type={"text"}
+                    type={key === "contact" ? "tel" : "text"}
                     name={key}
                     placeholder={`Enter ${key}`}
                     className={`grow rounded-md border bg-white ${
