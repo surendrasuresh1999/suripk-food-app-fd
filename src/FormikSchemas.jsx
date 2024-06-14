@@ -54,7 +54,8 @@ export const adressSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   contact: Yup.string()
     .required("Contact number is required")
-    .matches(/^[0-9]+$/, "Invalid contact number"),
+    .matches(/^[0-9]+$/, "Invalid contact number")
+    .max(10, "Contact number cannot exceed 10 digits"),
   landmark: Yup.string(),
   flatNumber: Yup.string(),
   address: Yup.string().required("Address or locality is required"),

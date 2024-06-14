@@ -89,6 +89,26 @@ const CheckoutPage = () => {
       });
   };
 
+  const handleDeleteAddress = (addressId) => {
+    axios
+      .delete(`${Baseurl.baseurl}/api/address/${addressId}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(res.data.message);
+          queryClient.invalidateQueries("addressData");
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   return (
     <div>
       <div className="mx-auto max-w-2xl lg:max-w-none">
@@ -102,10 +122,10 @@ const CheckoutPage = () => {
               <button
                 type="button"
                 onClick={() => setOpenAddressDialog(true)}
-                className="inline-flex items-center justify-center gap-x-1.5 rounded-md border border-indigo-400 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 shadow-sm hover:bg-indigo-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="inline-flex items-center justify-center gap-x-1.5 rounded-md border border-orange-400 bg-orange-50 px-3 py-2 text-sm font-semibold text-orange-700 shadow-sm hover:bg-orange-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Add new address
-                <PlusCircleIcon className="-mr-0.5 h-5 w-5 text-indigo-700" />
+                <PlusCircleIcon className="-mr-0.5 h-5 w-5 text-orange-700" />
               </button>
             </div>
             <div>
@@ -118,32 +138,45 @@ const CheckoutPage = () => {
                   {data.address.map((data, i) => (
                     <li
                       key={i}
-                      className="mt-4 space-y-2 rounded-lg border border-gray-200 bg-white p-2.5 shadow-sm"
+                      className="relative mt-4 flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-2.5 shadow-sm"
                     >
-                      <h1 className="flex items-center gap-2">
-                        {icon.User}
-                        <span className="text-14size font-bold tracking-wide text-gray-900">
-                          {data.receiversName}
-                        </span>
-                      </h1>
-                      <p className="flex items-center gap-2">
-                        {icon[data.addressType]}
-                        <span className="text-14size font-bold tracking-wide text-gray-900">
-                          {data.addressType}
-                        </span>
-                      </p>
-                      <p className="flex items-center gap-2">
-                        {icon.Contact}
-                        <span className="text-14size font-medium tracking-wide text-gray-900">
-                          {data.receiversContact}
-                        </span>
-                      </p>
-                      <p className="flex items-center gap-2">
-                        {icon.Address}
-                        <span className="text-14size font-medium tracking-wide text-gray-900">
-                          {data.areaSector}
-                        </span>
-                      </p>
+                      <input
+                        id={i}
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <div className="space-y-1">
+                        <h1 className="flex items-center gap-2">
+                          {icon.User}
+                          <span className="truncate text-14size font-bold tracking-wide text-gray-900">
+                            {data.receiversName}
+                          </span>
+                          <button
+                            onClick={() => handleDeleteAddress(data._id)}
+                            className="ml-2"
+                          >
+                            <TrashIcon className="absolute right-2 top-3 h-5 w-5 text-gray-700" />
+                          </button>
+                        </h1>
+                        <p className="flex items-center gap-2">
+                          {icon[data.addressType]}
+                          <span className="text-14size font-bold tracking-wide text-gray-900">
+                            {data.addressType}
+                          </span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          {icon.Contact}
+                          <span className="text-14size font-medium tracking-wide text-gray-900">
+                            {data.receiversContact}
+                          </span>
+                        </p>
+                        <p className="flex items-center gap-2">
+                          {icon.Address}
+                          <span className="text-14size font-medium tracking-wide text-gray-900">
+                            {data.areaSector}
+                          </span>
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -153,7 +186,7 @@ const CheckoutPage = () => {
                   <h1 className="text-18size font-bold tracking-wide text-gray-900 sm:text-28size">
                     No Saved Addresses Found
                   </h1>
-                  <p className="text-center text-14size font-normal text-gray-600 sm:text-18size px-1">
+                  <p className="px-1 text-center text-14size font-normal text-gray-600 sm:text-18size">
                     Oops! It seems like you haven't added your address yet. Add
                     your address to proceed and explore our delicious offerings.
                   </p>
