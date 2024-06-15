@@ -1,59 +1,77 @@
 import React from "react";
 import BlogCard from "../Components/BlogCard";
-
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    role: "Admin",
-    email: "janecooper@example.com",
-    telephone: "+1-202-555-0170",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    role: "Admin",
-    email: "janecooper@example.com",
-    telephone: "+1-202-555-0170",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title:
-      "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    role: "Admin",
-    email: "janecooper@example.com",
-    telephone: "+1-202-555-0170",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Baseurl } from "../BaseUrl";
+import Loader from "../common/Loader";
+import ConnectionLost from "../common/ConnectionLost";
+import Cookies from "js-cookie";
+import bannerImg from "../../src/assets/foo-blog-banner.jpg";
 
 const BlogsPage = () => {
+  const jwtToken = Cookies.get("jwtToken");
+
+  const fetchBlogs = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/blog`, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }).then((res) => res.json());
+  };
+
+  const { isPending, error, data } = useQuery({
+    queryKey: ["blogsData"],
+    queryFn: fetchBlogs,
+  });
+
   return (
     <div className="space-y-12">
-      <div className="max-w-4xl mx-auto text-center space-y-3">
-        <h1 className="text-26size sm:text-36size text-gray-600 font-bold tracking-wide">
-          Our new blogs
+      <div className="relative">
+        <img
+          src={bannerImg}
+          alt="banner"
+          className="h-96 w-full rounded-md object-cover"
+        />
+        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-7xl font-bold tracking-wide text-white">
+          Blogs
         </h1>
-        <p className="text-gray-700 font-medium text-18size text-justify sm:text-center">
-          Welcome to our culinary haven, where every recipe tells a story and
-          every dish is a work of art. Dive into our treasure trove of food
-          adventures, where we explore the rich tapestry of flavors, textures,
-          and cultures that make up the world of gastronomy.
-        </p>
       </div>
-      <ul
-        role="list"
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        {people.map((person, index) => (
-          <BlogCard person={person} key={index} />
-        ))}
-      </ul>
+      <div className="space-y-6">
+        <div className="relative">
+          <div
+            className="absolute inset-0 flex items-center"
+            aria-hidden="true"
+          >
+            <div className="mt-1 w-full border-t border-gray-200" />
+          </div>
+          <div className="relative flex justify-center text-sm font-medium leading-6">
+            <span className="bg-gray-50 px-3 text-20size font-bold tracking-wide text-gray-800 sm:text-32size">
+              Our Blogs
+            </span>
+          </div>
+        </div>
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-justify text-18size font-medium text-gray-700 sm:text-center">
+            Welcome to our culinary haven, where every recipe tells a story and
+            every dish is a work of art. Dive into our treasure trove of food
+            adventures, where we explore the rich tapestry of flavors, textures,
+            and cultures that make up the world of gastronomy.
+          </p>
+        </div>
+      </div>
+      {isPending ? (
+        <Loader />
+      ) : error ? (
+        <ConnectionLost />
+      ) : (
+        <ul
+          role="list"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {data.blogs.map((person, index) => (
+            <BlogCard person={person} key={index} />
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
