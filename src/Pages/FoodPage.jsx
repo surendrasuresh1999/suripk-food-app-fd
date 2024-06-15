@@ -32,11 +32,11 @@ const FoodPage = () => {
   });
   return (
     <div className="space-y-8">
-      {/* <div className="embla" ref={emblaRef}>
+      <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {category.map((category, index) => (
             <div
-              className="embla__slide border rounded-md shadow-sm text-center py-4 group/slide hover:border-slate-200 bg-white flex items-center gap-3 justify-center"
+              className="embla__slide group/slide flex items-center justify-center gap-3 rounded-md border bg-white py-4 text-center shadow-sm hover:border-slate-200"
               key={index}
             >
               <img
@@ -44,13 +44,13 @@ const FoodPage = () => {
                 alt="blog-slider"
                 className="h-8 w-8 sm:h-12 sm:w-12"
               />
-              <span className="text-gray-900 group-hover/slide:text-slate-900 group-hover/slide:scale-100 font-700 tracking-wide text-14size sm:text-22size truncate">
+              <span className="font-700 truncate text-14size tracking-wide text-gray-900 group-hover/slide:scale-100 group-hover/slide:text-slate-900 sm:text-22size">
                 {category.name}
               </span>
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
       <div className="space-y-6">
         <h1 className="text-20size font-bold tracking-wide text-gray-800 sm:text-28size">
           Top dishes for you

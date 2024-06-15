@@ -108,7 +108,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="rounded-md bg-white pb-5 shadow-md">
+    <div className="food-card rounded-md bg-white pb-5 shadow-md">
       {isPending ? (
         <Loader />
       ) : error ? (

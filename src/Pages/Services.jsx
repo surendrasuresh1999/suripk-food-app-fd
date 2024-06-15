@@ -8,6 +8,7 @@ import { Baseurl } from "../BaseUrl";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Cookies from "js-cookie";
+import bannerImg from "../../src/assets/foodCategoys/bg_3.jpg";
 
 const Services = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -135,8 +136,13 @@ const Services = () => {
 
   return (
     <div className="space-y-12">
-      <div className="service-banner flex flex-col items-center justify-center">
-        <h1 className="text-7xl font-bold tracking-wide text-white">
+      <div className="relative">
+        <img
+          src={bannerImg}
+          alt="banner"
+          className="h-96 w-full rounded-md object-cover"
+        />
+        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-7xl font-bold tracking-wide text-white">
           Services
         </h1>
       </div>
