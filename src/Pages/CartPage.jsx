@@ -24,7 +24,6 @@ import numberToWords from "number-to-words";
 const CartPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
-  const taxMoney = { shippingFee: 5, taxFee: 5 };
 
   const getCartFoodItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/cart/all`, {
@@ -117,7 +116,7 @@ const CartPage = () => {
         <Navigate to={"/login"} state={{ from: location }} replace />
       ) : data.cart.foodItems.length > 0 ? (
         <div>
-          <h1 className="border-b p-4 text-3xl font-bold tracking-tight text-gray-900 sm:p-6 sm:text-4xl">
+          <h1 className="border-b p-4 text-2xl font-bold tracking-tight text-gray-900 sm:p-6 sm:text-4xl">
             All Food items
           </h1>
           <div className="mt-6 p-4 sm:p-6 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
@@ -237,7 +236,7 @@ const CartPage = () => {
             {/* Order summary */}
             <section
               aria-labelledby="summary-heading"
-              className="mt-16 rounded-lg bg-gray-50 px-4 py-6 shadow sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+              className="food-card mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
             >
               <h2
                 id="summary-heading"
@@ -270,7 +269,7 @@ const CartPage = () => {
                     </a>
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {taxMoney.shippingFee}
+                    {data.cart.shippingFee}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -290,7 +289,7 @@ const CartPage = () => {
                     </a>
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {taxMoney.taxFee}
+                    {data.cart.taxEstimate}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -300,8 +299,8 @@ const CartPage = () => {
                   <dd className="flex items-center text-base font-medium text-gray-900">
                     <IndianRupee size={13} className="mt-1 font-semibold" />
                     {data.cart.totalPrice +
-                      taxMoney.taxFee +
-                      taxMoney.shippingFee}
+                      data.cart.shippingFee +
+                      data.cart.taxEstimate}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
@@ -309,8 +308,8 @@ const CartPage = () => {
                     **
                     {numberToWords.toWords(
                       data.cart.totalPrice +
-                        taxMoney.taxFee +
-                        taxMoney.shippingFee,
+                        data.cart.shippingFee +
+                        data.cart.taxEstimate,
                     )}{" "}
                     rupees only/-
                   </span>
