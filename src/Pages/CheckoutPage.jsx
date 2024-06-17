@@ -12,6 +12,7 @@ import {
   Home,
   Hotel,
   IndianRupee,
+  Loader2Icon,
   MapPin,
   Phone,
 } from "lucide-react";
@@ -19,22 +20,8 @@ import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import noAddress from "../../src/assets/Address-pana (1).svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const products = [
-  {
-    id: 1,
-    title: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-  // More products...
-];
 const icon = {
   Hotel: <Hotel size={20} />,
   Work: <BriefcaseBusiness size={20} />,
@@ -50,6 +37,8 @@ const CheckoutPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [showLoader, setShowLoader] = useState(false);
+  const navigate = useNavigate();
 
   // const getUserAddressess = async () => {
   //   return await fetch(`${Baseurl.baseurl}/api/address`, {
@@ -125,7 +114,8 @@ const CheckoutPage = () => {
   };
 
   const handlePaymentRequest = async (totalAmount) => {
-    // console.log(totalAmount);
+    setShowLoader(true);
+    // Step 1: get razor pay key
     const { keyString } = await axios
       .get(`${Baseurl.baseurl}/api/getKey`, {
         headers: {
@@ -142,6 +132,7 @@ const CheckoutPage = () => {
       .catch((err) => {
         toast.error(err.message);
       });
+    // Step 2: Create order
     const { order } = await axios
       .post(
         `${Baseurl.baseurl}/api/checkout`,
@@ -162,7 +153,7 @@ const CheckoutPage = () => {
       .catch((err) => {
         toast.error(err.message);
       });
-
+    // Step 3: Configure Razorpay options
     const options = {
       keyString,
       amount: order.amount,
@@ -172,11 +163,16 @@ const CheckoutPage = () => {
       image:
         "https://drive.google.com/file/d/19uNKpxEtrmQF7FiGkIK2TzP_pcTIWnd4/view?usp=drive_link",
       order_id: order.id,
-      handler: function (response) {
-        axios
+      handler: async function (response) {
+        await axios
           .post(
             `${Baseurl.baseurl}/api/payment-verification`,
-            { response },
+            {
+              response,
+              items: data?.cart?.foodItems,
+              addressId: "666d444948c22de00e208982",
+              totalAmount: order.amount,
+            },
             {
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
@@ -185,7 +181,8 @@ const CheckoutPage = () => {
           )
           .then((res) => {
             if (res.data.status) {
-              console.log(res);
+              toast.success(res.data.message);
+              navigate("/my-orders");
             } else {
               toast.error(res.data.message);
             }
@@ -206,7 +203,15 @@ const CheckoutPage = () => {
         color: "#160442",
       },
     };
+    setShowLoader(false);
     const razor = new window.Razorpay(options);
+    razor.on("payment.failed", function (response) {
+      toast.error(
+        "Sorry your payment is failed",
+        response.error.reason,
+        response.error.description,
+      );
+    });
     razor.open();
   };
 
@@ -344,41 +349,10 @@ const CheckoutPage = () => {
                               />
                               {product.price * product.quantity}
                             </p>
-                            {/* <div className="xs:block py-3 sm:hidden">
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteItem(product._id)}
-                                className="-m-2 flex items-center p-1"
-                              >
-                                <TrashIcon className="h-5 w-5 text-red-500" />
-                              </button>
-                            </div> */}
                           </div>
-                          {/* from tab device view */}
-                          {/* <div className="mt-4 hidden sm:mt-0 sm:block sm:pr-9">
-                            <div className="absolute right-0 top-0">
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteItem(product._id)}
-                                className="-m-2 inline-flex p-1 text-gray-400 hover:text-gray-500"
-                              >
-                                <TrashIcon className="h-5 w-5 text-red-500" />
-                              </button>
-                            </div>
-                          </div> */}
                         </div>
                       </div>
                     </div>
-                    {/* mobile view */}
-                    {/* <div className="xs:block flex items-end justify-end py-3 sm:hidden">
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteItem(product._id)}
-                        className="-m-2 flex items-center p-1"
-                      >
-                        <TrashIcon className="h-5 w-5 text-red-500" />
-                      </button>
-                    </div> */}
                   </li>
                 ))}
               </ul>
@@ -421,9 +395,13 @@ const CheckoutPage = () => {
                         data.cart.taxEstimate,
                     )
                   }
-                  className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
-                  Place order
+                  {showLoader ? (
+                    <Loader2Icon className="animate-spin" size={23} />
+                  ) : (
+                    "Place order"
+                  )}
                 </button>
               </div>
             </div>

@@ -107,7 +107,7 @@ const CartPage = () => {
   };
 
   return (
-    <div className="food-card rounded-md bg-white pb-5 shadow-md">
+    <div className="pb-5">
       {isPending ? (
         <Loader />
       ) : error ? (
@@ -119,17 +119,17 @@ const CartPage = () => {
           <h1 className="border-b p-4 text-2xl font-bold tracking-tight text-gray-900 sm:p-6 sm:text-4xl">
             All Food items
           </h1>
-          <div className="mt-6 p-4 sm:p-6 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+          <div className="mt-6 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
             <section aria-labelledby="cart-heading" className="lg:col-span-7">
               <h2 id="cart-heading" className="sr-only">
                 Items in your shopping cart
               </h2>
 
-              <ul role="list" className="space-y-2">
+              <ul role="list" className="space-y-3">
                 {data.cart.foodItems.map((product, productIdx) => (
                   <li
                     key={productIdx}
-                    className={`${productIdx === data.cart.foodItems.length - 1 ? "" : "border-b"} pb-2`}
+                    className={`pb-2 bg-white rounded-md food-card p-2.5`}
                   >
                     <div className="flex">
                       <div className="flex-shrink-0">
@@ -236,7 +236,7 @@ const CartPage = () => {
             {/* Order summary */}
             <section
               aria-labelledby="summary-heading"
-              className="food-card mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
+              className="food-card mt-16 rounded-lg bg-white px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
             >
               <h2
                 id="summary-heading"
