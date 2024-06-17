@@ -39,7 +39,7 @@ const OrdersPage = () => {
     const imgString =
       action === "Preparing"
         ? preparingFoodImg
-        : action === "On The Way"
+        : action === "On the way"
           ? pickUpImg
           : delivered;
     return (
