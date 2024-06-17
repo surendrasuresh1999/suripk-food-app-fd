@@ -15,7 +15,7 @@ import Tooltip from "@mui/material/Tooltip";
 import emptyOrderImg from "../../src/assets/Order food-pana.svg";
 import { Link } from "react-router-dom";
 import preparingFoodImg from "../../src/assets/cooking.png";
-import pickUpImg from "../../src/assets/delivery-man.png";
+import pickUpImg from "../../src/assets/delivery-boy.png";
 import delivered from "../../src/assets/delivered.png";
 
 const OrdersPage = () => {
@@ -39,13 +39,15 @@ const OrdersPage = () => {
     const imgString =
       action === "Preparing"
         ? preparingFoodImg
-        : action === "Pickup"
+        : action === "On The Way"
           ? pickUpImg
           : delivered;
     return (
       <div className="flex items-center gap-2">
-        <span className="text-gray-500 font-semibold text-14size">{action}</span>
-        <img src={imgString} alt="preparing-food" className="h-6 w-6" />
+        <span className="text-12size font-semibold text-gray-500 sm:text-14size">
+          {action}
+        </span>
+        <img src={imgString} alt="preparing-food" className="h-6 w-6 sm:h-8 sm:w-8" />
       </div>
     );
   };
@@ -161,7 +163,7 @@ const OrdersPage = () => {
                             <p className="text-gray-500 sm:mt-2">
                               Quantity: {product.quantity}
                             </p>
-                            <p className="text-gray-500 font-bold sm:mt-1 flex items-center gap-2">
+                            <p className="flex items-center gap-2 font-bold text-gray-500 sm:mt-1">
                               Status:{renderStatus(order.status)}
                             </p>
                           </div>
