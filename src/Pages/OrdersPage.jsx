@@ -4,7 +4,7 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/20/solid";
 import { Rating } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import { Baseurl } from "../BaseUrl";
 import Loader from "../common/Loader";
@@ -17,10 +17,13 @@ import { Link } from "react-router-dom";
 import preparingFoodImg from "../../src/assets/cooking.png";
 import pickUpImg from "../../src/assets/delivery-boy.png";
 import delivered from "../../src/assets/delivered.png";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const OrdersPage = () => {
   const [ratingValue, setRatingValue] = useState(0);
   const jwtToken = Cookies.get("jwtToken");
+  const queryClient = useQueryClient();
 
   const getOrderItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/orders`, {
@@ -47,9 +50,39 @@ const OrdersPage = () => {
         <span className="text-12size font-semibold text-gray-500 sm:text-14size">
           {action}
         </span>
-        <img src={imgString} alt="preparing-food" className="h-6 w-6 sm:h-8 sm:w-8" />
+        <img
+          src={imgString}
+          alt="preparing-food"
+          className="h-6 w-6 sm:h-8 sm:w-8"
+        />
       </div>
     );
+  };
+
+  const handleDropRating = (orderId, itemId, rating) => {
+    // console.log("all data", orderId, itemId, rating);
+    axios
+      .put(
+        `${Baseurl.baseurl}/api/orders/${orderId}/${itemId}`,
+        { rating },
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        },
+      )
+      .then((res) => {
+        if (res.status) {
+          // console.log(res.data);
+          toast.success(res.data.message);
+          queryClient.invalidateQueries("ordersData");
+        } else {
+          toast.error(res.data.message);
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   return (
@@ -163,6 +196,9 @@ const OrdersPage = () => {
                             <p className="text-gray-500 sm:mt-2">
                               Quantity: {product.quantity}
                             </p>
+                            <p className="text-gray-500 sm:mt-2">
+                              Price: {product.price}
+                            </p>
                             <p className="flex items-center gap-2 font-bold text-gray-500 sm:mt-1">
                               Status:{renderStatus(order.status)}
                             </p>
@@ -191,10 +227,23 @@ const OrdersPage = () => {
                             name="half-rating"
                             size="small"
                             precision={0.5}
-                            value={ratingValue}
-                            onChange={(event, newValue) =>
-                              setRatingValue(newValue)
+                            readOnly={
+                              order.ratingArr[0]?.orderId === order._id &&
+                              order.ratingArr[0]?.foodId === product._id
                             }
+                            value={
+                              order.ratingArr[0]?.orderId === order._id &&
+                              order.ratingArr[0]?.foodId === product._id
+                                ? order.ratingArr[0]?.value
+                                : 0
+                            }
+                            onChange={(event, newValue) => {
+                              handleDropRating(
+                                order._id,
+                                product._id,
+                                newValue,
+                              );
+                            }}
                           />
                         </div>
                       </li>

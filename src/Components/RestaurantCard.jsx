@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 const RestaurantCard = ({ person }) => {
   const jwtToken = Cookies.get("jwtToken");
+  const userDetails = JSON.parse(localStorage.getItem("foodieUserDetails"));
 
   const addToCart = (foodData) => {
     axios
@@ -56,7 +57,15 @@ const RestaurantCard = ({ person }) => {
           {person.price}/-
         </p>
         <button
-          onClick={() => addToCart({ ...person, quantity: 1 })}
+          onClick={() =>
+            addToCart({
+              ...person,
+              quantity: 1,
+              ratingArr: person.rating.filter(
+                (rating, i) => rating.user === userDetails._id,
+              ),
+            })
+          }
           className="flex w-full items-center justify-center rounded-md bg-orange-600 py-2 font-semibold tracking-wide text-white"
         >
           Order now

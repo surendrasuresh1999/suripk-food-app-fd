@@ -170,6 +170,7 @@ const CheckoutPage = () => {
             {
               response,
               items: data?.cart?.foodItems,
+              rating: data?.cart?.ratingArr,
               addressId: "666d444948c22de00e208982",
               totalAmount: order.amount,
             },
