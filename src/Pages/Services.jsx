@@ -9,11 +9,17 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Cookies from "js-cookie";
 import bannerImg from "../../src/assets/foodCategoys/bg_3.jpg";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const Services = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const jwtToken = Cookies.get("jwtToken");
+  const [selectedDate, setSelectedDate] = useState(null);
+
   const initialValues = {
     name: "",
     email: "",
@@ -25,29 +31,36 @@ const Services = () => {
   };
 
   const handleSubmit = (values, actions) => {
+    if (selectedDate === null) {
+      toast.error("Please select an event date");
+    }
     // Handle form submission here
-    console.log({ ...values, eventTitle: serviceTitle.split(" ")[0] });
-    console.log(actions);
-    axios
-      .post(
-        `${Baseurl.baseurl}/api/service`,
-        { ...values, eventTitle: serviceTitle.split(" ")[0] },
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
+    else {
+      axios
+        .post(
+          `${Baseurl.baseurl}/api/service`,
+          {
+            ...values,
+            eventTitle: serviceTitle.split(" ")[0],
+            eventDate: selectedDate.format("DD-MM-YYYY"),
           },
-        },
-      )
-      .then((res) => {
-        if (res.status) {
-          toast.success(res.data.message);
-          actions.resetForm();
-          setOpenDialog(false);
-        } else {
-          toast.error(res.data.message);
-        }
-      });
-    // actions(false); // Set submitting state to false
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          },
+        )
+        .then((res) => {
+          if (res.status) {
+            toast.success(res.data.message);
+            actions.resetForm();
+            setSelectedDate(null);
+            setOpenDialog(false);
+          } else {
+            toast.error(res.data.message);
+          }
+        });
+    }
   };
 
   const bookServiceDialog = () => {
@@ -76,7 +89,23 @@ const Services = () => {
                       >
                         {key.charAt(0).toUpperCase() + key.slice(1)}{" "}
                       </label>
-                      {key === "SpecialRequests" ? (
+                      {index === 3 ? (
+                        <Field name={key}>
+                          {({ field, form, meta }) => (
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                              <DemoContainer components={["DatePicker"]}>
+                                <DatePicker
+                                  value={selectedDate}
+                                  onChange={(date) => setSelectedDate(date)}
+                                  disablePast
+                                  sx={{ width: "100%", marginTop: "0px" }}
+                                  format="DD/MM/YYYY"
+                                />
+                              </DemoContainer>
+                            </LocalizationProvider>
+                          )}
+                        </Field>
+                      ) : key === "SpecialRequests" ? (
                         <Field
                           as="textarea"
                           rows={3}
@@ -113,6 +142,7 @@ const Services = () => {
                     onClick={() => {
                       handleReset();
                       setOpenDialog(false);
+                      setSelectedDate(null);
                     }}
                     type="button"
                     className="rounded-md border border-red-500 bg-red-50 px-6 py-2.5 text-sm font-semibold text-red-600 shadow-sm hover:bg-red-200"

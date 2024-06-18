@@ -41,7 +41,7 @@ export const serviceBookingForm = Yup.object().shape({
   phone: Yup.string()
     .required("Phone is required")
     .matches(/^\d{10}$/, "Phone number must be 10 digits"),
-  eventDate: Yup.string().required("Event date is required"),
+  eventDate: Yup.string(),
   eventLocation: Yup.string().required("Event location is required"),
   NumberOfGuests: Yup.number().required("Number of guests value is required"),
   SpecialRequests: Yup.string().max(
