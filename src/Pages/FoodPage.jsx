@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { category, restuarents } from "../StaticData";
+import { category } from "../StaticData";
 import RestaurantCard from "../Components/RestaurantCard";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";

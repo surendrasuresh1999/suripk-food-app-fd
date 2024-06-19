@@ -170,9 +170,9 @@ const Services = () => {
         <img
           src={bannerImg}
           alt="banner"
-          className="h-96 w-full rounded-md object-cover"
+          className="sm:h-96 w-full rounded-md object-cover"
         />
-        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-7xl font-bold tracking-wide text-white">
+        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-4xl sm:text-7xl font-bold tracking-wide text-white">
           Services
         </h1>
       </div>

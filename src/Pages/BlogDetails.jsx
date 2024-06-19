@@ -74,9 +74,9 @@ const BlogDetails = () => {
           <div className="flex items-center justify-between">
             <Link
               to={"/blogs"}
-              className="flex max-w-max items-center gap-2 rounded-md bg-indigo-50 p-3 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+              className="flex max-w-max items-center gap-2 rounded-md bg-orange-50 p-3 text-sm font-semibold text-orange-600 border border-orange-400 hover:bg-orange-100"
             >
-              <ArrowLeftIcon className="h-4 w-4 text-indigo-700" />
+              <ArrowLeftIcon className="h-4 w-4 text-orange-600" />
               Go Back
             </Link>
             <div className="flex flex-row-reverse gap-2">

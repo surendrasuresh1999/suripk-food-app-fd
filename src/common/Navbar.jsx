@@ -1,7 +1,12 @@
-import { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/16/solid";
 
 const navigation = [
@@ -10,10 +15,17 @@ const navigation = [
   { name: "Blogs", path: "/blogs" },
   // { name: "About us", path: "/about-us" },
   { name: "My Orders", path: "/my-orders" },
+  { name: "My Services", path: "/my-services" },
 ];
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  }, [location.pathname]);
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
@@ -55,12 +67,12 @@ const Navbar = () => {
               />
             </svg>
           </Link>
-          <a
+          {/* <a
             href="#"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign up
-          </a>
+          </a> */}
         </div>
         <div className="flex lg:hidden">
           <button
@@ -73,56 +85,75 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-      <Dialog
-        className="lg:hidden"
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-      >
-        <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-[60] w-full transform overflow-y-auto bg-white px-6 py-6 shadow-md transition sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between gap-x-6">
-            <Link to="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </Link>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {navigation.map((item, i) => (
-                  <Link
-                    key={i}
-                    to={item.path}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+      <Transition show={mobileMenuOpen}>
+        <Dialog className="relative z-[60]" onClose={setMobileMenuOpen}>
+          <div className="fixed inset-0" />
+
+          <div className="fixed inset-0 overflow-hidden bg-gray-500 bg-opacity-75">
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <TransitionChild
+                  enter="transform transition ease-in-out duration-500 sm:duration-700"
+                  enterFrom="translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transform transition ease-in-out duration-500 sm:duration-700"
+                  leaveFrom="translate-x-0"
+                  leaveTo="translate-x-full"
                 >
-                  Log in
-                </a>
+                  <DialogPanel className="pointer-events-auto w-screen max-w-md">
+                    <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
+                      <div className="px-4 sm:px-6">
+                        <div className="flex items-center justify-between">
+                          <Link to="/" className="p-1.5">
+                            <span className="sr-only">Your Company</span>
+                            <img
+                              className="mt-0.5 h-8 w-auto"
+                              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                              alt=""
+                            />
+                          </Link>
+                          <button
+                            type="button"
+                            className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <span className="absolute -inset-2.5" />
+                            <span className="sr-only">Close panel</span>
+                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                        <div className="divide-y divide-gray-500/10">
+                          <div>
+                            {navigation.map((item, i) => (
+                              <Link
+                                key={i}
+                                to={item.path}
+                                className="block rounded-lg py-2 text-base font-semibold leading-7 text-gray-900"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="py-4">
+                            <a
+                              href="#"
+                              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
+                            >
+                              Log in
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogPanel>
+                </TransitionChild>
               </div>
             </div>
           </div>
-        </DialogPanel>
-      </Dialog>
+        </Dialog>
+      </Transition>
     </>
   );
 };

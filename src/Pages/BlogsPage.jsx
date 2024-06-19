@@ -29,9 +29,9 @@ const BlogsPage = () => {
         <img
           src={bannerImg}
           alt="banner"
-          className="h-96 w-full rounded-md object-cover"
+          className="w-full rounded-md object-cover sm:h-96"
         />
-        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-7xl font-bold tracking-wide text-white">
+        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-4xl font-bold tracking-wide text-white sm:text-7xl">
           Blogs
         </h1>
       </div>

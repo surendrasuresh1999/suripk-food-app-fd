@@ -13,6 +13,7 @@ import OrdersPage from "./Pages/OrdersPage";
 import FoodPage from "./Pages/FoodPage";
 import ProtectedRoute from "./Pages/ProtectedRoute";
 import CheckoutPage from "./Pages/CheckoutPage";
+import MyservicesPage from "./Pages/MyservicesPage";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/blogs" element={<BlogsPage />} />
           <Route path="/blogs/:id" element={<BlogDetails />} />
           <Route path="/my-orders" element={<OrdersPage />} />
+          <Route path="/my-services" element={<MyservicesPage />} />
         </Route>
       </Route>
     </Routes>

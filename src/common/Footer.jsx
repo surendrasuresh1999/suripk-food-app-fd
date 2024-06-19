@@ -6,6 +6,7 @@ import { Field, Form, Formik } from "formik";
 import { subScriptionSchema } from "../FormikSchemas";
 import { LoaderCircle } from "lucide-react";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 const navigation = {
   solutions: [
     { name: "Marketing", href: "#" },
@@ -20,16 +21,16 @@ const navigation = {
     { name: "API Status", href: "#" },
   ],
   company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Partners", href: "#" },
+    { name: "Home", href: "#", path: "/" },
+    { name: "About us", href: "#", path: "/about-us" },
+    { name: "Blogs", href: "#", path: "/blogs" },
+    { name: "Services", href: "#", path: "/services" },
+    { name: "All items", href: "#", path: "/all-food" },
   ],
   legal: [
-    { name: "Claim", href: "#" },
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
+    { name: "My orders", href: "#", path: "/my-orders" },
+    { name: "My services", href: "#", path: "/my-services" },
+    // { name: "Terms", href: "#" },
   ],
   social: [
     {
@@ -126,9 +127,9 @@ const Footer = () => {
         actions.setSubmitting(false);
       });
   };
-  
+
   return (
-    <footer className="bg-gray-900 shrink-0" aria-labelledby="footer-heading">
+    <footer className="shrink-0 bg-gray-900" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
@@ -178,31 +179,25 @@ const Footer = () => {
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-gray-300 hover:text-white"
-                      >
+                    <Link to={item.path} className="block">
+                      <span className="text-sm leading-6 text-gray-300 hover:text-white">
                         {item.name}
-                      </a>
-                    </li>
+                      </span>
+                    </Link>
                   ))}
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold leading-6 text-white">
-                  Legal
+                  Your tracks
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.legal.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-gray-300 hover:text-white"
-                      >
+                    <Link to={item.path} className="block">
+                      <span className="text-sm leading-6 text-gray-300 hover:text-white">
                         {item.name}
-                      </a>
-                    </li>
+                      </span>
+                    </Link>
                   ))}
                 </ul>
               </div>
@@ -248,7 +243,7 @@ const Footer = () => {
                   ))}
                   <button
                     type="submit"
-                    className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-2 text-14size font-medium tracking-wide text-white"
+                    className="mt-2 flex items-center justify-center rounded-md bg-orange-400 py-2 text-14size font-medium tracking-wide text-white hover:bg-orange-600"
                   >
                     {isSubmitting ? (
                       <LoaderCircle
@@ -264,7 +259,7 @@ const Footer = () => {
             </Formik>
           </div>
         </div>
-        <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
+        <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between">
           <div className="flex space-x-6 md:order-2">
             {navigation.social.map((item) => (
               <a
@@ -279,6 +274,9 @@ const Footer = () => {
           </div>
           <p className="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">
             &copy; 2020 Your Company, Inc. All rights reserved.
+          </p>
+          <p className="mt-4 text-14size leading-5 text-white md:order-1 md:mt-0">
+            Made ❤️ by<b className="tracking-wide"> Surendra parla kuruva</b>
           </p>
         </div>
       </div>
