@@ -14,6 +14,7 @@ import FoodPage from "./Pages/FoodPage";
 import ProtectedRoute from "./Pages/ProtectedRoute";
 import CheckoutPage from "./Pages/CheckoutPage";
 import MyservicesPage from "./Pages/MyservicesPage";
+import PageNotFound from "./Pages/PageNotFound";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/my-orders" element={<OrdersPage />} />
           <Route path="/my-services" element={<MyservicesPage />} />
         </Route>
+        <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );
