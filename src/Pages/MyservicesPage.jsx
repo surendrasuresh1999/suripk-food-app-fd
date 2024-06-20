@@ -73,8 +73,9 @@ const tabsArr = [
   { title: "Up coming" },
   { title: "Completed" },
   { title: "Cancel" },
-  { title: "Rejected" },
+  // { title: "Rejected" },
 ];
+const tableCells = ["Event","Name","Email","Mobile","Date","No.Guests","Action"]
 const MyservicesPage = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -132,39 +133,23 @@ const MyservicesPage = () => {
             <Table>
               <TableHead className="bg-gray-900">
                 <TableRow>
-                  <TableCell sx={{ color: "#FFF" }}>Event</TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    Name
-                  </TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    Email
-                  </TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    Mobile
-                  </TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    Date
-                  </TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    Location
-                  </TableCell>
-                  <TableCell align="right" sx={{ color: "#FFF" }}>
-                    No.Guests
-                  </TableCell>
+                  {tableCells.map((cell,i)=>(
+                    <TableCell key={i} sx={{ color: "#FFF" }} align={i !== 0 ? "center" : ""}>{cell}</TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {data.services
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>{row.name}</TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                  .map((row,index) => (
+                    <TableRow key={index}>
+                      <TableCell>{row.eventTitle}</TableCell>
+                      <TableCell align="center">{row.name}</TableCell>
+                      <TableCell align="center">{row.email}</TableCell>
+                      <TableCell align="center">{row.phone}</TableCell>
+                      <TableCell align="center">{row.eventDate}</TableCell>
+                      <TableCell align="center">{row.NumberOfGuests}</TableCell>
+                      <TableCell align="center">View Loaction</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
@@ -172,7 +157,7 @@ const MyservicesPage = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={rows.length}
+              count={data.services.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
