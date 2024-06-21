@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import preparingFoodImg from "../../src/assets/cooking.png";
 import pickUpImg from "../../src/assets/delivery-boy.png";
 import delivered from "../../src/assets/delivered.png";
+import confirmed from "../../src/assets/booking.png";
+import clock from "../../src/assets/clock.png";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -40,21 +42,23 @@ const OrdersPage = () => {
 
   const renderStatus = (action) => {
     const imgString =
-      action === "Preparing"
-        ? preparingFoodImg
-        : action === "On the way"
-          ? pickUpImg
-          : delivered;
+      action === "Pending"
+        ? clock
+        : action === "Processing"
+          ? preparingFoodImg
+          : action === "Confirmed"
+            ? confirmed
+            : action === "Out for Delivery"
+              ? pickUpImg
+              : delivered;
     return (
       <div className="flex items-center gap-2">
-        <span className="text-12size font-semibold text-gray-500 sm:text-14size">
+        <span
+          className={`text-12size font-semibold sm:text-14size ${action === "Pending" ? "text-gray-500" : action === "Confirmed" ? "text-indigo-500" : action === "Processing" ? "text-slate-700" : action === "Out for Delivery" ? "text-orange-400" : "text-green-600"}`}
+        >
           {action}
         </span>
-        <img
-          src={imgString}
-          alt="preparing-food"
-          className="h-6 w-6 sm:h-8 sm:w-8"
-        />
+        <img src={imgString} alt="preparing-food" className="h-6 w-6" />
       </div>
     );
   };
@@ -186,6 +190,7 @@ const OrdersPage = () => {
                                 {product.title}
                               </h5>
                               <p className="mt-1 flex items-center sm:mt-0">
+                                Total amount:
                                 <IndianRupee
                                   size={13}
                                   className="mt-1 font-semibold"
@@ -199,28 +204,13 @@ const OrdersPage = () => {
                             <p className="text-gray-500 sm:mt-2">
                               Price: {product.price}
                             </p>
-                            <p className="flex items-center gap-2 font-bold text-gray-500 sm:mt-1">
-                              Status:{renderStatus(order.status)}
-                            </p>
                           </div>
                         </div>
 
                         <div className="mt-6 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-0">
                           <div className="flex items-center">
-                            <CheckCircleIcon
-                              className="h-4 w-4 text-green-500 sm:h-5 sm:w-5"
-                              aria-hidden="true"
-                            />
-                            <p className="ml-1 text-sm font-medium text-gray-500">
-                              Delivered:{" "}
-                              <time
-                                dateTime={order.deliveredDatetime}
-                                className="text-12size sm:text-sm"
-                              >
-                                {dayjs(order.updatedAt).format(
-                                  "DD/MM/YYYY HH:mm:ss",
-                                )}
-                              </time>
+                            <p className="flex items-center gap-2 font-bold text-gray-500 sm:mt-1">
+                              Status:{renderStatus(order.status)}
                             </p>
                           </div>
                           <Rating

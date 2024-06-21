@@ -61,9 +61,6 @@ const RestaurantCard = ({ person }) => {
             addToCart({
               ...person,
               quantity: 1,
-              ratingArr: person.rating.filter(
-                (rating, i) => rating.user === userDetails._id,
-              ),
             })
           }
           className="flex w-full items-center justify-center rounded-md bg-orange-600 py-2 font-semibold tracking-wide text-white"
