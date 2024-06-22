@@ -1,8 +1,4 @@
-import { useState } from "react";
-import {
-  CheckCircleIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/20/solid";
+import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import { Rating } from "@mui/material";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Cookies from "js-cookie";
@@ -23,7 +19,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const OrdersPage = () => {
-  const [ratingValue, setRatingValue] = useState(0);
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
 
@@ -64,7 +59,6 @@ const OrdersPage = () => {
   };
 
   const handleDropRating = (orderId, itemId, rating) => {
-    // console.log("all data", orderId, itemId, rating);
     axios
       .put(
         `${Baseurl.baseurl}/api/orders/${orderId}/${itemId}`,
@@ -77,9 +71,8 @@ const OrdersPage = () => {
       )
       .then((res) => {
         if (res.status) {
-          // console.log(res.data);
-          toast.success(res.data.message);
           queryClient.invalidateQueries("ordersData");
+          toast.success(res.data.message);
         } else {
           toast.error(res.data.message);
         }
@@ -97,8 +90,8 @@ const OrdersPage = () => {
             Order history
           </h1>
           <p className="mt-2 text-sm text-gray-500 sm:text-16size">
-            Check the status of recent orders, manage returns, and discover
-            similar products.
+            Check the status of recent orders, delivered orders, and many
+            more...
           </p>
         </div>
       )}
@@ -110,9 +103,9 @@ const OrdersPage = () => {
             <Loader />
           ) : error ? (
             <ConnectionLost />
-          ) : data.orders.length > 0 ? (
+          ) : data.orders?.length > 0 ? (
             <ul className="space-y-8">
-              {data.orders.map((order, i) => (
+              {data.orders?.map((order, i) => (
                 <li
                   key={i}
                   className="rounded-lg border border-b border-t border-gray-200 bg-white shadow-sm"
@@ -174,8 +167,8 @@ const OrdersPage = () => {
                   {/* Products */}
                   <h4 className="sr-only">Items</h4>
                   <ul role="list" className="divide-y divide-gray-200">
-                    {order.orderItems.map((product, i) => (
-                      <li key={i} className="p-3 sm:p-6">
+                    {order.orderItems.map((product, index) => (
+                      <li key={index} className="p-3 sm:p-6">
                         <div className="flex items-start">
                           <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 sm:h-40 sm:w-40">
                             <img
@@ -218,13 +211,11 @@ const OrdersPage = () => {
                             size="small"
                             precision={0.5}
                             readOnly={
-                              order.ratingArr[0]?.orderId === order._id &&
-                              order.ratingArr[0]?.foodId === product._id
+                              order.ratingArr[index]?.foodId === product._id
                             }
                             value={
-                              order.ratingArr[0]?.orderId === order._id &&
-                              order.ratingArr[0]?.foodId === product._id
-                                ? order.ratingArr[0]?.value
+                              order.ratingArr[index]?.foodId === product._id
+                                ? order.ratingArr[index]?.value
                                 : 0
                             }
                             onChange={(event, newValue) => {

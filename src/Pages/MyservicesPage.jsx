@@ -116,7 +116,7 @@ const MyservicesPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
-      ) : data.services.length > 0 ? (
+      ) : data.services?.length > 0 ? (
         <div className="space-y-6">
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6">
             {tabsArr.map((tab, i) => (
