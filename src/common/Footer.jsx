@@ -97,6 +97,7 @@ const navigation = {
   ],
 };
 const Footer = () => {
+  const userInfo = JSON.parse(localStorage.getItem("foodieUserDetails"));
   const userObject = {
     email: "",
   };
@@ -104,9 +105,10 @@ const Footer = () => {
   const jwtToken = Cookies.get("jwtToken");
 
   const handleFormSubmit = (values, actions) => {
-    console.log(values);
+    const data = { ...values, name: userInfo.name };
+
     axios
-      .post(`${Baseurl.baseurl}/api/subscribe`, values, {
+      .post(`${Baseurl.baseurl}/api/subscribe`, data, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
