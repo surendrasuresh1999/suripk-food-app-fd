@@ -5,30 +5,33 @@ import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { add } from "../Context/CartSlicer";
 
 const RestaurantCard = ({ foodObj }) => {
   const jwtToken = Cookies.get("jwtToken");
   const userDetails = JSON.parse(localStorage.getItem("foodieUserDetails"));
-
+  const dispatch = useDispatch();
   const addToCart = (foodData) => {
-    axios
-      .put(`${Baseurl.baseurl}/api/cart`, foodData, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.status) {
-          toast.success(response.data.message);
-        } else {
-          console.log(response.data.message);
-          toast.error(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        toast.error(error.message);
-      });
+    dispatch(add(foodData));
+    // axios
+    //   .put(`${Baseurl.baseurl}/api/cart`, foodData, {
+    //     headers: {
+    //       Authorization: `Bearer ${jwtToken}`,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     if (response.status) {
+    //       toast.success(response.data.message);
+    //     } else {
+    //       console.log(response.data.message);
+    //       toast.error(response.data.message);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
+    //     toast.error(error.message);
+    //   });
   };
 
   return (

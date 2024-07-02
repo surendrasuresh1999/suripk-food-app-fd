@@ -20,10 +20,13 @@ import { IndianRupee } from "lucide-react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import numberToWords from "number-to-words";
+import { useDispatch } from "react-redux";
+import { deleteItem } from "../Context/CartSlicer";
 
 const CartPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const getCartFoodItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/cart/all`, {
@@ -39,6 +42,7 @@ const CartPage = () => {
   });
 
   const handleDeleteItem = (itemId) => {
+    // dispatch(deleteItem(itemId));
     axios
       .delete(`${Baseurl.baseurl}/api/cart/${itemId}`, {
         headers: {
@@ -129,7 +133,7 @@ const CartPage = () => {
                 {data.cart.foodItems.map((product, productIdx) => (
                   <li
                     key={productIdx}
-                    className={`pb-2 bg-white rounded-md food-card p-2.5`}
+                    className={`food-card rounded-md bg-white p-2.5 pb-2`}
                   >
                     <div className="flex">
                       <div className="flex-shrink-0">

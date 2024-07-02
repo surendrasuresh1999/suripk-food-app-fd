@@ -8,6 +8,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/16/solid";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "All Items", path: "/all-food" },
@@ -20,6 +21,8 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const cartData = useSelector((state) => state.cart);
+  // console.log(cartData);
   const location = useLocation();
   useEffect(() => {
     if (mobileMenuOpen) {
