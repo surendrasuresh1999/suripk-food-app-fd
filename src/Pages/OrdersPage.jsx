@@ -206,26 +206,28 @@ const OrdersPage = () => {
                               Status:{renderStatus(order.status)}
                             </p>
                           </div>
-                          <Rating
-                            name="half-rating"
-                            size="small"
-                            precision={0.5}
-                            readOnly={
-                              order.ratingArr[index]?.foodId === product._id
-                            }
-                            value={
-                              order.ratingArr[index]?.foodId === product._id
-                                ? order.ratingArr[index]?.value
-                                : 0
-                            }
-                            onChange={(event, newValue) => {
-                              handleDropRating(
-                                order._id,
-                                product._id,
-                                newValue,
-                              );
-                            }}
-                          />
+                          {order.status === "Delivered" && (
+                            <Rating
+                              name="half-rating"
+                              size="small"
+                              precision={0.5}
+                              readOnly={
+                                order.ratingArr[index]?.foodId === product._id
+                              }
+                              value={
+                                order.ratingArr[index]?.foodId === product._id
+                                  ? order.ratingArr[index]?.value
+                                  : 0
+                              }
+                              onChange={(event, newValue) => {
+                                handleDropRating(
+                                  order._id,
+                                  product._id,
+                                  newValue,
+                                );
+                              }}
+                            />
+                          )}
                         </div>
                       </li>
                     ))}
