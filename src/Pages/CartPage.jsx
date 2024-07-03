@@ -1,113 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  CheckIcon,
-  ClockIcon,
   MinusIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
   TrashIcon,
-  XMarkIcon,
 } from "@heroicons/react/20/solid";
 
-import Cookies from "js-cookie";
-import { Baseurl } from "../BaseUrl";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import { Link, Navigate } from "react-router-dom";
 import emptyCart from "../../src/assets/Add to Cart-amico.svg";
 import { IndianRupee } from "lucide-react";
-import axios from "axios";
-import toast from "react-hot-toast";
 import numberToWords from "number-to-words";
-import { useDispatch } from "react-redux";
-import { deleteItem } from "../Context/CartSlicer";
+import { CartData } from "../context/CartContext";
+import CartItemCard from "../Components/CartItemCard";
 
 const CartPage = () => {
-  const jwtToken = Cookies.get("jwtToken");
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch();
+  const { cartData, isPending, error, updateCartItem, removeCartItem } =
+    CartData();
 
-  const getCartFoodItems = async () => {
-    return await fetch(`${Baseurl.baseurl}/api/cart/all`, {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    }).then((res) => res.json());
+  const handleDeleteItem = async (itemId) => {
+    await removeCartItem(itemId);
   };
 
-  const { isPending, error, data } = useQuery({
-    queryKey: ["cartData"],
-    queryFn: getCartFoodItems,
-  });
-
-  const handleDeleteItem = (itemId) => {
-    // dispatch(deleteItem(itemId));
-    axios
-      .delete(`${Baseurl.baseurl}/api/cart/${itemId}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status) {
-          toast.success(res.data.message);
-          queryClient.invalidateQueries("cartData");
-        } else {
-          toast.error(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });
+  const handleIncreaseQuantity = async (action, productId, data) => {
+    await updateCartItem(action, productId, data);
   };
 
-  const handleIncreaseQuantity = (productId) => {
-    axios
-      .put(`${Baseurl.baseurl}/api/cart/increase/${productId}`, null, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      })
-      .then((res) => {
-        if (res.status) {
-          toast.success(res.data.message);
-          queryClient.invalidateQueries("cartData");
-        } else {
-          console.log(res.data.message);
-          toast.error(res.data.message);
-        }
-      })
-      .catch((err) => {
-        toast.error(err.message);
-        console.log("eeasdfa suuny");
-      });
-  };
-
-  const handleDecreaseQuantity = (productId, quantity) => {
-    if (quantity > 1) {
-      axios
-        .put(`${Baseurl.baseurl}/api/cart/decrease/${productId}`, null, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        })
-        .then((res) => {
-          if (res.status) {
-            toast.success(res.data.message);
-            queryClient.invalidateQueries("cartData");
-          } else {
-            console.log(res.data.message);
-            toast.error(res.data.message);
-          }
-        })
-        .catch((err) => {
-          toast.error(err.message);
-          console.log("eeasdfa suuny");
-        });
-    } else {
-      toast.error("You can't decrease below 1");
-    }
+  const handleDecreaseQuantity = async (action, productId, data) => {
+    await updateCartItem(action, productId, data);
   };
 
   return (
@@ -116,9 +37,9 @@ const CartPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
-      ) : data && data.status === 401 ? (
+      ) : cartData.cart && cartData.cart.status === 401 ? (
         <Navigate to={"/login"} state={{ from: location }} replace />
-      ) : data.cart.foodItems.length > 0 ? (
+      ) : cartData.cart.foodItems.length > 0 ? (
         <div>
           <h1 className="border-b p-4 text-2xl font-bold tracking-tight text-gray-900 sm:p-6 sm:text-4xl">
             All Food items
@@ -130,109 +51,122 @@ const CartPage = () => {
               </h2>
 
               <ul role="list" className="space-y-3">
-                {data.cart.foodItems.map((product, productIdx) => (
-                  <li
-                    key={productIdx}
-                    className={`food-card rounded-md bg-white p-2.5 pb-2`}
-                  >
-                    <div className="flex">
-                      <div className="flex-shrink-0">
-                        <img
-                          src={product.imageUrl}
-                          alt="food-image"
-                          className="h-24 w-24 rounded-md object-cover object-center sm:h-36 sm:w-36"
-                        />
-                      </div>
-                      <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                        <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-                          <div>
-                            <h3 className="text-wrap break-words text-14size font-semibold sm:text-16size">
-                              {product.title}
-                            </h3>
-                            <p className="text-xs text-gray-500">
-                              Quantity:{" "}
-                              <b className="text-sm">{product.quantity}</b>
-                            </p>
-                            <p className="mt-1 flex items-center text-sm font-medium text-gray-900">
-                              <IndianRupee
-                                size={13}
-                                className="mt-1 font-semibold"
-                              />
-                              {product.price * product.quantity}
-                            </p>
-                          </div>
-                          {/* from tab device view */}
-                          <div className="mt-4 hidden sm:mt-0 sm:block sm:pr-9">
-                            <div className="flex items-center gap-3">
-                              <button
-                                onClick={() =>
-                                  handleDecreaseQuantity(
-                                    product._id,
-                                    product.quantity,
-                                  )
-                                }
-                                className="rounded border p-1 shadow"
-                              >
-                                <MinusIcon className="h-4 w-4 text-gray-700" />
-                              </button>
-                              <span className="text-16size font-bold tracking-wide text-black">
-                                {product.quantity}
-                              </span>
-                              <button
-                                onClick={() =>
-                                  handleIncreaseQuantity(product._id)
-                                }
-                                className="rounded border p-1 shadow"
-                              >
-                                <PlusIcon className="h-4 w-4 text-gray-700" />
-                              </button>
-                            </div>
-                            <div className="absolute right-0 top-0">
-                              <button
-                                type="button"
-                                onClick={() => handleDeleteItem(product._id)}
-                                className="-m-2 inline-flex p-1 text-gray-400 hover:text-gray-500"
-                              >
-                                <TrashIcon className="h-5 w-5 text-red-500" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* mobile view */}
-                    <div className="xs:block flex items-center justify-between py-3 sm:hidden">
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() =>
-                            handleDecreaseQuantity(
-                              product._id,
-                              product.quantity,
-                            )
-                          }
-                          className="rounded border p-1 shadow"
-                        >
-                          <MinusIcon className="h-4 w-4 text-gray-700" />
-                        </button>
-                        <span className="text-14size font-bold tracking-wide text-black">
-                          {product.quantity}
-                        </span>
-                        <button
-                          onClick={() => handleIncreaseQuantity(product._id)}
-                          className="rounded border p-1 shadow"
-                        >
-                          <PlusIcon className="h-4 w-4 text-gray-700" />
-                        </button>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteItem(product._id)}
-                        className="-m-2 flex items-center p-1"
-                      >
-                        <TrashIcon className="h-5 w-5 text-red-500" />
-                      </button>
-                    </div>
-                  </li>
+                {cartData.cart.foodItems.map((product, productIdx) => (
+                  // <li
+                  //   key={productIdx}
+                  //   className={`food-card rounded-md bg-white p-2.5 pb-2`}
+                  // >
+                  //   <div className="flex">
+                  //     <div className="flex-shrink-0">
+                  //       <img
+                  //         src={product.imageUrl}
+                  //         alt="food-image"
+                  //         className="h-24 w-24 rounded-md object-cover object-center sm:h-36 sm:w-36"
+                  //       />
+                  //     </div>
+                  //     <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                  //       <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                  //         <div>
+                  //           <h3 className="text-wrap break-words text-14size font-semibold sm:text-16size">
+                  //             {product.title}
+                  //           </h3>
+                  //           <p className="text-xs text-gray-500">
+                  //             Quantity:{" "}
+                  //             <b className="text-sm">{product.quantity}</b>
+                  //           </p>
+                  //           <p className="mt-1 flex items-center text-sm font-medium text-gray-900">
+                  //             <IndianRupee
+                  //               size={13}
+                  //               className="mt-1 font-semibold"
+                  //             />
+                  //             {product.price * product.quantity}
+                  //           </p>
+                  //         </div>
+                  //         {/* from tab device view */}
+                  //         <div className="mt-4 hidden sm:mt-0 sm:block sm:pr-9">
+                  //           <div className="flex items-center gap-3">
+                  //             <button
+                  //               onClick={() =>
+                  //                 handleDecreaseQuantity(
+                  //                   "decrease",
+                  //                   product._id,
+                  //                   product.quantity,
+                  //                 )
+                  //               }
+                  //               className="rounded border p-1 shadow"
+                  //             >
+                  //               <MinusIcon className="h-4 w-4 text-gray-700" />
+                  //             </button>
+                  //             <span className="text-16size font-bold tracking-wide text-black">
+                  //               {product.quantity}
+                  //             </span>
+                  //             <button
+                  //               onClick={() =>
+                  //                 handleIncreaseQuantity(
+                  //                   "increase",
+                  //                   product._id,
+                  //                   null,
+                  //                 )
+                  //               }
+                  //               className="rounded border p-1 shadow"
+                  //             >
+                  //               <PlusIcon className="h-4 w-4 text-gray-700" />
+                  //             </button>
+                  //           </div>
+                  //           <div className="absolute right-0 top-0">
+                  //             <button
+                  //               type="button"
+                  //               onClick={() => handleDeleteItem(product._id)}
+                  //               className="-m-2 inline-flex p-1 text-gray-400 hover:text-gray-500"
+                  //             >
+                  //               <TrashIcon className="h-5 w-5 text-red-500" />
+                  //             </button>
+                  //           </div>
+                  //         </div>
+                  //       </div>
+                  //     </div>
+                  //   </div>
+                  //   {/* mobile view */}
+                  //   <div className="xs:block flex items-center justify-between py-3 sm:hidden">
+                  //     <div className="flex items-center gap-3">
+                  //       <button
+                  //         onClick={() =>
+                  //           handleDecreaseQuantity(
+                  //             "decrease",
+                  //             product._id,
+                  //             product.quantity,
+                  //           )
+                  //         }
+                  //         className="rounded border p-1 shadow"
+                  //       >
+                  //         <MinusIcon className="h-4 w-4 text-gray-700" />
+                  //       </button>
+                  //       <span className="text-14size font-bold tracking-wide text-black">
+                  //         {product.quantity}
+                  //       </span>
+                  //       <button
+                  //         onClick={() =>
+                  //           handleIncreaseQuantity(
+                  //             "increase",
+                  //             product._id,
+                  //             null,
+                  //           )
+                  //         }
+                  //         className="rounded border p-1 shadow"
+                  //       >
+                  //         <PlusIcon className="h-4 w-4 text-gray-700" />
+                  //       </button>
+                  //     </div>
+                  //     <button
+                  //       type="button"
+                  //       onClick={() => handleDeleteItem(product._id)}
+                  //       className="-m-2 flex items-center p-1"
+                  //     >
+                  //       <TrashIcon className="h-5 w-5 text-red-500" />
+                  //     </button>
+                  //   </div>
+                  // </li>
+                  <CartItemCard product={product} key={productIdx} />
                 ))}
               </ul>
             </section>
@@ -253,7 +187,7 @@ const CartPage = () => {
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-gray-600">Subtotal</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {data.cart.totalPrice}
+                    {cartData.cart.totalPrice}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -273,7 +207,7 @@ const CartPage = () => {
                     </a>
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {data.cart.shippingFee}
+                    {cartData.cart.shippingFee}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -293,7 +227,7 @@ const CartPage = () => {
                     </a>
                   </dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {data.cart.taxEstimate}
+                    {cartData.cart.taxEstimate}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-4">
@@ -302,18 +236,18 @@ const CartPage = () => {
                   </dt>
                   <dd className="flex items-center text-base font-medium text-gray-900">
                     <IndianRupee size={13} className="mt-1 font-semibold" />
-                    {data.cart.totalPrice +
-                      data.cart.shippingFee +
-                      data.cart.taxEstimate}
+                    {cartData.cart.totalPrice +
+                      cartData.cart.shippingFee +
+                      cartData.cart.taxEstimate}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-[12px] font-semibold sm:text-14size">
                     **
                     {numberToWords.toWords(
-                      data.cart.totalPrice +
-                        data.cart.shippingFee +
-                        data.cart.taxEstimate,
+                      cartData.cart.totalPrice +
+                        cartData.cart.shippingFee +
+                        cartData.cart.taxEstimate,
                     )}{" "}
                     rupees only/-
                   </span>
@@ -338,14 +272,13 @@ const CartPage = () => {
             Your food cart is empty now
           </h1>
           <p className="text-14size font-normal text-gray-400 sm:text-18size">
-            If you are hungry just order right now <br /> and get your food less
-            than 5minutes.
+            Looks like your cart is hungry! Why not add some delicious items?
           </p>
           <Link
             to={"/all-food"}
             className="min-w-52 rounded-md bg-orange-400 px-3 py-2 text-center text-14size font-semibold tracking-wide text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           >
-            Order now
+            Explore Our Menu
           </Link>
         </div>
       )}

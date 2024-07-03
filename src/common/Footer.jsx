@@ -180,8 +180,8 @@ const Footer = () => {
                   Company
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
-                  {navigation.company.map((item) => (
-                    <Link to={item.path} className="block">
+                  {navigation.company.map((item, index) => (
+                    <Link to={item.path} key={index} className="block">
                       <span className="text-sm leading-6 text-gray-300 hover:text-white">
                         {item.name}
                       </span>
@@ -194,8 +194,8 @@ const Footer = () => {
                   Your tracks
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
-                  {navigation.legal.map((item) => (
-                    <Link to={item.path} className="block">
+                  {navigation.legal.map((item, index) => (
+                    <Link to={item.path} key={index} className="block">
                       <span className="text-sm leading-6 text-gray-300 hover:text-white">
                         {item.name}
                       </span>

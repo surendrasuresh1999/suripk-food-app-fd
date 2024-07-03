@@ -246,7 +246,7 @@ const OrdersPage = () => {
                 less than 5minutes.
               </p>
               <Link
-                to={"/checkout"}
+                to={"/all-food"}
                 className="min-w-52 rounded-md bg-orange-400 px-3 py-2 text-center text-14size font-semibold tracking-wide text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Order now

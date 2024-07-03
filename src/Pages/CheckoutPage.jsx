@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import {
+  PlusCircleIcon,
+  TrashIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/20/solid";
 import AddressDialog from "../Components/AddressDialog";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import numberToWords from "number-to-words";
 import {
   Ban,
   BriefcaseBusiness,
@@ -20,7 +25,9 @@ import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import noAddress from "../../src/assets/Address-pana (1).svg";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { CartData } from "../context/CartContext";
+import CartItemCard from "../Components/CartItemCard";
 
 const icon = {
   Hotel: <Hotel size={20} />,
@@ -39,22 +46,10 @@ const CheckoutPage = () => {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
+  const { cartData } = CartData();
 
-  // const getUserAddressess = async () => {
-  //   return await fetch(`${Baseurl.baseurl}/api/address`, {
-  //     headers: {
-  //       Authorization: `Bearer ${jwtToken}`,
-  //     },
-  //   }).then((res) => res.json());
-  // };
-
-  // const { isPending, error, data } = useQuery({
-  //   queryKey: ["addressData"],
-  //   queryFn: getUserAddressess,
-  // });
-
-  const getCartFoodItems = async () => {
-    return await fetch(`${Baseurl.baseurl}/api/cart/all`, {
+  const getUserAddressess = async () => {
+    return await fetch(`${Baseurl.baseurl}/api/address`, {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
@@ -62,8 +57,8 @@ const CheckoutPage = () => {
   };
 
   const { isPending, error, data } = useQuery({
-    queryKey: ["cartData"],
-    queryFn: getCartFoodItems,
+    queryKey: ["addressData"],
+    queryFn: getUserAddressess,
   });
 
   const handleFormSubmit = (values, actions) => {
@@ -169,9 +164,9 @@ const CheckoutPage = () => {
             `${Baseurl.baseurl}/api/payment-verification`,
             {
               response,
-              items: data?.cart?.foodItems,
-              rating: data?.cart?.ratingArr,
-              addressId: "666d444948c22de00e208982",
+              items: cartData?.cart?.foodItems,
+              rating: cartData?.cart?.ratingArr,
+              addressId: selectedAddressId,
               totalAmount: order.amount,
             },
             {
@@ -184,6 +179,8 @@ const CheckoutPage = () => {
             if (res.data.status) {
               toast.success(res.data.message);
               navigate("/my-orders");
+              setSelectedAddressId(null);
+              queryClient.invalidateQueries("cartData");
             } else {
               toast.error(res.data.message);
             }
@@ -221,7 +218,7 @@ const CheckoutPage = () => {
       <div className="mx-auto max-w-2xl lg:max-w-none">
         <h1 className="sr-only">Checkout</h1>
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-          {/* <div>
+          <div>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-lg font-medium text-gray-900">
                 Choose delivery address
@@ -311,100 +308,57 @@ const CheckoutPage = () => {
                 </div>
               )}
             </div>
-          </div> */}
+          </div>
 
           {/* Order summary */}
           <div className="mt-10 lg:mt-0">
             <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
 
-            <div className="mt-6 rounded-lg border border-gray-200 bg-white shadow-sm">
+            <div className="mt-6">
               <h3 className="sr-only">Items in your cart</h3>
-              <ul role="list">
-                {data?.cart?.foodItems.map((product, productIdx) => (
-                  <li
-                    key={productIdx}
-                    className={`${productIdx === data.cart.foodItems.length - 1 ? "" : "border-b"} p-2`}
-                  >
-                    <div className="flex">
-                      <div className="flex-shrink-0">
-                        <img
-                          src={product.imageUrl}
-                          alt="food-image"
-                          className="h-24 w-24 rounded-md object-cover object-center sm:h-36 sm:w-36"
-                        />
-                      </div>
-                      <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                        <div className="relative sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-                          <div>
-                            <h3 className="text-wrap break-words text-14size font-semibold sm:text-16size">
-                              {product.title}
-                            </h3>
-                            <p className="text-xs text-gray-500">
-                              Quantity:{" "}
-                              <b className="text-sm">{product.quantity}</b>
-                            </p>
-                            <p className="mt-1 flex items-center text-sm font-medium text-gray-900">
-                              <IndianRupee
-                                size={13}
-                                className="mt-1 font-semibold"
-                              />
-                              {product.price * product.quantity}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
+              <ul role="list" className="space-y-3">
+                {cartData?.cart?.foodItems.map((product, productIdx) => (
+                  <CartItemCard product={product} key={productIdx} />
                 ))}
               </ul>
-              <dl className="space-y-6 border-t border-gray-200 px-4 py-6 sm:px-6">
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Subtotal</dt>
-                  <dd className="text-sm font-medium text-gray-900">
-                    {data?.cart?.totalPrice}
-                  </dd>
+              {/* Order summary */}
+              <section aria-labelledby="summary-heading">
+                <div className="mt-4">
+                  <div className="flex items-center justify-between">
+                    <dt className="text-base font-medium text-gray-900">
+                      Total amount
+                    </dt>
+                    <dd className="flex items-center text-base font-medium text-gray-900">
+                      <IndianRupee size={13} className="mt-1 font-semibold" />
+                      {cartData?.cart?.totalPrice +
+                        cartData?.cart?.shippingFee +
+                        cartData?.cart?.taxEstimate}
+                    </dd>
+                  </div>
+                  <div className="mt-6">
+                    <button
+                      onClick={() => {
+                        if (selectedAddressId === null) {
+                          toast.error("Please select delivery address");
+                        } else {
+                          handlePaymentRequest(
+                            cartData?.cart?.totalPrice +
+                              cartData?.cart?.shippingFee +
+                              cartData?.cart?.taxEstimate,
+                          );
+                        }
+                      }}
+                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                    >
+                      {showLoader ? (
+                        <Loader2Icon className="animate-spin" size={23} />
+                      ) : (
+                        "Place order"
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Shipping</dt>
-                  <dd className="text-sm font-medium text-gray-900">
-                    {data?.cart?.shippingFee}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm">Taxes</dt>
-                  <dd className="text-sm font-medium text-gray-900">
-                    {data?.cart?.taxEstimate}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                  <dt className="text-base font-medium">Total</dt>
-                  <dd className="flex items-center gap-1 text-base font-medium text-gray-900">
-                    <IndianRupee size={13} className="mt-1 font-semibold" />
-                    {data?.cart?.totalPrice +
-                      data?.cart?.shippingFee +
-                      data?.cart?.taxEstimate}
-                  </dd>
-                </div>
-              </dl>
-
-              <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                <button
-                  onClick={() =>
-                    handlePaymentRequest(
-                      data.cart.totalPrice +
-                        data.cart.shippingFee +
-                        data.cart.taxEstimate,
-                    )
-                  }
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                >
-                  {showLoader ? (
-                    <Loader2Icon className="animate-spin" size={23} />
-                  ) : (
-                    "Place order"
-                  )}
-                </button>
-              </div>
+              </section>
             </div>
           </div>
         </div>

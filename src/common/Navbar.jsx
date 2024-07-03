@@ -7,8 +7,8 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingBagIcon } from "@heroicons/react/16/solid";
-import { useSelector } from "react-redux";
+import { CartData } from "../context/CartContext";
+import Badge from "@mui/material/Badge";
 
 const navigation = [
   { name: "All Items", path: "/all-food" },
@@ -20,15 +20,16 @@ const navigation = [
 ];
 
 const Navbar = () => {
+  const { cartData } = CartData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const cartData = useSelector((state) => state.cart);
-  // console.log(cartData);
   const location = useLocation();
+
   useEffect(() => {
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
   }, [location.pathname]);
+
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
@@ -55,27 +56,26 @@ const Navbar = () => {
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
           <Link to={"/cart"}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="size-8 text-orange-500"
+            <Badge
+              badgeContent={cartData?.cart?.foodItems?.length}
+              color="primary"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-              />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="size-8 text-orange-500"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+            </Badge>
           </Link>
-          {/* <a
-            href="#"
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Sign up
-          </a> */}
         </div>
         <div className="flex lg:hidden">
           <button
