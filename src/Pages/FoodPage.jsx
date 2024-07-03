@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import { Navigate } from "react-router-dom";
+import bannerImg from "../../src/assets/banner.png";
 
 const FoodPage = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -32,6 +33,20 @@ const FoodPage = () => {
   });
   return (
     <div className="space-y-8">
+      <div className="realtive banner-img min-h-56 lg:min-h-96">
+        <div className="flex flex-col justify-center min-h-56 lg:min-h-96 p-8 max-w-4xl">
+          <h1 className="text-xl lg:text-6xl font-bold text-white ">
+            Order your <br />
+            favourite food here
+          </h1>
+          <p className="text-white text-14size mt-10 lg:text-18size text-justify font-medium max-w-2xl">
+            Choose from a diverse featuring a delectable array of dishes crafted
+            with the finest ingredients and culinary expertise. Our mission is
+            to satisy your cravings and elevate your dining experience, one
+            delicious meal at a time.
+          </p>
+        </div>
+      </div>
       <div className="embla" ref={emblaRef}>
         <div className="embla__container">
           {category.map((category, index) => (

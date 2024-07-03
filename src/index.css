@@ -6,6 +6,14 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
+.banner-img {
+    background-image: url("./assets/banner.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius:17px;
+    /* border-bottom-right-radius:17px; */
+}
+
 .embla {
     overflow: hidden;
 }
@@ -23,7 +31,8 @@
 .css-10o2lyd-MuiStack-root {
     padding-top: 0px !important;
 }
-.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 11.5px 14px !important;
 }
 

@@ -4,8 +4,15 @@ import {
   DialogPanel,
   Transition,
   TransitionChild,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
 } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ChevronDownIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { CartData } from "../context/CartContext";
 import Badge from "@mui/material/Badge";
@@ -18,6 +25,8 @@ const navigation = [
   { name: "My Orders", path: "/my-orders" },
   { name: "My Services", path: "/my-services" },
 ];
+
+const userNavigation = [{ name: "Profile" }, { name: "Sign out" }];
 
 const Navbar = () => {
   const { cartData } = CartData();
@@ -48,7 +57,7 @@ const Navbar = () => {
             <Link
               key={i}
               to={item.path}
-              className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900  ${location.pathname === item.path ? "bg-slate-300":"bg-transparent hover:bg-slate-100"}`}
             >
               {item.name}
             </Link>
@@ -76,6 +85,57 @@ const Navbar = () => {
               </svg>
             </Badge>
           </Link>
+          <div className="flex justify-center">
+            <Popover>
+              <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
+                <img
+                  className="h-8 w-8 rounded-full bg-gray-50"
+                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+                <span className="hidden lg:flex lg:items-center">
+                  <span
+                    className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                    aria-hidden="true"
+                  >
+                    Tom Cook
+                  </span>
+                  <ChevronDownIcon
+                    className="ml-2 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </PopoverButton>
+              <Transition
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1"
+              >
+                <PopoverPanel
+                  anchor="bottom"
+                  className={`popover-shadow z-[200] divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 shadow-2xl [--anchor-gap:var(--spacing-5)]`}
+                >
+                  <div className="flex flex-col py-2">
+                    {userNavigation.map((button, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        // onClick={() => {
+                        //   handleChangeOrderStatus(button, orderId);
+                        // }}
+                        className={`px-6 py-1 text-start text-14size font-semibold tracking-wide text-gray-700 hover:bg-slate-50`}
+                      >
+                        {button.name}
+                      </button>
+                    ))}
+                  </div>
+                </PopoverPanel>
+              </Transition>
+            </Popover>
+          </div>
         </div>
         <div className="flex lg:hidden">
           <button

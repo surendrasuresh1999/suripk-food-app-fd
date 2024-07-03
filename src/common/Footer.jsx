@@ -8,18 +8,6 @@ import { LoaderCircle } from "lucide-react";
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 const navigation = {
-  solutions: [
-    { name: "Marketing", href: "#" },
-    { name: "Analytics", href: "#" },
-    { name: "Commerce", href: "#" },
-    { name: "Insights", href: "#" },
-  ],
-  support: [
-    { name: "Pricing", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "API Status", href: "#" },
-  ],
   company: [
     { name: "Home", href: "#", path: "/" },
     { name: "About us", href: "#", path: "/about-us" },
@@ -30,7 +18,6 @@ const navigation = {
   legal: [
     { name: "My orders", href: "#", path: "/my-orders" },
     { name: "My services", href: "#", path: "/my-services" },
-    // { name: "Terms", href: "#" },
   ],
   social: [
     {
@@ -137,44 +124,8 @@ const Footer = () => {
       </h2>
       <div className="container mx-auto p-6 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="grid grid-cols-2 gap-8 xl:col-span-2">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm font-semibold leading-6 text-white">
-                  Solutions
-                </h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  {navigation.solutions.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-gray-300 hover:text-white"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-white">
-                  Support
-                </h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  {navigation.support.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-gray-300 hover:text-white"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
+          <div className="xl:col-span-2">
+            <div className="col-span-12 grid grid-cols-2 md:grid-cols-4 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-white">
                   Company
@@ -189,7 +140,7 @@ const Footer = () => {
                   ))}
                 </ul>
               </div>
-              <div className="mt-10 md:mt-0">
+              <div>
                 <h3 className="text-sm font-semibold leading-6 text-white">
                   Your tracks
                 </h3>
