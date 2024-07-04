@@ -16,14 +16,13 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartData } from "../context/CartContext";
 import Badge from "@mui/material/Badge";
-import toast from "react-hot-toast";
 import swal from "sweetalert";
 import Cookies from "js-cookie";
 import Avatar from "@mui/material/Avatar";
-import { deepOrange, deepPurple } from "@mui/material/colors";
-
+import { deepOrange } from "@mui/material/colors";
+import logo from "../../src/assets/website-logo.svg";
 const navigation = [
-  { name: "All Items", path: "/" },
+  { name: "All Items", path: "/all-food" },
   { name: "Services", path: "/services" },
   { name: "Blogs", path: "/blogs" },
   { name: "My Orders", path: "/my-orders" },
@@ -70,10 +69,10 @@ const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
             <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              className="h-8 w-full object-contain"
+              // src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              src={logo}
               alt=""
             />
           </Link>
@@ -89,7 +88,7 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-        <div className="flex flex-1 items-center justify-end gap-x-6">
+        <div className="flex flex-1 items-center justify-end gap-x-4">
           <Link to={"/cart"}>
             <Badge
               badgeContent={cartData?.cart?.foodItems?.length}
@@ -308,8 +307,12 @@ const Navbar = () => {
                               {userDetails.name.slice(0, 2).toUpperCase()}
                             </Avatar>
                             <div>
-                              <p className="text-gray-800 text-24size">{userDetails.name}</p>
-                              <span className="text-gray-600 text-20size">{userDetails.email}</span>
+                              <p className="text-24size text-gray-800">
+                                {userDetails.name}
+                              </p>
+                              <span className="text-20size text-gray-600">
+                                {userDetails.email}
+                              </span>
                             </div>
                           </div>
                         </div>

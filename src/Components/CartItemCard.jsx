@@ -5,11 +5,12 @@ import { IndianRupee } from "lucide-react";
 import {
   MinusIcon,
   PlusIcon,
-  QuestionMarkCircleIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
+import { useLocation } from "react-router-dom";
 const CartItemCard = ({ product }) => {
   const { updateCartItem, removeCartItem } = CartData();
+  const location = useLocation();
 
   const handleDeleteItem = async (itemId) => {
     await removeCartItem(itemId);
@@ -73,15 +74,17 @@ const CartItemCard = ({ product }) => {
                   <PlusIcon className="h-4 w-4 text-gray-700" />
                 </button>
               </div>
-              <div className="absolute right-0 top-0">
-                <button
-                  type="button"
-                  onClick={() => handleDeleteItem(product._id)}
-                  className="-m-2 inline-flex p-1 text-gray-400 hover:text-gray-500"
-                >
-                  <TrashIcon className="h-5 w-5 text-red-500" />
-                </button>
-              </div>
+              {location.pathname !== "/checkout" && (
+                <div className="absolute right-0 top-0">
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteItem(product._id)}
+                    className="-m-2 inline-flex p-1 text-gray-400 hover:text-gray-500"
+                  >
+                    <TrashIcon className="h-5 w-5 text-red-500" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -109,13 +112,15 @@ const CartItemCard = ({ product }) => {
             <PlusIcon className="h-4 w-4 text-gray-700" />
           </button>
         </div>
-        <button
-          type="button"
-          onClick={() => handleDeleteItem(product._id)}
-          className="-m-2 flex items-center p-1"
-        >
-          <TrashIcon className="h-5 w-5 text-red-500" />
-        </button>
+        {location.pathname !== "/checkout" && (
+          <button
+            type="button"
+            onClick={() => handleDeleteItem(product._id)}
+            className="-m-2 flex items-center p-1"
+          >
+            <TrashIcon className="h-5 w-5 text-red-500" />
+          </button>
+        )}
       </div>
     </li>
   );

@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Footer from "../common/Footer";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 
+
 const CommonPage = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
 

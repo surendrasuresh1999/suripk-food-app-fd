@@ -257,7 +257,7 @@ const CartPage = () => {
               <div className="mt-6">
                 <Link
                   to={"/checkout"}
-                  className="inline-block w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-center text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                  className="inline-block w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-center text-base font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
                   Checkout
                 </Link>

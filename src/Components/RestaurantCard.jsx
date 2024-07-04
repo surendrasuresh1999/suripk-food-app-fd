@@ -24,7 +24,7 @@ const RestaurantCard = ({ foodObj }) => {
       </div>
       <div className="space-y-1 px-3 py-4">
         <div className="flex items-center justify-between">
-          <p className="block truncate text-16size font-medium tracking-wide text-gray-900">
+          <p className="block truncate text-16size font-bold tracking-wide text-gray-900">
             {foodObj.title}
           </p>
           {foodObj.rating !== 0 && (
@@ -33,7 +33,7 @@ const RestaurantCard = ({ foodObj }) => {
             </p>
           )}
         </div>
-        <p className="truncate text-10size font-medium tracking-wide text-gray-500">
+        <p className="truncate text-10size font-semibold tracking-wider text-gray-500">
           {foodObj.discription}
         </p>
         <p className="flex items-center text-18size font-semibold text-orange-400">

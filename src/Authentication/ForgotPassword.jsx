@@ -38,10 +38,10 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="h-dvh bg-gray-900">
-      <div className="h-full flex flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
-          <h2 className="mb-3 text-center text-2xl sm:text-30size font-bold leading-9 tracking-tight text-white">
+    <div className="auth-banner h-dvh">
+      <div className="flex h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="rounded-xl bg-slate-500 p-4 sm:mx-auto sm:w-full sm:max-w-sm 2xl:max-w-md">
+          <h2 className="mb-3 text-center text-2xl font-bold leading-9 tracking-tight text-white sm:text-30size">
             Reset your password
           </h2>
           <Formik
@@ -68,9 +68,9 @@ const ForgotPassword = () => {
                               {...field}
                               type={showPassword ? "text" : "password"}
                               placeholder="Password"
-                              className={`block w-full rounded-md pr-10 bg-gray-600 border ${
+                              className={`block w-full rounded-md border bg-gray-600 pr-10 ${
                                 touched[key] && errors[key]
-                                  ? " border-red-500"
+                                  ? "border-red-500"
                                   : "border-gray-500"
                               } text-white placeholder:text-slate-400`}
                             />
@@ -93,9 +93,9 @@ const ForgotPassword = () => {
                         type={key === "newPassword" ? "password" : key}
                         name={key}
                         placeholder={`Enter ${key}`}
-                        className={`grow rounded-md bg-gray-600 border ${
+                        className={`grow rounded-md border bg-gray-600 ${
                           touched[key] && errors[key]
-                            ? " border-red-500"
+                            ? "border-red-500"
                             : "border-gray-500"
                         } text-white placeholder:text-slate-400`}
                       />
@@ -104,11 +104,11 @@ const ForgotPassword = () => {
                 ))}
                 <button
                   type="submit"
-                  className="bg-blue-500 mt-2 text-white flex items-center justify-center font-medium tracking-wide text-14size rounded-md py-2"
+                  className="mt-2 flex items-center justify-center rounded-md bg-blue-500 py-2 text-14size font-medium tracking-wide text-white"
                 >
                   {isSubmitting ? (
                     <LoaderCircle
-                      className="text-white animate-spin"
+                      className="animate-spin text-white"
                       size={21}
                     />
                   ) : (
