@@ -42,7 +42,7 @@ const Services = () => {
           {
             ...values,
             eventTitle: serviceTitle.split(" ")[0],
-            eventDate: selectedDate.format("DD-MM-YYYY"),
+            eventDate: selectedDate.format("DD/MM/YYYY"),
           },
           {
             headers: {
@@ -170,9 +170,9 @@ const Services = () => {
         <img
           src={bannerImg}
           alt="banner"
-          className="sm:h-96 w-full rounded-md object-cover"
+          className="w-full rounded-md object-cover sm:h-96"
         />
-        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-4xl sm:text-7xl font-bold tracking-wide text-white">
+        <h1 className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center text-4xl font-bold tracking-wide text-white sm:text-7xl">
           Services
         </h1>
       </div>

@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./Authentication/Login";
 import Signup from "./Authentication/Signup";
-import Homepage from "./Pages/Homepage";
 import ForgotPassword from "./Authentication/ForgotPassword";
 import CommonPage from "./Pages/CommonPage";
 import Services from "./Pages/Services";
@@ -15,6 +14,7 @@ import ProtectedRoute from "./Pages/ProtectedRoute";
 import CheckoutPage from "./Pages/CheckoutPage";
 import MyservicesPage from "./Pages/MyservicesPage";
 import PageNotFound from "./Pages/PageNotFound";
+import Homepage from "./Pages/Homepage";
 
 const App = () => {
   return (

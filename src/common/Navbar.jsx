@@ -13,15 +13,19 @@ import {
   ChevronDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CartData } from "../context/CartContext";
 import Badge from "@mui/material/Badge";
+import toast from "react-hot-toast";
+import swal from "sweetalert";
+import Cookies from "js-cookie";
+import Avatar from "@mui/material/Avatar";
+import { deepOrange, deepPurple } from "@mui/material/colors";
 
 const navigation = [
-  { name: "All Items", path: "/all-food" },
+  { name: "All Items", path: "/" },
   { name: "Services", path: "/services" },
   { name: "Blogs", path: "/blogs" },
-  // { name: "About us", path: "/about-us" },
   { name: "My Orders", path: "/my-orders" },
   { name: "My Services", path: "/my-services" },
 ];
@@ -30,14 +34,36 @@ const userNavigation = [{ name: "Profile" }, { name: "Sign out" }];
 
 const Navbar = () => {
   const { cartData } = CartData();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openProfileSlideOver, setOpenProfileSlideOver] = useState(false);
   const location = useLocation();
-
+  const userDetails = JSON.parse(localStorage.getItem("foodieUserDetails"));
   useEffect(() => {
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
     }
   }, [location.pathname]);
+
+  const handleUserAction = (index) => {
+    if (index === 0) {
+      setOpenProfileSlideOver(true);
+    } else {
+      swal({
+        title: "Are you sure?",
+        text: "You are about to sign out from your account. Are you sure you want to proceed?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willSignOut) => {
+        if (willSignOut) {
+          localStorage.removeItem("foodieUserDetails");
+          Cookies.remove("jwtToken");
+          navigate("/login");
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -57,7 +83,7 @@ const Navbar = () => {
             <Link
               key={i}
               to={item.path}
-              className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900  ${location.pathname === item.path ? "bg-slate-300":"bg-transparent hover:bg-slate-100"}`}
+              className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900 ${location.pathname === item.path ? "bg-slate-300" : "bg-transparent hover:bg-slate-100"}`}
             >
               {item.name}
             </Link>
@@ -85,56 +111,58 @@ const Navbar = () => {
               </svg>
             </Badge>
           </Link>
-          <div className="flex justify-center">
-            <Popover>
-              <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
-                <img
-                  className="h-8 w-8 rounded-full bg-gray-50"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-                <span className="hidden lg:flex lg:items-center">
-                  <span
-                    className="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                    aria-hidden="true"
-                  >
-                    Tom Cook
-                  </span>
-                  <ChevronDownIcon
-                    className="ml-2 h-5 w-5 text-gray-400"
-                    aria-hidden="true"
+          <div className="hidden lg:block">
+            <div className="flex justify-center">
+              <Popover>
+                <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
+                  <img
+                    className="h-8 w-8 rounded-full bg-gray-50"
+                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt=""
                   />
-                </span>
-              </PopoverButton>
-              <Transition
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <PopoverPanel
-                  anchor="bottom"
-                  className={`popover-shadow z-[200] divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 shadow-2xl [--anchor-gap:var(--spacing-5)]`}
+                  <span className="hidden lg:flex lg:items-center">
+                    <span
+                      className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                      aria-hidden="true"
+                    >
+                      Tom Cook
+                    </span>
+                    <ChevronDownIcon
+                      className="ml-2 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </PopoverButton>
+                <Transition
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-1"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-1"
                 >
-                  <div className="flex flex-col py-2">
-                    {userNavigation.map((button, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        // onClick={() => {
-                        //   handleChangeOrderStatus(button, orderId);
-                        // }}
-                        className={`px-6 py-1 text-start text-14size font-semibold tracking-wide text-gray-700 hover:bg-slate-50`}
-                      >
-                        {button.name}
-                      </button>
-                    ))}
-                  </div>
-                </PopoverPanel>
-              </Transition>
-            </Popover>
+                  <PopoverPanel
+                    anchor="bottom"
+                    className={`popover-shadow z-[200] divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 shadow-2xl [--anchor-gap:var(--spacing-5)]`}
+                  >
+                    <div className="flex flex-col py-2">
+                      {userNavigation.map((button, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => {
+                            handleUserAction(i);
+                          }}
+                          className={`px-6 py-1 text-start text-14size font-semibold tracking-wide text-gray-700 hover:bg-slate-50`}
+                        >
+                          {button.name}
+                        </button>
+                      ))}
+                    </div>
+                  </PopoverPanel>
+                </Transition>
+              </Popover>
+            </div>
           </div>
         </div>
         <div className="flex lg:hidden">
@@ -200,12 +228,89 @@ const Navbar = () => {
                             ))}
                           </div>
                           <div className="py-4">
-                            <a
-                              href="#"
+                            <button
+                              type="button"
+                              onClick={() => handleUserAction(1)}
                               className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
                             >
-                              Log in
-                            </a>
+                              Sign out
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setMobileMenuOpen(false);
+                                setOpenProfileSlideOver(true);
+                              }}
+                              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
+                            >
+                              Profile
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogPanel>
+                </TransitionChild>
+              </div>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+      {/* profile slide over */}
+      <Transition show={openProfileSlideOver}>
+        <Dialog className="relative z-[60]" onClose={setOpenProfileSlideOver}>
+          <div className="fixed inset-0" />
+
+          <div className="fixed inset-0 overflow-hidden bg-gray-500 bg-opacity-75">
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                <TransitionChild
+                  enter="transform transition ease-in-out duration-500 sm:duration-700"
+                  enterFrom="translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transform transition ease-in-out duration-500 sm:duration-700"
+                  leaveFrom="translate-x-0"
+                  leaveTo="translate-x-full"
+                >
+                  <DialogPanel className="pointer-events-auto w-screen max-w-md">
+                    <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
+                      <div className="px-4 sm:px-6">
+                        <div className="flex items-center justify-between">
+                          <Link to="/" className="p-1.5">
+                            <span className="sr-only">Your Company</span>
+                            <img
+                              className="mt-0.5 h-8 w-auto"
+                              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                              alt=""
+                            />
+                          </Link>
+                          <button
+                            type="button"
+                            className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => setOpenProfileSlideOver(false)}
+                          >
+                            <span className="absolute -inset-2.5" />
+                            <span className="sr-only">Close panel</span>
+                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                        <div className="divide-y divide-gray-500/10">
+                          <div className="flex items-start gap-2">
+                            <Avatar
+                              sx={{
+                                bgcolor: deepOrange[500],
+                                height: 100,
+                                width: 100,
+                              }}
+                            >
+                              {userDetails.name.slice(0, 2).toUpperCase()}
+                            </Avatar>
+                            <div>
+                              <p className="text-gray-800 text-24size">{userDetails.name}</p>
+                              <span className="text-gray-600 text-20size">{userDetails.email}</span>
+                            </div>
                           </div>
                         </div>
                       </div>

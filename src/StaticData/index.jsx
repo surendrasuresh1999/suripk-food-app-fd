@@ -1,33 +1,9 @@
-import dosaImg from "../assets/foodCategoys/dosa.png";
 import giftBox from "../assets/foodCategoys/giftbox.png";
 import cake from "../assets/foodCategoys/birthday-cake.png";
 import running from "../assets/foodCategoys/training.png";
 import businessman from "../assets/foodCategoys/businessman.png";
 import eventCalender from "../assets/foodCategoys/schedule.png";
 import dancing from "../assets/foodCategoys/dancing.png";
-
-export const category = [
-  {
-    name: "Dosa",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Idli",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Sandwich",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Paratha",
-    imgUrl: dosaImg,
-  },
-  {
-    name: "Burger",
-    imgUrl: dosaImg,
-  },
-];
 
 export const servicesData = [
   {
@@ -64,27 +40,27 @@ export const servicesData = [
 
 export const brandsData = [
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/1.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/1.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/02.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/02.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/03.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/03.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/04.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/04.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/05.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/05.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/06.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/06.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/7.png'
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/7.png",
   },
   {
-    imgUrl: 'https://themewagon.github.io/flatter/img/brand/8.png'
-  }
-]
+    imgUrl: "https://themewagon.github.io/flatter/img/brand/8.png",
+  },
+];

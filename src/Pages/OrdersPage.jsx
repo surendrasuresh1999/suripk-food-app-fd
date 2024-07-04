@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import { IndianRupee } from "lucide-react";
 import Tooltip from "@mui/material/Tooltip";
 import emptyOrderImg from "../../src/assets/Order food-pana.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import preparingFoodImg from "../../src/assets/cooking.png";
 import pickUpImg from "../../src/assets/delivery-boy.png";
 import delivered from "../../src/assets/delivered.png";
@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 const OrdersPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const getOrderItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/orders`, {
@@ -103,6 +104,8 @@ const OrdersPage = () => {
             <Loader />
           ) : error ? (
             <ConnectionLost />
+          ) : data && data.status === 401 ? (
+            navigate("/login")
           ) : data.orders?.length > 0 ? (
             <ul className="space-y-8">
               {data.orders?.map((order, i) => (

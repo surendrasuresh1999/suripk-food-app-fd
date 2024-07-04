@@ -1,14 +1,16 @@
 import React from "react";
 import BlogCard from "../Components/BlogCard";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Baseurl } from "../BaseUrl";
 import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import Cookies from "js-cookie";
 import bannerImg from "../../src/assets/foo-blog-banner.jpg";
+import { useNavigate } from "react-router-dom";
 
 const BlogsPage = () => {
   const jwtToken = Cookies.get("jwtToken");
+  const navigate = useNavigate();
 
   const fetchBlogs = async () => {
     return await fetch(`${Baseurl.baseurl}/api/blog`, {
@@ -62,6 +64,8 @@ const BlogsPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
+      ) : data && data.status === 401 ? (
+        navigate("/login")
       ) : (
         <ul
           role="list"

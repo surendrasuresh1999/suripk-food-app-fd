@@ -10,8 +10,7 @@
     background-image: url("./assets/banner.png");
     background-repeat: no-repeat;
     background-size: cover;
-    border-radius:17px;
-    /* border-bottom-right-radius:17px; */
+    border-radius: 17px;
 }
 
 .embla {

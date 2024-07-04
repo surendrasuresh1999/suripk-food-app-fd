@@ -17,7 +17,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleFormSubmit = (values, actions) => {
-    console.log(values);
     axios
       .post(`${Baseurl.baseurl}/api/user/login`, values)
       .then((res) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,73 +12,30 @@ import { Baseurl } from "../BaseUrl";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
-
-const rows = [
-  { id: 1, name: "Cupcake", calories: 305, fat: 3.7, carbs: 67, protein: 4.3 },
-  { id: 2, name: "Donut", calories: 452, fat: 25.0, carbs: 51, protein: 4.9 },
-  { id: 3, name: "Eclair", calories: 262, fat: 16.0, carbs: 24, protein: 6.0 },
-  {
-    id: 4,
-    name: "Frozen yoghurt",
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-  },
-  {
-    id: 5,
-    name: "Gingerbread",
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-  },
-  {
-    id: 6,
-    name: "Honeycomb",
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-  },
-  {
-    id: 7,
-    name: "Ice cream sandwich",
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-  },
-  {
-    id: 8,
-    name: "Jelly Bean",
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-  },
-  { id: 9, name: "KitKat", calories: 518, fat: 26.0, carbs: 65, protein: 7.0 },
-  {
-    id: 10,
-    name: "Lollipop",
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0.0,
-  },
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
+import { EnvelopeIcon, MapPinIcon, UserIcon } from "@heroicons/react/20/solid";
+import noDataImg from "../../src/assets/No data-pana (4).svg";
+import { useNavigate } from "react-router-dom";
+import { isAfter } from "date-fns";
+import dayjs from "dayjs";
+const tableCells = [
+  "Event type",
+  "User",
+  "Status",
+  "Mobile",
+  "Date",
+  "No.Guests",
+  "Action",
 ];
-
-const tabsArr = [
-  { title: "All" },
-  { title: "Up coming" },
-  { title: "Completed" },
-  { title: "Cancel" },
-  // { title: "Rejected" },
-];
-const tableCells = ["Event","Name","Email","Mobile","Date","No.Guests","Action"]
 const MyservicesPage = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate();
 
   const jwtToken = Cookies.get("jwtToken");
 
@@ -104,6 +61,48 @@ const MyservicesPage = () => {
     setPage(0);
   };
 
+  const renderAddressPopOver = (address) => {
+    return (
+      <div className="flex justify-center">
+        <Popover>
+          <PopoverButton className="w-full rounded-md border border-orange-600 px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
+            Event location
+          </PopoverButton>
+          <Transition
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <PopoverPanel
+              anchor="bottom"
+              className={`popover-shadow food-card divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 [--anchor-gap:var(--spacing-5)]`}
+            >
+              <p className="flex items-center gap-1 p-3 text-18size font-semibold">
+                <MapPinIcon className="h-4 w-4 text-gray-600" />
+                {address}
+              </p>
+            </PopoverPanel>
+          </Transition>
+        </Popover>
+      </div>
+    );
+  };
+
+  const handleLogStatus = (date) => {
+    const parts = date.split("/");
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1; // Months are zero-indexed
+    const year = parseInt(parts[2], 10);
+    const result = isAfter(
+      new Date(year, month, day),
+      dayjs().format("DD/MM/YYYY"),
+    );
+    return result;
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-22size font-bold text-gray-900 sm:text-28size">
@@ -116,40 +115,60 @@ const MyservicesPage = () => {
         <Loader />
       ) : error ? (
         <ConnectionLost />
+      ) : data && data.status === 401 ? (
+        navigate("/login")
       ) : data.services?.length > 0 ? (
-        <div className="space-y-6">
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-6">
-            {tabsArr.map((tab, i) => (
-              <li
-                key={i}
-                className={`rounded-3xl ${i === 0 ? "bg-orange-200 font-bold text-orange-500" : "bg-white"} p-3 text-center font-medium tracking-wide shadow`}
-                // onClick={()=>se}
-              >
-                {tab.title}
-              </li>
-            ))}
-          </ul>
+        <div>
           <TableContainer component={Paper}>
             <Table>
               <TableHead className="bg-gray-900">
                 <TableRow>
-                  {tableCells.map((cell,i)=>(
-                    <TableCell key={i} sx={{ color: "#FFF" }} align={i !== 0 ? "center" : ""}>{cell}</TableCell>
+                  {tableCells.map((cell, i) => (
+                    <TableCell
+                      key={i}
+                      sx={{ color: "#FFF" }}
+                      align={i === 0 || i === 1 ? "left" : "center"}
+                    >
+                      {cell}
+                    </TableCell>
                   ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.services
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row,index) => (
+                  .map((row, index) => (
                     <TableRow key={index}>
                       <TableCell>{row.eventTitle}</TableCell>
-                      <TableCell align="center">{row.name}</TableCell>
-                      <TableCell align="center">{row.email}</TableCell>
+                      <TableCell align="center">
+                        <div className="flex flex-col gap-1">
+                          <span className="flex items-center gap-1">
+                            <UserIcon className="h-4 w-4 text-gray-600" />
+                            {row.name}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <EnvelopeIcon className="h-4 w-4 text-gray-600" />
+                            {row.email}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell align="center">
+                        {handleLogStatus(row.eventDate) ? (
+                          <span className="rounded-full bg-indigo-400 p-2 text-white">
+                            Up coming
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-green-400 p-2 text-white">
+                            Completed
+                          </span>
+                        )}
+                      </TableCell>
                       <TableCell align="center">{row.phone}</TableCell>
                       <TableCell align="center">{row.eventDate}</TableCell>
                       <TableCell align="center">{row.NumberOfGuests}</TableCell>
-                      <TableCell align="center">View Loaction</TableCell>
+                      <TableCell align="center">
+                        {renderAddressPopOver(row.eventLocation)}
+                      </TableCell>
                     </TableRow>
                   ))}
               </TableBody>
@@ -166,7 +185,16 @@ const MyservicesPage = () => {
           </TableContainer>
         </div>
       ) : (
-        <div>No data found</div>
+        <div className="flex flex-col items-center justify-center">
+          <img src={noDataImg} alt="no-data" className="h-52" />
+          <h1 className="text-24size font-bold text-gray-600">
+            No service data found
+          </h1>
+          <p className="mt-2 text-center text-18size text-gray-500">
+            You haven't booked any services yet. <br /> Please explore our
+            services and make your first booking today!
+          </p>
+        </div>
       )}
     </div>
   );
