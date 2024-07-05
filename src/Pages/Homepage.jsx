@@ -2,10 +2,9 @@ import birthDay from "../../src/assets/birth-day.jpg";
 import marriage from "../../src/assets/marriage.jpg";
 import party from "../../src/assets/party.jpg";
 import corporate from "../../src/assets/corporate.jpg";
-import { Zoom, Slide, Roll, Hinge } from "react-awesome-reveal";
+import { Zoom, Slide } from "react-awesome-reveal";
 import { serviceImages, servicesData } from "../StaticData";
 import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
@@ -42,28 +41,13 @@ const Homepage = () => {
             </h1>
           </Zoom>
           <div className="block lg:hidden">
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src={birthDay}
-                alt="service-img"
-                className="hover:scale-120 h-full rounded-md transition ease-in-out"
-              />
-              <img
-                src={marriage}
-                alt="service-img"
-                className="hover:scale-80 h-full rounded-md transition ease-in-out"
-              />
-              <img
-                src={party}
-                alt="service-img"
-                className="hover:scale-80 h-full rounded-md transition ease-in-out"
-              />
-              <img
-                src={corporate}
-                alt="service-img"
-                className="hover:scale-80 h-full rounded-md transition ease-in-out"
-              />
-            </div>
+            <ul className="grid grid-cols-2 gap-4">
+              {serviceImages.map((service, index) => (
+                <li key={index} className="overflow-hidden rounded-md">
+                  <img src={service.img} alt="service-img" className="h-full" />
+                </li>
+              ))}
+            </ul>
           </div>
           <Zoom triggerOnce={true}>
             <p className="text-justify text-18size font-medium text-gray-600">
@@ -76,8 +60,8 @@ const Homepage = () => {
               exquisite catering options to personalized décor and flawless
               service, let us turn your special occasions into cherished
               memories. Discover the perfect blend of elegance and culinary
-              excellence at Suri Restaurent, where every celebration is crafted
-              with care. and many more...
+              excellence at <b className="text-orange-500">Suri Restaurent</b>,
+              where every celebration is crafted with care. and many more...
             </p>
           </Zoom>
           <button className="rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white">
@@ -96,16 +80,13 @@ const Homepage = () => {
       </div>
       {/* blogs section */}
       <div className="ms:px-4 grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <div className="grid grid-cols-2 gap-4">
-          <img src={birthDay} alt="service-img" className="h-full rounded-md" />
-          <img src={marriage} alt="service-img" className="h-full rounded-md" />
-          <img src={party} alt="service-img" className="h-full rounded-md" />
-          <img
-            src={corporate}
-            alt="service-img"
-            className="h-full rounded-md"
-          />
-        </div>
+        <ul className="grid grid-cols-2 gap-4">
+          {serviceImages.map((service, index) => (
+            <li key={index} className="overflow-hidden rounded-md">
+              <img src={service.img} alt="service-img" className="h-full" />
+            </li>
+          ))}
+        </ul>
         <div className="space-y-3">
           <Slide triggerOnce={true} direction="up">
             <h1 className="text-22size font-bold text-gray-800 sm:text-32size">
@@ -134,7 +115,7 @@ const Homepage = () => {
         </div>
       </div>
       {/* testimonials */}
-      <div className="relative isolate overflow-hidden bg-white shadow rounded-md">
+      <div className="relative isolate overflow-hidden rounded-md bg-white shadow">
         <div className="relative mx-auto max-w-2xl py-16 lg:max-w-4xl">
           <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
           <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
