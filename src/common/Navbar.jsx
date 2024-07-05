@@ -113,11 +113,7 @@ const Navbar = () => {
             <div className="flex justify-center">
               <Popover>
                 <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
-                  <img
-                    className="h-8 w-8 rounded-full bg-gray-50"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
+                  <Avatar sx={{height:35,width:35}} />
                   <span className="hidden lg:flex lg:items-center">
                     <ChevronDownIcon
                       className="ml-2 h-5 w-5 text-gray-400"
