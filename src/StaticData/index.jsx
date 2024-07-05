@@ -4,6 +4,10 @@ import running from "../assets/foodCategoys/training.png";
 import businessman from "../assets/foodCategoys/businessman.png";
 import eventCalender from "../assets/foodCategoys/schedule.png";
 import dancing from "../assets/foodCategoys/dancing.png";
+import birthDay from "../../src/assets/birth-day.jpg";
+import marriage from "../../src/assets/marriage.jpg";
+import party from "../../src/assets/party.jpg";
+import corporate from "../../src/assets/corporate.jpg";
 
 export const servicesData = [
   {
@@ -62,5 +66,20 @@ export const brandsData = [
   },
   {
     imgUrl: "https://themewagon.github.io/flatter/img/brand/8.png",
+  },
+];
+
+export const serviceImages = [
+  {
+    img: birthDay,
+  },
+  {
+    img: marriage,
+  },
+  {
+    img: party,
+  },
+  {
+    img: corporate,
   },
 ];

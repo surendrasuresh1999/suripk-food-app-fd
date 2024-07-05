@@ -12,6 +12,7 @@ const FoodPage = () => {
   const [inputText, setInputText] = useState("");
   const jwtToken = Cookies.get("jwtToken");
   const navigate = useNavigate();
+
   const getFoodItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/food`, {
       headers: {
