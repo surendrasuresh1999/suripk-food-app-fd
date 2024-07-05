@@ -94,13 +94,27 @@ const MyservicesPage = () => {
   const handleLogStatus = (date) => {
     const parts = date.split("/");
     const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // Months are zero-indexed
+    const month = parseInt(parts[1], 10) - 1;
     const year = parseInt(parts[2], 10);
-    const result = isAfter(
-      new Date(year, month, day),
-      dayjs().format("DD/MM/YYYY"),
-    );
-    return result;
+
+    const providedDate = new Date(year, month, day);
+
+    // Get today's date
+    const today = new Date();
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    ); // Strip time from today's date
+
+    // Compare the provided date with today's date
+    if (providedDate.getTime() === todayDate.getTime()) {
+      return "Today";
+    } else if (providedDate.getTime() > todayDate.getTime()) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -153,7 +167,11 @@ const MyservicesPage = () => {
                         </div>
                       </TableCell>
                       <TableCell align="center">
-                        {handleLogStatus(row.eventDate) ? (
+                        {handleLogStatus(row.eventDate) === "Today" ? (
+                          <span className="rounded-full bg-orange-400 p-2 text-white">
+                            Ongoing
+                          </span>
+                        ) : handleLogStatus(row.eventDate) ? (
                           <span className="rounded-full bg-indigo-400 p-2 text-white">
                             Up coming
                           </span>

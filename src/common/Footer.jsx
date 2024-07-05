@@ -225,10 +225,10 @@ const Footer = () => {
               </a>
             ))}
           </div>
-          <p className="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">
-            &copy; 2020 Suri Restaurent, Inc. All rights reserved.
+          <p className="mt-8 text-sm leading-5 text-gray-400 md:order-1 md:mt-0">
+            &copy; 2024 Suri Restaurent, Inc. All rights reserved.
           </p>
-          <p className="mt-4 text-14size leading-5 text-white md:order-1 md:mt-0">
+          <p className="mt-4 text-16size leading-5 text-white md:order-1 md:mt-0">
             Made ❤️ by<b className="tracking-wide"> Surendra parla kuruva</b>
           </p>
         </div>
