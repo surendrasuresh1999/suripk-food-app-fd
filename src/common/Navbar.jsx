@@ -69,7 +69,11 @@ const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
-            <img className="h-8 w-full object-contain" src={logo} alt="website-logo" />
+            <img
+              className="h-8 w-full object-contain"
+              src={logo}
+              alt="website-logo"
+            />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -115,12 +119,6 @@ const Navbar = () => {
                     alt=""
                   />
                   <span className="hidden lg:flex lg:items-center">
-                    <span
-                      className="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                      aria-hidden="true"
-                    >
-                      Tom Cook
-                    </span>
                     <ChevronDownIcon
                       className="ml-2 h-5 w-5 text-gray-400"
                       aria-hidden="true"
