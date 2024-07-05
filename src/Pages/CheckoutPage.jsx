@@ -220,7 +220,7 @@ const CheckoutPage = () => {
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
           <div>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <h2 className="text-lg font-medium text-gray-900">
+              <h2 className="text-lg font-bold tracking-wide text-gray-900">
                 Choose delivery address
               </h2>
               <button
@@ -312,7 +312,7 @@ const CheckoutPage = () => {
 
           {/* Order summary */}
           <div className="mt-10 lg:mt-0">
-            <h2 className="text-lg font-medium text-gray-900">Order summary</h2>
+            <h2 className="text-lg font-bold tracking-wide text-gray-900">Order summary</h2>
 
             <div className="mt-6">
               <h3 className="sr-only">Items in your cart</h3>
@@ -325,10 +325,10 @@ const CheckoutPage = () => {
               <section aria-labelledby="summary-heading">
                 <div className="mt-4">
                   <div className="flex items-center justify-between">
-                    <dt className="text-base font-medium text-gray-900">
+                    <dt className="text-base font-semibold text-gray-900">
                       Total amount
                     </dt>
-                    <dd className="flex items-center text-base font-medium text-gray-900">
+                    <dd className="flex items-center text-base font-bold text-gray-900">
                       <IndianRupee size={13} className="mt-1 font-semibold" />
                       {cartData?.cart?.totalPrice +
                         cartData?.cart?.shippingFee +
@@ -348,7 +348,7 @@ const CheckoutPage = () => {
                           );
                         }
                       }}
-                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                      className="flex w-full items-center justify-center rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-semibold tracking-wide text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                     >
                       {showLoader ? (
                         <Loader2Icon className="animate-spin" size={23} />

@@ -39,10 +39,10 @@ const CartItemCard = ({ product }) => {
               <h3 className="text-wrap break-words text-14size font-semibold sm:text-16size">
                 {product.title}
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 font-semibold">
                 Quantity: <b className="text-sm">{product.quantity}</b>
               </p>
-              <p className="mt-1 flex items-center text-sm font-medium text-gray-900">
+              <p className="mt-1 flex items-center text-sm font-bold text-gray-900">
                 <IndianRupee size={13} className="mt-1 font-semibold" />
                 {product.price * product.quantity}
               </p>

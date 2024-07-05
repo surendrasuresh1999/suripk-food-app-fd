@@ -1,11 +1,16 @@
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import React, { useState } from "react";
 import { resetPasswordSchema } from "../FormikSchemas";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import toast from "react-hot-toast";
+import { Baseurl } from "../BaseUrl";
+import axios from "axios";
 
 const ForgotPasswordVerify = () => {
   const navigate = useNavigate();
+  const { id, token } = useParams();
+
   const userObject = {
     newPassword: "",
     confirmPassword: "",
@@ -13,27 +18,33 @@ const ForgotPasswordVerify = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleFormSubmit = (values, actions) => {
-    console.log(values);
-    // axios
-    //   .put(`${Baseurl.baseurl}/api/user/update-password`, values)
-    //   .then((res) => {
-    //     if (res.data.status) {
-    //       toast.success(res.data.message);
-    //       actions.resetForm();
-    //       setTimeout(() => {
-    //         navigate("/login");
-    //       }, 2000);
-    //     } else {
-    //       toast.error(res.data.message);
-    //       console.log("res", res);
-    //       actions.setSubmitting(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error", err.message);
-    //     toast.error(err.message);
-    //     actions.setSubmitting(false);
-    //   });
+    let data = {
+      password: values.newPassword,
+    };
+    axios
+      .put(
+        `${Baseurl.baseurl}/api/user/reset-password-verify/${id}/${token}`,
+        data,
+      )
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(res.data.message);
+          setTimeout(() => {
+            actions.setSubmitting(false);
+            actions.resetForm();
+            navigate("/login");
+          }, 2000);
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+          actions.setSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -99,6 +110,11 @@ const ForgotPasswordVerify = () => {
                         } text-white placeholder:text-slate-400`}
                       />
                     )}
+                    <ErrorMessage
+                      name={key}
+                      component="p"
+                      className="mt-1 text-sm text-red-700"
+                    />
                   </div>
                 ))}
                 <button

@@ -14,13 +14,12 @@ const ForgotPassword = () => {
   };
 
   const handleFormSubmit = (values, actions) => {
-    console.log(values);
     axios
       .put(`${Baseurl.baseurl}/api/user/reset-password`, values)
       .then((res) => {
         if (res.data.status) {
           toast.success(res.data.message);
-          // actions.resetForm();
+          actions.resetForm();
           // setTimeout(() => {
           //   navigate("/login");
           // }, 2000);

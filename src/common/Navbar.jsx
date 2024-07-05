@@ -69,12 +69,7 @@ const Navbar = () => {
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
-            <img
-              className="h-8 w-full object-contain"
-              // src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              src={logo}
-              alt=""
-            />
+            <img className="h-8 w-full object-contain" src={logo} alt="website-logo" />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">

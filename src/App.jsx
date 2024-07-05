@@ -23,7 +23,10 @@ const App = () => {
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="reset-password" element={<ForgotPassword />} />
-      <Route path="reset-password-verify" element={<ForgotPasswordVerify />} />
+      <Route
+        path="reset-password-verify/:id/:token"
+        element={<ForgotPasswordVerify />}
+      />
       <Route path="" element={<CommonPage />}>
         <Route index element={<Homepage />} />
         <Route element={<ProtectedRoute />}>
