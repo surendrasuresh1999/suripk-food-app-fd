@@ -67,7 +67,7 @@ const Login = () => {
                       {key === "password" && (
                         <p className="font-600 text-right text-14size tracking-wide text-gray-900">
                           <Link
-                            to="/forgot-password"
+                            to="/reset-password"
                             className="font-semibold leading-6 text-blue-600 hover:text-blue-700"
                           >
                             Forgot Password?

@@ -2,39 +2,39 @@ import { Field, Form, Formik, ErrorMessage } from "formik";
 import React, { useState } from "react";
 import { passwordChangeSchema } from "../FormikSchemas";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import axios from "axios";
+import { Baseurl } from "../BaseUrl";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const userObject = {
     email: "",
-    newPassword: "",
-    confirmPassword: "",
   };
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleFormSubmit = (values, actions) => {
     console.log(values);
-    // axios
-    //   .put(`${Baseurl.baseurl}/api/user/update-password`, values)
-    //   .then((res) => {
-    //     if (res.data.status) {
-    //       toast.success(res.data.message);
-    //       actions.resetForm();
-    //       setTimeout(() => {
-    //         navigate("/login");
-    //       }, 2000);
-    //     } else {
-    //       toast.error(res.data.message);
-    //       console.log("res", res);
-    //       actions.setSubmitting(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error", err.message);
-    //     toast.error(err.message);
-    //     actions.setSubmitting(false);
-    //   });
+    axios
+      .put(`${Baseurl.baseurl}/api/user/reset-password`, values)
+      .then((res) => {
+        if (res.data.status) {
+          toast.success(res.data.message);
+          // actions.resetForm();
+          // setTimeout(() => {
+          //   navigate("/login");
+          // }, 2000);
+        } else {
+          toast.error(res.data.message);
+          console.log("res", res);
+          actions.setSubmitting(false);
+        }
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+        toast.error(err.message);
+        actions.setSubmitting(false);
+      });
   };
 
   return (
@@ -60,46 +60,21 @@ const ForgotPassword = () => {
                       {key.charAt(0).toUpperCase()}
                       {key.slice(1, key.length)}
                     </label>
-                    {key === "confirmPassword" ? (
-                      <Field name="confirmPassword">
-                        {({ field }) => (
-                          <div className="relative rounded-md shadow-sm">
-                            <input
-                              {...field}
-                              type={showPassword ? "text" : "password"}
-                              placeholder="Password"
-                              className={`block w-full rounded-md border bg-gray-600 pr-10 ${
-                                touched[key] && errors[key]
-                                  ? "border-red-500"
-                                  : "border-gray-500"
-                              } text-white placeholder:text-slate-400`}
-                            />
-                            <button
-                              type="button"
-                              onClick={() => setShowPassword(!showPassword)}
-                              className="absolute inset-y-0 right-0 flex items-center pr-3"
-                            >
-                              {showPassword ? (
-                                <EyeOff className="text-slate-400" />
-                              ) : (
-                                <Eye className="text-slate-400" />
-                              )}
-                            </button>
-                          </div>
-                        )}
-                      </Field>
-                    ) : (
-                      <Field
-                        type={key === "newPassword" ? "password" : key}
-                        name={key}
-                        placeholder={`Enter ${key}`}
-                        className={`grow rounded-md border bg-gray-600 ${
-                          touched[key] && errors[key]
-                            ? "border-red-500"
-                            : "border-gray-500"
-                        } text-white placeholder:text-slate-400`}
-                      />
-                    )}
+                    <Field
+                      type={key}
+                      name={key}
+                      placeholder={`Enter ${key}`}
+                      className={`grow rounded-md border bg-gray-600 ${
+                        touched[key] && errors[key]
+                          ? "border-red-500"
+                          : "border-gray-500"
+                      } text-white placeholder:text-slate-400`}
+                    />
+                    <ErrorMessage
+                      name={key}
+                      component="p"
+                      className="mt-1 text-sm text-red-500"
+                    />
                   </div>
                 ))}
                 <button

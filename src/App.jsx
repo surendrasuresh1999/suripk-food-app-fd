@@ -15,13 +15,15 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import MyservicesPage from "./Pages/MyservicesPage";
 import PageNotFound from "./Pages/PageNotFound";
 import Homepage from "./Pages/Homepage";
+import ForgotPasswordVerify from "./Authentication/ForgotPasswordVerify";
 
 const App = () => {
   return (
     <Routes>
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
-      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="reset-password" element={<ForgotPassword />} />
+      <Route path="reset-password-verify" element={<ForgotPasswordVerify />} />
       <Route path="" element={<CommonPage />}>
         <Route index element={<Homepage />} />
         <Route element={<ProtectedRoute />}>
