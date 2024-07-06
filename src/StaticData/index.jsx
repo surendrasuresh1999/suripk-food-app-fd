@@ -150,7 +150,7 @@ export const testimonials = [
       "We hosted a private party at Suri Restaurant, and it was fantastic. The staff was attentive and accommodating, and the atmosphere was warm and inviting. Our guests loved the variety and quality of the food. Highly recommended!",
   },
   {
-    name: "Shafi Shaikh",
+    name: "Shafi Ms",
     location: "Banner Ghatta, Bangalore KA",
     img: shafi,
     quote:
