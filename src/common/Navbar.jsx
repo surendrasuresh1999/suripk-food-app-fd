@@ -20,7 +20,7 @@ import swal from "sweetalert";
 import Cookies from "js-cookie";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
-import logo from "../../src/assets/logo.svg";
+import logo from "../../src/assets/logo_new.png";
 const navigation = [
   { name: "All Items", path: "/all-food" },
   { name: "Services", path: "/services" },
@@ -67,15 +67,15 @@ const Navbar = () => {
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
-        <div className="flex lg:flex-1">
+        <span className="flex lg:flex-1">
           <Link to="/">
             <img
-              className="h-full w-full object-contain object-center"
+              className="w-16 sm:w-28 object-cover object-center"
               src={logo}
               alt="website-logo"
             />
           </Link>
-        </div>
+        </span>
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item, i) => (
             <Link

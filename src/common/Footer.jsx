@@ -226,7 +226,7 @@ const Footer = () => {
             ))}
           </div>
           <p className="mt-8 text-sm leading-5 text-gray-400 md:order-1 md:mt-0">
-            &copy; 2024 Suri Restaurent, Inc. All rights reserved.
+            &copy; 2024 Surendra Restaurent, Inc. All rights reserved.
           </p>
           <p className="mt-4 text-16size leading-5 text-white md:order-1 md:mt-0">
             Made ❤️ by<b className="tracking-wide"> Surendra parla kuruva</b>
