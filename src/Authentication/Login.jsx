@@ -144,7 +144,7 @@ const Login = () => {
               Register
             </Link>
           </p>
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <a
               href="#"
               className="flex w-full items-center justify-center gap-3 rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-600 hover:bg-gray-800 focus-visible:ring-transparent"
@@ -171,7 +171,7 @@ const Login = () => {
                 Google
               </span>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

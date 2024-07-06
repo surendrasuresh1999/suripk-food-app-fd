@@ -98,7 +98,7 @@ const Signup = () => {
             </Link>
           </p>
 
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <a
               href="#"
               className="flex w-full items-center justify-center gap-3 rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-600 hover:bg-gray-800 focus-visible:ring-transparent"
@@ -125,7 +125,7 @@ const Signup = () => {
                 Google
               </span>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
