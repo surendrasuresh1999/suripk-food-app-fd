@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../common/Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Footer from "../common/Footer";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import { CartContextProvider } from "../context/CartContext";
 
 const CommonPage = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +39,9 @@ const CommonPage = () => {
           <header className="sticky top-0 z-50 shrink-0 bg-white shadow">
             <Navbar />
           </header>
-          <main className="container mx-auto grow p-6 lg:px-8">
+          <main
+            className={`container mx-auto grow ${location.pathname !== "/" ? "p-6 lg:px-8" : ""}`}
+          >
             <section>
               <Outlet />
             </section>

@@ -20,7 +20,7 @@ import swal from "sweetalert";
 import Cookies from "js-cookie";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
-import logo from "../../src/assets/website-logo.svg";
+import logo from "../../src/assets/logo.svg";
 const navigation = [
   { name: "All Items", path: "/all-food" },
   { name: "Services", path: "/services" },
@@ -68,9 +68,9 @@ const Navbar = () => {
     <>
       <nav className="container mx-auto flex items-center justify-between gap-x-6 p-6 lg:px-8">
         <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5">
+          <Link to="/">
             <img
-              className="h-8 w-full object-contain"
+              className="h-full w-full object-contain object-center"
               src={logo}
               alt="website-logo"
             />
@@ -113,7 +113,7 @@ const Navbar = () => {
             <div className="flex justify-center">
               <Popover>
                 <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
-                  <Avatar sx={{height:35,width:35}} />
+                  <Avatar sx={{ height: 35, width: 35 }} />
                   <span className="hidden lg:flex lg:items-center">
                     <ChevronDownIcon
                       className="ml-2 h-5 w-5 text-gray-400"

@@ -1,10 +1,10 @@
 import foodBlog from "../../src/assets/food-blog.jpg";
-import { Slide } from "react-awesome-reveal";
-import { files, menuItems, serviceImages, testimonials } from "../StaticData";
+import { menuItems, serviceImages, testimonials } from "../StaticData";
 import useEmblaCarousel from "embla-carousel-react";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
+import { TypeAnimation } from "react-type-animation";
 
 const tabsData = ["Appetizers", "Main Courses", "Desserts", "Beverages"];
 const Homepage = () => {
@@ -45,11 +45,31 @@ const Homepage = () => {
   };
 
   return (
-    <div className="space-y-12">
+    <div className="mb-6 space-y-12">
       {/* banner section */}
-      <div>hello world</div>
+      <div className="home-page-banner flex h-screen max-h-[600px] flex-col justify-center">
+        <div className="mx-auto max-w-5xl space-y-3 text-center sm:space-y-8">
+          <TypeAnimation
+            sequence={["Welcome to Suri Restaurant"]}
+            wrapper="span"
+            cursor={false}
+            className="text-xl font-semibold text-white sm:text-3xl lg:text-6xl"
+          />
+          <p className="text-14size font-medium tracking-wide text-white sm:text-20size">
+            Discover a place where culinary artistry meets warm hospitality. Our
+            menu is crafted with passion and precision, offering unforgettable
+            dining experiences in a cozy and inviting ambiance.
+          </p>
+          <Link
+            to={"/all-food"}
+            className="inline-block rounded-md bg-white px-4 py-2 font-semibold tracking-wide text-gray-900 shadow"
+          >
+            Explore Menu
+          </Link>
+        </div>
+      </div>
       {/* menu section */}
-      <div className="space-y-8">
+      <div className="space-y-8 p-6 lg:px-8">
         <h1 className="text-center text-20size font-bold text-gray-500 sm:text-34size">
           Check Our Tasty Menu
         </h1>
@@ -95,7 +115,7 @@ const Homepage = () => {
         </ul>
       </div>
       {/* service section */}
-      <div className="full-bleed discover space-y-6 py-14 sm:px-4">
+      <div className="full-bleed discover space-y-6 p-6 py-14 sm:px-4">
         <div>
           <h1 className="text-center text-20size font-bold text-gray-500 sm:text-34size">
             Organize your Events at our Restaurant
@@ -151,29 +171,27 @@ const Homepage = () => {
         </div>
       </div>
       {/* blogs section */}
-      <div className="ms:px-4 grid grid-cols-1 gap-10 lg:grid-cols-2">
+      <div className="ms:px-4 grid grid-cols-1 gap-10 p-6 lg:grid-cols-2 lg:px-8">
         <div className="space-y-3">
-          <Slide triggerOnce={true} direction="up">
-            <h1 className="text-22size font-bold text-gray-800 sm:text-32size">
-              Discover Culinary Creations: Latest{" "}
-              <b className="text-30size italic text-orange-500 sm:text-36size">
-                Recipes and Food Adventures
-              </b>
-            </h1>
+          <h1 className="text-22size font-bold text-gray-800 sm:text-32size">
+            Discover Culinary Creations: Latest{" "}
+            <b className="text-30size italic text-orange-500 sm:text-36size">
+              Recipes and Food Adventures
+            </b>
+          </h1>
 
-            <p className="text-justify text-18size font-medium text-gray-700">
-              Welcome to our culinary hub where we share the latest recipes,
-              cooking tips, and food adventures straight from our kitchen to
-              your table. Dive into a world of flavors with our curated
-              collection of recipes crafted by our talented chefs. From
-              mouth-watering appetizers to decadent desserts, our blog is your
-              go-to destination for culinary inspiration. Whether you're a
-              seasoned home chef or a food enthusiast looking to explore new
-              tastes, join us on a delicious journey through our recipes and
-              culinary insights. Stay tuned for regular updates and let your
-              taste buds savor every bite of our culinary creations.
-            </p>
-          </Slide>
+          <p className="text-justify text-18size font-medium text-gray-700">
+            Welcome to our culinary hub where we share the latest recipes,
+            cooking tips, and food adventures straight from our kitchen to your
+            table. Dive into a world of flavors with our curated collection of
+            recipes crafted by our talented chefs. From mouth-watering
+            appetizers to decadent desserts, our blog is your go-to destination
+            for culinary inspiration. Whether you're a seasoned home chef or a
+            food enthusiast looking to explore new tastes, join us on a
+            delicious journey through our recipes and culinary insights. Stay
+            tuned for regular updates and let your taste buds savor every bite
+            of our culinary creations.
+          </p>
           <Link
             to={"/blogs"}
             className="inline-block rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white"
@@ -184,7 +202,7 @@ const Homepage = () => {
         <img src={foodBlog} alt="service-img" className="h-full rounded-md" />
       </div>
       {/* testimonials */}
-      <div className="relative isolate overflow-hidden rounded-md bg-white shadow">
+      <div className="relative isolate m-6 overflow-hidden rounded-md bg-white shadow">
         <h1 className="py-6 text-center text-20size font-bold text-gray-500 sm:text-34size">
           Customer Testimonials
         </h1>

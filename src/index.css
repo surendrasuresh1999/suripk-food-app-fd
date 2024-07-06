@@ -25,10 +25,10 @@ body {
 }
 
 .home-page-banner{
-    background-image: url("./assets/landing_banner.jpg");
+    background-image: url("./assets/landing.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center
+    background-position: center;
 }
 
 .full-bleed {
