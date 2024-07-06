@@ -1,16 +1,19 @@
-import birthDay from "../../src/assets/birth-day.jpg";
-import marriage from "../../src/assets/marriage.jpg";
-import party from "../../src/assets/party.jpg";
-import corporate from "../../src/assets/corporate.jpg";
-import { Zoom, Slide } from "react-awesome-reveal";
-import { serviceImages, servicesData } from "../StaticData";
+import foodBlog from "../../src/assets/food-blog.jpg";
+import { Slide } from "react-awesome-reveal";
+import { files, menuItems, serviceImages, testimonials } from "../StaticData";
 import useEmblaCarousel from "embla-carousel-react";
 import { useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import { Link, useNavigate } from "react-router-dom";
 
+const tabsData = ["Appetizers", "Main Courses", "Desserts", "Beverages"];
 const Homepage = () => {
+  const navigate = useNavigate();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRefTop, emblaApiTop] = useEmblaCarousel({ loop: true });
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlideTop, setCurrentSlideTop] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   const nextSlide = () => {
     if (emblaApi) {
@@ -26,67 +29,129 @@ const Homepage = () => {
       setCurrentSlide(emblaApi.selectedScrollSnap()); // Update current slide index
     }
   };
+  const nextSlideTop = () => {
+    if (emblaApiTop) {
+      emblaApiTop.scrollNext();
+      setCurrentSlideTop(emblaApiTop.selectedScrollSnap()); // Update current slide index
+    }
+  };
+
+  // Function to move to the previous slide
+  const prevSlideTop = () => {
+    if (emblaApiTop) {
+      emblaApiTop.scrollPrev();
+      setCurrentSlideTop(emblaApiTop.selectedScrollSnap()); // Update current slide index
+    }
+  };
 
   return (
     <div className="space-y-12">
-      {/* service section */}
-      <div className="full-bleed discover grid grid-cols-1 gap-10 rounded-md py-14 sm:px-4 lg:grid-cols-2">
-        <div className="space-y-3">
-          <Zoom triggerOnce={true}>
-            <h1 className="text-20size font-bold text-gray-800 sm:text-30size">
-              Unforgettable Celebrations Await at <br />
-              <b className="text-30size italic text-orange-500 sm:text-36size">
-                Suri Restaurent
-              </b>
-            </h1>
-          </Zoom>
-          <div className="block lg:hidden">
-            <ul className="grid grid-cols-2 gap-4">
-              {serviceImages.map((service, index) => (
-                <li key={index} className="overflow-hidden rounded-md">
-                  <img src={service.img} alt="service-img" className="h-full" />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <Zoom triggerOnce={true}>
-            <p className="text-justify text-18size font-medium text-gray-600">
-              At Suri Restaurent, we specialize in creating memorable events
-              tailored to your every need. Whether it's a{" "}
-              <b>joyful birthday bash</b>, an intimate anniversary dinner, or a
-              grand <b>wedding receptions</b> as well we are Providing{" "}
-              <b>Corporate Party's</b> also, our team is dedicated to delivering
-              exceptional experiences that exceed your expectations. From
-              exquisite catering options to personalized décor and flawless
-              service, let us turn your special occasions into cherished
-              memories. Discover the perfect blend of elegance and culinary
-              excellence at <b className="text-orange-500">Suri Restaurent</b>,
-              where every celebration is crafted with care. and many more...
-            </p>
-          </Zoom>
-          <button className="rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white">
-            View More
-          </button>
+      {/* banner section */}
+      <div>hello world</div>
+      {/* menu section */}
+      <div className="space-y-8">
+        <h1 className="text-center text-20size font-bold text-gray-500 sm:text-34size">
+          Check Our Tasty Menu
+        </h1>
+        <div className="mx-auto grid max-w-3xl grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-8">
+          {tabsData.map((tab, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActiveTab(i)}
+              className={`rounded-md border ${activeTab === i ? "border-orange-700 bg-orange-100 text-orange-500 hover:bg-orange-200" : "bg-white text-gray-600 hover:bg-slate-50"} px-6 py-3 text-12size font-semibold sm:text-16size`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
-        <div className="hidden lg:block">
-          <ul className="grid grid-cols-2 gap-4">
+        <ul
+          role="list"
+          className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+        >
+          {menuItems[activeTab].items.map((menu, i) => (
+            <li
+              key={i}
+              onClick={() => navigate("/all-food")}
+              className="food-card relative cursor-pointer overflow-hidden rounded-md bg-white"
+            >
+              <div className="aspect-h-7 aspect-w-10 group block w-full overflow-hidden bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                <img
+                  alt="item-img"
+                  src={menu.img}
+                  className="h-52 w-full object-cover"
+                />
+              </div>
+              <div className="p-2">
+                <p className="mt-2 block truncate text-18size font-medium text-gray-900">
+                  {menu.name}
+                </p>
+                <p className="block truncate text-14size font-medium text-gray-500">
+                  {menu.description}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {/* service section */}
+      <div className="full-bleed discover space-y-6 py-14 sm:px-4">
+        <div>
+          <h1 className="text-center text-20size font-bold text-gray-500 sm:text-34size">
+            Organize your Events at our Restaurant
+          </h1>
+        </div>
+        <div className="embla relative py-6" ref={emblaRefTop}>
+          <div className="embla__container">
             {serviceImages.map((service, index) => (
-              <li key={index} className="overflow-hidden rounded-md">
-                <img src={service.img} alt="service-img" className="h-full" />
-              </li>
+              <div className="embla__slide2" key={index}>
+                <div className="grid grid-cols-1 gap-10 px-2 lg:grid-cols-2">
+                  <img
+                    src={service.img}
+                    alt="service-img"
+                    className="h-full rounded-md"
+                  />
+                  <div className="space-y-3">
+                    <h1 className="text-22size font-bold text-gray-800 sm:text-32size">
+                      {service.title}{" "}
+                      {/* <b className="text-30size italic text-orange-500 sm:text-36size">
+                          Suri Restaurant
+                        </b> */}
+                    </h1>
+
+                    <p className="text-justify text-18size font-medium text-gray-700">
+                      {service.content}
+                    </p>
+
+                    <Link
+                      to={"/services"}
+                      className="inline-block rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white"
+                    >
+                      View More
+                    </Link>
+                  </div>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
+          <div className="absolute bottom-0 right-0 flex items-center gap-4">
+            <button
+              className="rounded-full border border-gray-600 p-3 text-white"
+              onClick={prevSlideTop}
+            >
+              <ChevronLeftIcon className="h-5 w-5 text-gray-600" />
+            </button>
+            <button
+              className="rounded-full border border-gray-600 p-3 text-white"
+              onClick={nextSlideTop}
+            >
+              <ChevronRightIcon className="h-5 w-5 text-gray-600" />
+            </button>
+          </div>
         </div>
       </div>
       {/* blogs section */}
       <div className="ms:px-4 grid grid-cols-1 gap-10 lg:grid-cols-2">
-        <ul className="grid grid-cols-2 gap-4">
-          {serviceImages.map((service, index) => (
-            <li key={index} className="overflow-hidden rounded-md">
-              <img src={service.img} alt="service-img" className="h-full" />
-            </li>
-          ))}
-        </ul>
         <div className="space-y-3">
           <Slide triggerOnce={true} direction="up">
             <h1 className="text-22size font-bold text-gray-800 sm:text-32size">
@@ -109,21 +174,28 @@ const Homepage = () => {
               taste buds savor every bite of our culinary creations.
             </p>
           </Slide>
-          <button className="rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white">
+          <Link
+            to={"/blogs"}
+            className="inline-block rounded-md bg-orange-400 px-4 py-3 font-semibold tracking-wide text-white"
+          >
             View More
-          </button>
+          </Link>
         </div>
+        <img src={foodBlog} alt="service-img" className="h-full rounded-md" />
       </div>
       {/* testimonials */}
       <div className="relative isolate overflow-hidden rounded-md bg-white shadow">
+        <h1 className="py-6 text-center text-20size font-bold text-gray-500 sm:text-34size">
+          Customer Testimonials
+        </h1>
         <div className="relative mx-auto max-w-2xl py-16 lg:max-w-4xl">
           <div className="absolute left-1/2 top-0 -z-10 h-[50rem] w-[90rem] -translate-x-1/2 bg-[radial-gradient(50%_100%_at_top,theme(colors.indigo.100),white)] opacity-20 lg:left-36" />
           <div className="absolute inset-y-0 right-1/2 -z-10 mr-12 w-[150vw] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-20 md:mr-0 lg:right-full lg:-mr-36 lg:origin-center" />
-          <div className="embla relative py-6" ref={emblaRef}>
+          <div className="embla relative py-2" ref={emblaRef}>
             <div className="embla__container p-2">
-              {servicesData.map((category, index) => (
+              {testimonials.map((testmonial, index) => (
                 <div className="embla__slide" key={index}>
-                  <figure className="grid grid-cols-1 items-center gap-x-6 gap-y-8 lg:gap-x-10">
+                  <figure className="grid grid-cols-1 items-start gap-x-6 gap-y-8 lg:gap-x-10">
                     <div className="relative col-span-2 lg:col-start-1 lg:row-start-2">
                       <svg
                         fill="none"
@@ -141,27 +213,22 @@ const Homepage = () => {
                         />
                       </svg>
                       <blockquote className="text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
-                        <p className="text-justify">
-                          Commodo amet fugiat excepteur sunt qui ea elit
-                          cupidatat ullamco consectetur ipsum elit consequat.
-                          Elit sunt proident ea nulla ad nulla dolore ad
-                          pariatur tempor non. Sint veniam minim et ea.
-                        </p>
+                        <p className="text-justify">{testmonial.quote}</p>
                       </blockquote>
                     </div>
                     <div className="col-end-1 w-16 lg:row-span-4 lg:w-72">
                       <img
                         alt=""
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=576&h=576&q=80"
-                        className="rounded-xl bg-indigo-50 lg:rounded-3xl"
+                        src={testmonial.img}
+                        className="rounded-xl bg-indigo-50 lg:rounded-2xl"
                       />
                     </div>
                     <figcaption className="text-base lg:col-start-1 lg:row-start-3">
                       <div className="font-semibold text-gray-900">
-                        Judith Black
+                        {testmonial.name}
                       </div>
                       <div className="mt-1 text-gray-500">
-                        CEO of Workcation
+                        {testmonial.location}
                       </div>
                     </figcaption>
                   </figure>

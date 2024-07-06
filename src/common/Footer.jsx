@@ -158,7 +158,7 @@ const Footer = () => {
           </div>
           <div className="mt-10 xl:mt-0">
             <h3 className="text-sm font-semibold leading-6 text-white">
-              Subscribe to our website
+              Subscribe to our newsletter
             </h3>
             <p className="mb-2 mt-2 text-sm leading-6 text-gray-300">
               The latest fodd recepies, blogs, and services information, will
