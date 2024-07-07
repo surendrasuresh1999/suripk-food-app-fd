@@ -70,7 +70,7 @@ const Navbar = () => {
         <span className="flex lg:flex-1">
           <Link to="/">
             <img
-              className="w-16 sm:w-28 object-cover object-center"
+              className="w-16 object-cover object-center sm:w-28"
               src={logo}
               alt="website-logo"
             />
@@ -110,47 +110,56 @@ const Navbar = () => {
             </Badge>
           </Link>
           <div className="hidden lg:block">
-            <div className="flex justify-center">
-              <Popover>
-                <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
-                  <Avatar sx={{ height: 35, width: 35 }} />
-                  <span className="hidden lg:flex lg:items-center">
-                    <ChevronDownIcon
-                      className="ml-2 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </PopoverButton>
-                <Transition
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <PopoverPanel
-                    anchor="bottom"
-                    className={`popover-shadow z-[200] divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 shadow-2xl [--anchor-gap:var(--spacing-5)]`}
+            {userDetails ? (
+              <div className="flex justify-center">
+                <Popover>
+                  <PopoverButton className="flex w-full items-center px-2 py-1 text-sm/6 font-semibold text-orange-400 outline-none">
+                    <Avatar sx={{ height: 35, width: 35 }} />
+                    <span className="hidden lg:flex lg:items-center">
+                      <ChevronDownIcon
+                        className="ml-2 h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </PopoverButton>
+                  <Transition
+                    enter="transition ease-out duration-200"
+                    enterFrom="opacity-0 translate-y-1"
+                    enterTo="opacity-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="opacity-100 translate-y-0"
+                    leaveTo="opacity-0 translate-y-1"
                   >
-                    <div className="flex flex-col py-2">
-                      {userNavigation.map((button, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => {
-                            handleUserAction(i);
-                          }}
-                          className={`px-6 py-1 text-start text-14size font-semibold tracking-wide text-gray-700 hover:bg-slate-50`}
-                        >
-                          {button.name}
-                        </button>
-                      ))}
-                    </div>
-                  </PopoverPanel>
-                </Transition>
-              </Popover>
-            </div>
+                    <PopoverPanel
+                      anchor="bottom"
+                      className={`popover-shadow z-[200] divide-y divide-white/5 rounded-md bg-white text-sm/6 text-gray-600 shadow-2xl [--anchor-gap:var(--spacing-5)]`}
+                    >
+                      <div className="flex flex-col py-2">
+                        {userNavigation.map((button, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => {
+                              handleUserAction(i);
+                            }}
+                            className={`px-6 py-1 text-start text-14size font-semibold tracking-wide text-gray-700 hover:bg-slate-50`}
+                          >
+                            {button.name}
+                          </button>
+                        ))}
+                      </div>
+                    </PopoverPanel>
+                  </Transition>
+                </Popover>
+              </div>
+            ) : (
+              <Link
+                to={"/login"}
+                className="inline-block rounded-md bg-orange-400 px-4 py-2 text-14size font-medium tracking-wide text-white"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
         <div className="flex lg:hidden">
@@ -216,13 +225,22 @@ const Navbar = () => {
                             ))}
                           </div>
                           <div className="py-4">
-                            <button
-                              type="button"
-                              onClick={() => handleUserAction(1)}
-                              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
-                            >
-                              Sign out
-                            </button>
+                            {userDetails ? (
+                              <button
+                                type="button"
+                                onClick={() => handleUserAction(1)}
+                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
+                              >
+                                Sign out
+                              </button>
+                            ) : (
+                              <Link
+                                to={"/login"}
+                                className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900"
+                              >
+                                Login
+                              </Link>
+                            )}
                             <button
                               type="button"
                               onClick={() => {
@@ -245,75 +263,80 @@ const Navbar = () => {
         </Dialog>
       </Transition>
       {/* profile slide over */}
-      <Transition show={openProfileSlideOver}>
-        <Dialog className="relative z-[60]" onClose={setOpenProfileSlideOver}>
-          <div className="fixed inset-0" />
+      {userDetails && (
+        <Transition show={openProfileSlideOver}>
+          <Dialog className="relative z-[60]" onClose={setOpenProfileSlideOver}>
+            <div className="fixed inset-0" />
 
-          <div className="fixed inset-0 overflow-hidden bg-gray-500 bg-opacity-75">
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                <TransitionChild
-                  enter="transform transition ease-in-out duration-500 sm:duration-700"
-                  enterFrom="translate-x-full"
-                  enterTo="translate-x-0"
-                  leave="transform transition ease-in-out duration-500 sm:duration-700"
-                  leaveFrom="translate-x-0"
-                  leaveTo="translate-x-full"
-                >
-                  <DialogPanel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
-                      <div className="px-4 sm:px-6">
-                        <div className="flex items-center justify-between">
-                          <Link to="/" className="p-1.5">
-                            <span className="sr-only">Your Company</span>
-                            <img
-                              className="mt-0.5 h-8 w-auto"
-                              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                              alt=""
-                            />
-                          </Link>
-                          <button
-                            type="button"
-                            className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            onClick={() => setOpenProfileSlideOver(false)}
-                          >
-                            <span className="absolute -inset-2.5" />
-                            <span className="sr-only">Close panel</span>
-                            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <div className="divide-y divide-gray-500/10">
-                          <div className="flex items-start gap-2">
-                            <Avatar
-                              sx={{
-                                bgcolor: deepOrange[500],
-                                height: 100,
-                                width: 100,
-                              }}
+            <div className="fixed inset-0 overflow-hidden bg-gray-500 bg-opacity-75">
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+                  <TransitionChild
+                    enter="transform transition ease-in-out duration-500 sm:duration-700"
+                    enterFrom="translate-x-full"
+                    enterTo="translate-x-0"
+                    leave="transform transition ease-in-out duration-500 sm:duration-700"
+                    leaveFrom="translate-x-0"
+                    leaveTo="translate-x-full"
+                  >
+                    <DialogPanel className="pointer-events-auto w-screen max-w-md">
+                      <div className="flex h-full flex-col overflow-y-auto bg-white py-6 shadow-xl">
+                        <div className="px-4 sm:px-6">
+                          <div className="flex items-center justify-between">
+                            <Link to="/" className="p-1.5">
+                              <span className="sr-only">Your Company</span>
+                              <img
+                                className="mt-0.5 h-8 w-auto"
+                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                alt=""
+                              />
+                            </Link>
+                            <button
+                              type="button"
+                              className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              onClick={() => setOpenProfileSlideOver(false)}
                             >
-                              {userDetails.name.slice(0, 2).toUpperCase()}
-                            </Avatar>
-                            <div>
-                              <p className="text-24size text-gray-800">
-                                {userDetails.name}
-                              </p>
-                              <span className="text-20size text-gray-600">
-                                {userDetails.email}
-                              </span>
+                              <span className="absolute -inset-2.5" />
+                              <span className="sr-only">Close panel</span>
+                              <XMarkIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </div>
+                        </div>
+                        <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                          <div className="divide-y divide-gray-500/10">
+                            <div className="flex items-start gap-2">
+                              <Avatar
+                                sx={{
+                                  bgcolor: deepOrange[500],
+                                  height: 100,
+                                  width: 100,
+                                }}
+                              >
+                                {userDetails.name.slice(0, 2).toUpperCase()}
+                              </Avatar>
+                              <div>
+                                <p className="text-24size text-gray-800">
+                                  {userDetails.name}
+                                </p>
+                                <span className="text-20size text-gray-600">
+                                  {userDetails.email}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </DialogPanel>
-                </TransitionChild>
+                    </DialogPanel>
+                  </TransitionChild>
+                </div>
               </div>
             </div>
-          </div>
-        </Dialog>
-      </Transition>
+          </Dialog>
+        </Transition>
+      )}
     </>
   );
 };
