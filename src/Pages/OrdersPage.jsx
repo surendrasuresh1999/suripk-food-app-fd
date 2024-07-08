@@ -6,7 +6,7 @@ import { Baseurl } from "../BaseUrl";
 import Loader from "../common/Loader";
 import ConnectionLost from "../common/ConnectionLost";
 import dayjs from "dayjs";
-import { IndianRupee } from "lucide-react";
+import { IndianRupee, Loader2Icon } from "lucide-react";
 import Tooltip from "@mui/material/Tooltip";
 import emptyOrderImg from "../../src/assets/Order food-pana.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,11 +17,13 @@ import confirmed from "../../src/assets/booking.png";
 import clock from "../../src/assets/clock.png";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useState } from "react";
 
 const OrdersPage = () => {
   const jwtToken = Cookies.get("jwtToken");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [showLoader, setShowLoader] = useState(false);
 
   const getOrderItems = async () => {
     return await fetch(`${Baseurl.baseurl}/api/orders`, {
@@ -60,6 +62,7 @@ const OrdersPage = () => {
   };
 
   const handleDropRating = (orderId, itemId, rating) => {
+    setShowLoader(true);
     axios
       .put(
         `${Baseurl.baseurl}/api/orders/${orderId}/${itemId}`,
@@ -74,12 +77,15 @@ const OrdersPage = () => {
         if (res.status) {
           queryClient.invalidateQueries("ordersData");
           toast.success(res.data.message);
+          setShowLoader(false);
         } else {
           toast.error(res.data.message);
+          setShowLoader(false);
         }
       })
       .catch((err) => {
         toast.error(err.message);
+        setShowLoader(false);
       });
   };
 
@@ -209,28 +215,34 @@ const OrdersPage = () => {
                               Status:{renderStatus(order.status)}
                             </p>
                           </div>
-                          {order.status === "Delivered" && (
-                            <Rating
-                              name="half-rating"
-                              size="small"
-                              precision={0.5}
-                              readOnly={
-                                order.ratingArr[index]?.foodId === product._id
-                              }
-                              value={
-                                order.ratingArr[index]?.foodId === product._id
-                                  ? order.ratingArr[index]?.value
-                                  : 0
-                              }
-                              onChange={(event, newValue) => {
-                                handleDropRating(
-                                  order._id,
-                                  product._id,
-                                  newValue,
-                                );
-                              }}
-                            />
-                          )}
+                          {order.status === "Delivered" &&
+                            (showLoader ? (
+                              <Loader2Icon
+                                className="animate-spin text-gray-700"
+                                size={16}
+                              />
+                            ) : (
+                              <Rating
+                                name="half-rating"
+                                size="small"
+                                precision={0.5}
+                                readOnly={
+                                  order.ratingArr[index]?.foodId === product._id
+                                }
+                                value={
+                                  order.ratingArr[index]?.foodId === product._id
+                                    ? order.ratingArr[index]?.value
+                                    : 0
+                                }
+                                onChange={(event, newValue) => {
+                                  handleDropRating(
+                                    order._id,
+                                    product._id,
+                                    newValue,
+                                  );
+                                }}
+                              />
+                            ))}
                         </div>
                       </li>
                     ))}

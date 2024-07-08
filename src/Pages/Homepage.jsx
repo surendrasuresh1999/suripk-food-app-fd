@@ -50,7 +50,7 @@ const Homepage = () => {
       <div className="home-page-banner flex h-screen max-h-[600px] flex-col justify-center">
         <div className="mx-auto max-w-5xl space-y-3 text-center sm:space-y-8">
           <TypeAnimation
-            sequence={["Welcome to Suri Restaurant"]}
+            sequence={["Welcome to Surendra Restaurant"]}
             wrapper="span"
             cursor={false}
             className="text-xl font-semibold text-white sm:text-3xl lg:text-6xl"
