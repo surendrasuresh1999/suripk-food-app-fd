@@ -1,5 +1,5 @@
-import React from "react";
-import { IndianRupee } from "lucide-react";
+import React, { useState } from "react";
+import { IndianRupee, LoaderCircle } from "lucide-react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { CartData } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 const RestaurantCard = ({ foodObj }) => {
   const userInfo = localStorage.getItem("foodieUserDetails");
   const { addToCart } = CartData();
+  const [showLoader, setShowLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleAddToCart = async (foodData) => {
-    await addToCart(foodData);
+    setShowLoading(true);
+    await addToCart(foodData, setShowLoading);
   };
 
   return (
@@ -53,7 +55,11 @@ const RestaurantCard = ({ foodObj }) => {
           }}
           className="flex w-full items-center justify-center rounded-md bg-orange-600 py-2 font-semibold tracking-wide text-white"
         >
-          Order now
+          {showLoader ? (
+            <LoaderCircle size={24} className="animate-spin text-white" />
+          ) : (
+            "Order now"
+          )}
         </button>
       </div>
     </li>

@@ -23,7 +23,7 @@ export const CartContextProvider = ({ children }) => {
     queryFn: getCartFoodItems,
   });
 
-  const addToCart = async (foodData) => {
+  const addToCart = async (foodData, setter) => {
     try {
       const response = await axios.put(
         `${Baseurl.baseurl}/api/cart`,
@@ -38,13 +38,16 @@ export const CartContextProvider = ({ children }) => {
       if (response.status) {
         toast.success(response.data.message);
         queryClient.invalidateQueries("cartData");
+        setter(false);
       } else {
         console.log(response.data.message);
         toast.error(response.data.message);
+        setter(false);
       }
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
+      setter(false);
     }
   };
 
