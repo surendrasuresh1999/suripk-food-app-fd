@@ -2,7 +2,7 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLoginSchema } from "../FormikSchemas";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, ErrorMessage } from "formik";
 import axios from "axios";
 import { Baseurl } from "../BaseUrl";
 import toast from "react-hot-toast";
@@ -139,7 +139,7 @@ const Login = () => {
             Don't have account?{" "}
             <Link
               to="/signup"
-              className="font-semibold text-16size ml-2 leading-6 text-blue-600 hover:text-blue-700"
+              className="ml-2 text-16size font-semibold leading-6 text-blue-600 hover:text-blue-700"
             >
               Register
             </Link>

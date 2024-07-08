@@ -42,7 +42,7 @@ const FoodPage = () => {
             Order your <br />
             favourite food here
           </h1>
-          <p className="mt-10 max-w-2xl text-justify text-14size font-medium text-white lg:text-18size">
+          <p className="mt-4 sm:mt-10 max-w-2xl text-justify text-14size font-medium text-white lg:text-18size">
             Choose from a diverse featuring a delectable array of dishes crafted
             with the finest ingredients and culinary expertise. Our mission is
             to satisy your cravings and elevate your dining experience, one

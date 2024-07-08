@@ -109,6 +109,7 @@ const CheckoutPage = () => {
   };
 
   const handlePaymentRequest = async (totalAmount) => {
+    const storedUser = JSON.parse(localStorage.getItem("foodieUserDetails"));
     setShowLoader(true);
     // Step 1: get razor pay key
     const { keyString } = await axios
@@ -153,10 +154,10 @@ const CheckoutPage = () => {
       keyString,
       amount: order.amount,
       currency: "INR",
-      name: "JSP Restaurent",
+      name: "Surendra Restaurent",
       description: "Thank you for using our service for food orders",
       image:
-        "https://drive.google.com/file/d/19uNKpxEtrmQF7FiGkIK2TzP_pcTIWnd4/view?usp=drive_link",
+        "https://res.cloudinary.com/dplj90agk/image/upload/v1720418977/suri3_2x_xoyhrt.png",
       order_id: order.id,
       handler: async function (response) {
         await axios
@@ -177,8 +178,8 @@ const CheckoutPage = () => {
           )
           .then((res) => {
             if (res.data.status) {
-              toast.success(res.data.message);
               navigate("/my-orders");
+              toast.success(res.data.message);
               setSelectedAddressId(null);
               queryClient.invalidateQueries("cartData");
             } else {
@@ -190,8 +191,8 @@ const CheckoutPage = () => {
           });
       },
       prefill: {
-        name: "Surendra PK",
-        email: "example@gmail.com",
+        name: storedUser.name,
+        email: storedUser.email,
         contact: "9999999999",
       },
       notes: {
@@ -312,7 +313,9 @@ const CheckoutPage = () => {
 
           {/* Order summary */}
           <div className="mt-10 lg:mt-0">
-            <h2 className="text-lg font-bold tracking-wide text-gray-900">Order summary</h2>
+            <h2 className="text-lg font-bold tracking-wide text-gray-900">
+              Order summary
+            </h2>
 
             <div className="mt-6">
               <h3 className="sr-only">Items in your cart</h3>

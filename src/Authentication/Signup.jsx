@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { LoaderCircle } from "lucide-react";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -68,6 +68,14 @@ const Signup = () => {
                           : "border-gray-500"
                       } text-white placeholder:text-slate-400`}
                     />
+                    <ErrorMessage
+                      name={key}
+                      render={(msg) => (
+                        <p className="text-12size font-semibold tracking-wide text-red-600">
+                          {msg}
+                        </p>
+                      )}
+                    />
                   </div>
                 ))}
                 <button
@@ -92,7 +100,7 @@ const Signup = () => {
             Already have an account?{" "}
             <Link
               to={"/login"}
-              className="font-bold ml-2 text-16size leading-6 tracking-wide text-blue-600 hover:text-blue-700"
+              className="ml-2 text-16size font-bold leading-6 tracking-wide text-blue-600 hover:text-blue-700"
             >
               Login
             </Link>

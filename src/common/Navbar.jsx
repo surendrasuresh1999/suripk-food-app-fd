@@ -196,7 +196,7 @@ const Navbar = () => {
                             <span className="sr-only">Your Company</span>
                             <img
                               className="mt-0.5 h-8 w-auto"
-                              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                              src="https://res.cloudinary.com/dplj90agk/image/upload/v1720418977/suri3_2x_xoyhrt.png"
                               alt=""
                             />
                           </Link>
@@ -286,8 +286,8 @@ const Navbar = () => {
                             <Link to="/" className="p-1.5">
                               <span className="sr-only">Your Company</span>
                               <img
-                                className="mt-0.5 h-8 w-auto"
-                                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                className="mt-0.5 h-10 w-auto"
+                                src="https://res.cloudinary.com/dplj90agk/image/upload/v1720418977/suri3_2x_xoyhrt.png"
                                 alt=""
                               />
                             </Link>
