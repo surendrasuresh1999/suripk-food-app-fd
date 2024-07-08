@@ -38,7 +38,7 @@ const BlogDetails = () => {
         },
       })
       .then((res) => {
-        if (res.data.status === 200) {
+        if (res.data.status) {
           toast.success(res.data.message);
           queryClient.invalidateQueries("blogData");
         } else {
@@ -74,7 +74,7 @@ const BlogDetails = () => {
           <div className="flex items-center justify-between">
             <Link
               to={"/blogs"}
-              className="flex max-w-max items-center gap-2 rounded-md bg-orange-50 p-3 text-sm font-semibold text-orange-600 border border-orange-400 hover:bg-orange-100"
+              className="flex max-w-max items-center gap-2 rounded-md border border-orange-400 bg-orange-50 p-3 text-sm font-semibold text-orange-600 hover:bg-orange-100"
             >
               <ArrowLeftIcon className="h-4 w-4 text-orange-600" />
               Go Back
@@ -84,7 +84,7 @@ const BlogDetails = () => {
                 onClick={() => handleDropLike(data.blogPost._id)}
                 className="flex items-center gap-1 rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-indigo-600"
               >
-                <span className="text-orange-500 font-semibold text-20size">
+                <span className="text-20size font-semibold text-orange-500">
                   {data.blogPost.likedUsers?.length > 0 &&
                     numeral(data.blogPost.likedUsers?.length).format("0,a")}
                 </span>
