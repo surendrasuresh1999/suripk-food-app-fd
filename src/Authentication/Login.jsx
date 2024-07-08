@@ -117,6 +117,11 @@ const Login = () => {
                         } text-white placeholder:text-slate-400`}
                       />
                     )}
+                    <ErrorMessage
+                      name={key}
+                      component="p"
+                      className="mt-1 text-sm text-red-500"
+                    />
                   </div>
                 ))}
                 <button

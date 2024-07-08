@@ -70,11 +70,8 @@ const Signup = () => {
                     />
                     <ErrorMessage
                       name={key}
-                      render={(msg) => (
-                        <p className="text-12size font-semibold tracking-wide text-red-600">
-                          {msg}
-                        </p>
-                      )}
+                      component="p"
+                      className="mt-1 text-sm text-red-500"
                     />
                   </div>
                 ))}
